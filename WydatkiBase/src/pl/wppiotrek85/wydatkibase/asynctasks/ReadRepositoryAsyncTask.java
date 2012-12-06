@@ -1,46 +1,51 @@
 package pl.wppiotrek85.wydatkibase.asynctasks;
 
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
 import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepository;
 import pl.wppiotrek85.wydatkibase.interfaces.IReadRepository;
 import android.os.AsyncTask;
 
 public class ReadRepositoryAsyncTask extends AsyncTask<Void, Void, Void> {
-	
-	
+
 	private IReadRepository listener;
 	private ERepositoryManagerMethods method;
-	private AsyncTaskResult result;
+	private AsyncTaskResult response;
 	private IObjectRepository repository;
-	private Object item;
+	private ModelBase item;
 	private int id;
 
-	public ReadRepositoryAsyncTask(IReadRepository listener, ERepositoryManagerMethods method, IObjectRepository repository){
-		this.listener=listener;
-		this.method=method;
-		this.repository=repository;
+	public ReadRepositoryAsyncTask(IReadRepository listener,
+			ERepositoryManagerMethods method, IObjectRepository repository) {
+		this.listener = listener;
+		this.method = method;
+		this.repository = repository;
 	}
-	
-	public ReadRepositoryAsyncTask(IReadRepository listener, ERepositoryManagerMethods method, IObjectRepository repository, Object item){
-		this.listener=listener;
-		this.method=method;
-		this.repository=repository;
-		this.item=item;
+
+	public ReadRepositoryAsyncTask(IReadRepository listener,
+			ERepositoryManagerMethods method, IObjectRepository repository,
+			ModelBase item) {
+		this.listener = listener;
+		this.method = method;
+		this.repository = repository;
+		this.item = item;
 	}
-	
-	public ReadRepositoryAsyncTask(IReadRepository listener, ERepositoryManagerMethods method, IObjectRepository repository, int id){
-		this.listener=listener;
-		this.method=method;
-		this.repository=repository;
-		this.id=id;
+
+	public ReadRepositoryAsyncTask(IReadRepository listener,
+			ERepositoryManagerMethods method, IObjectRepository repository,
+			int id) {
+		this.listener = listener;
+		this.method = method;
+		this.repository = repository;
+		this.id = id;
 	}
 
 	@Override
 	protected Void doInBackground(Void... params) {
-		result= new AsyncTaskResult();
-		
-		int i=1;
-		while (i<5) {
+		response = new AsyncTaskResult();
+
+		int i = 1;
+		while (i < 5) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -49,55 +54,59 @@ public class ReadRepositoryAsyncTask extends AsyncTask<Void, Void, Void> {
 			}
 			i++;
 		}
-		
-		
+
 		switch (method) {
 		case Create:
-			result.bundle=repository.create(item);
+			id = repository.create(item);
+			if (id > 0) {
+				item.setId(id);
+				response.bundle = item;
+			}
 			break;
 		case Delete:
-			if(item!=null)
-				result.bundle=repository.delete(item);
+			if (item != null)
+				response.bundle = repository.delete(item);
 			else
-				result.bundle=repository.delete(id);
+				response.bundle = repository.delete(id);
 			break;
 		case Read:
-			result.bundle=repository.read(id);
+			response.bundle = repository.read(id);
 			break;
 		case ReadAll:
-			result.bundle=repository.readAll();
+			response.bundle = repository.readAll();
 			break;
 		case Update:
-			result.bundle=repository.update(item);
+			response.bundle = repository.update(item);
 			break;
 		}
 		return null;
 	}
-	
+
 	@Override
-	public void onPostExecute(Void result){
+	public void onPostExecute(Void result) {
 		super.onPostExecute(result);
-		if(listener!=null){
+		if (listener != null) {
 			listener.onTaskEnd();
+			listener.onTaskResponse(response);
 		}
 	}
-	
+
 	@Override
-	public void onPreExecute(){
+	public void onPreExecute() {
 		super.onPreExecute();
-		if(listener!=null){
+		if (listener != null) {
 			listener.onTaskStart();
 		}
 	}
-	
-	public void onProgressUpdate(Void... values){
+
+	public void onProgressUpdate(Void... values) {
 		super.onProgressUpdate(values);
-		if(listener!=null){
+		if (listener != null) {
 			listener.onTaskProgress();
 		}
 	}
-	
-	public class AsyncTaskResult{
+
+	public class AsyncTaskResult {
 		public Object bundle;
 	}
 

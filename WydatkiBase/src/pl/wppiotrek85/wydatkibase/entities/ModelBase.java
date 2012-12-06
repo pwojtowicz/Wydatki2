@@ -1,6 +1,6 @@
 package pl.wppiotrek85.wydatkibase.entities;
 
-public class BaseObject {
+public class ModelBase {
 
 	private int id;
 
