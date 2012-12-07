@@ -12,4 +12,8 @@ public class RepositoryException extends Exception {
 		this.type = type;
 		this.ex = ex;
 	}
+
+	public RepositoryException(ERepositoryException type) {
+		this.type = type;
+	}
 }

@@ -10,38 +10,84 @@ package pl.wppiotrek85.wydatkiphone;
 public final class R {
     public static final class attr {
     }
+    public static final class color {
+        public static final int background_orange=0x7f060006;
+        public static final int black=0x7f060000;
+        public static final int btn_blue=0x7f060007;
+        public static final int darkGreen=0x7f060004;
+        public static final int darkRed=0x7f060003;
+        public static final int semitransparent=0x7f060002;
+        public static final int separator_horizontal=0x7f060008;
+        public static final int separator_vertical=0x7f060009;
+        public static final int transparent=0x7f060001;
+        public static final int transparent_button=0x7f06000a;
+        public static final int yellow=0x7f060005;
+    }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int btn_one_normal=0x7f020000;
+        public static final int btn_one_pressed=0x7f020001;
+        public static final int ic_action_search=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int money=0x7f020004;
+        public static final int transparent_background=0x7f020005;
     }
     public static final class id {
-        public static final int menu_settings=0x7f070001;
-        public static final int pager=0x7f070000;
+        public static final int LinearLayout1=0x7f080011;
+        public static final int Rl04=0x7f080002;
+        public static final int account_btn_budget=0x7f080006;
+        public static final int account_btn_new_transaction=0x7f080004;
+        public static final int account_btn_new_transfer=0x7f080005;
+        public static final int account_tbx_balance=0x7f080009;
+        public static final int btn_add_new=0x7f08000b;
+        public static final int listview=0x7f080007;
+        public static final int ll=0x7f080003;
+        public static final int menu_settings=0x7f08001c;
+        public static final int pager=0x7f080000;
+        public static final int pager_title_strip=0x7f080001;
+        public static final int rl=0x7f080008;
+        public static final int row_account_balance=0x7f08000f;
+        public static final int row_account_image=0x7f08000c;
+        public static final int row_account_last_action_date=0x7f080010;
+        public static final int row_account_lock=0x7f08000d;
+        public static final int row_account_name=0x7f08000e;
+        public static final int row_category_details=0x7f080015;
+        public static final int row_category_lock=0x7f080013;
+        public static final int row_category_name=0x7f080014;
+        public static final int row_cbx_selected=0x7f080012;
+        public static final int row_parameter_default=0x7f080017;
+        public static final int row_parameter_lock=0x7f080016;
+        public static final int row_parameter_name=0x7f080018;
+        public static final int row_parameter_type=0x7f080019;
+        public static final int row_project_lock=0x7f08001a;
+        public static final int row_project_name=0x7f08001b;
+        public static final int textView1=0x7f08000a;
     }
     public static final class layout {
         public static final int activity_root=0x7f030000;
+        public static final int fragment_accounts_list=0x7f030001;
+        public static final int fragment_categories_list=0x7f030002;
+        public static final int fragment_parameters_list=0x7f030003;
+        public static final int fragment_projects_list=0x7f030004;
+        public static final int row_account_layout=0x7f030005;
+        public static final int row_category_layout=0x7f030006;
+        public static final int row_parameter_layout=0x7f030007;
+        public static final int row_project_layout=0x7f030008;
     }
     public static final class menu {
-        public static final int activity_root=0x7f060000;
+        public static final int activity_root=0x7f070000;
     }
     public static final class string {
+        public static final int add_new_object_btn=0x7f040002;
         public static final int app_name=0x7f040000;
-        public static final int hello_world=0x7f040004;
-        public static final int menu_settings=0x7f040005;
-        public static final int title_section1=0x7f040003;
-        public static final int title_section2=0x7f040002;
-        public static final int title_section3=0x7f040001;
+        public static final int hello_world=0x7f040006;
+        public static final int menu_settings=0x7f040007;
+        public static final int saldo=0x7f040001;
+        public static final int title_section1=0x7f040005;
+        public static final int title_section2=0x7f040004;
+        public static final int title_section3=0x7f040003;
     }
     public static final class style {
         /** 
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    
-
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        
-
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
     
@@ -73,12 +119,11 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f050000;
+        public static final int AppBaseTheme=0x7f050002;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
- Application theme. 
- All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f050001;
+        public static final int AppTheme=0x7f050000;
+        public static final int Style_TextWithShadow=0x7f050001;
     }
 }

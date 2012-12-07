@@ -2,4 +2,8 @@
 
     <string name="app_name">wydatkibase</string>
 
+    <string name="saldo">saldo</string>
+
+    <string name="add_new_object_btn">Dodaj nowy</string>
+
 </resources>

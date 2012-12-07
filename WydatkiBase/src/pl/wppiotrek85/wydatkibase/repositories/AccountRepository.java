@@ -61,7 +61,7 @@ public class AccountRepository implements IObjectRepository<Account> {
 		Cursor cursor = dbm
 				.getDataBase()
 				.query(WydatkiBaseHelper.TABLE_ACCOUNTS,
-						new String[] { "ID,ID,Name, Balance,LastActionDate, IsActive, IsSumInGlobalBalance, ImageIndex" },
+						new String[] { "ID,Name, Balance,LastActionDate, IsActive, IsSumInGlobalBalance, ImageIndex" },
 						null, null, null, null, "Name");
 		if (cursor.moveToFirst()) {
 			do {

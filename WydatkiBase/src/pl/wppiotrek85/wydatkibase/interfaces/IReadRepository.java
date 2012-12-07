@@ -1,6 +1,7 @@
 package pl.wppiotrek85.wydatkibase.interfaces;
 
 import pl.wppiotrek85.wydatkibase.asynctasks.ReadRepositoryAsyncTask.AsyncTaskResult;
+import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
 
 public interface IReadRepository {
 
@@ -14,6 +15,6 @@ public interface IReadRepository {
 
 	public void onTaskResponse(AsyncTaskResult response);
 
-	public void onTaskInvalidResponse();
+	public void onTaskInvalidResponse(RepositoryException exception);
 
 }

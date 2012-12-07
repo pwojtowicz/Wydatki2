@@ -8,6 +8,7 @@ import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepository;
 import pl.wppiotrek85.wydatkibase.interfaces.IReadRepository;
 import pl.wppiotrek85.wydatkibase.repositories.AccountRepository;
 import pl.wppiotrek85.wydatkibase.repositories.CategoryRepository;
+import pl.wppiotrek85.wydatkibase.repositories.ParameterRepository;
 import pl.wppiotrek85.wydatkibase.repositories.ProjectRepository;
 
 public class ObjectManager {
@@ -32,6 +33,8 @@ public class ObjectManager {
 			return new CategoryRepository();
 		case Projects:
 			return new ProjectRepository();
+		case Parameters:
+			return new ParameterRepository();
 		}
 		return null;
 	}
