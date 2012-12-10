@@ -6,4 +6,24 @@
 
     <string name="add_new_object_btn">Dodaj nowy</string>
 
+    <string name="name">Nazwa</string>
+
+    <string name="is_available">Czy dostępny?</string>
+
+    <string name="edit_account_isVisibleForAll">Czy widoczne dla wszystkich?</string>
+
+    <string name="default_value">Domyślna wartość</string>
+
+    <string name="parameter_type">Typ parametru</string>
+
+    <string name="edit_account_is_in_sum">Czy sumowane na liście?</string>
+
+    <string name="save">Zapisz</string>
+
+    <string name="parameter_datasource">Elementy listy</string>
+
+    <string name="parameter_datasource_help">wartości oddziel znakiem ;</string>
+
+    <string name="cancel">Anuluj</string>
+
 </resources>

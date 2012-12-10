@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.entities.Parameter;
+import pl.wppiotrek85.wydatkibase.interfaces.IOnAdapterCheckboxClick;
 import pl.wppiotrek85.wydatkibase.units.ParameterTypes;
 import android.content.Context;
 import android.view.View;
@@ -15,8 +16,9 @@ import android.widget.TextView;
 
 public class ParametersAdapter extends BaseObjectAdapter<Parameter> {
 
-	public ParametersAdapter(Context context, ArrayList<Parameter> items) {
-		super(context, items);
+	public ParametersAdapter(Context context, ArrayList<Parameter> items,
+			IOnAdapterCheckboxClick listener) {
+		super(context, items, listener);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -24,11 +26,11 @@ public class ParametersAdapter extends BaseObjectAdapter<Parameter> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		convertView = inflater.inflate(R.layout.row_parameter_layout, null);
 
-		fillRow(convertView, getItem(position));
+		fillRow(convertView, getItem(position), position);
 		return convertView;
 	}
 
-	private void fillRow(View convertView, Object o) {
+	private void fillRow(View convertView, Object o, int position) {
 		Parameter item = (Parameter) o;
 		if (item != null) {
 			TextView name = (TextView) convertView
@@ -43,16 +45,20 @@ public class ParametersAdapter extends BaseObjectAdapter<Parameter> {
 
 			CheckBox cbx_selected = (CheckBox) convertView
 					.findViewById(R.id.row_cbx_selected);
+
+			cbx_selected.setTag(position);
 			cbx_selected.setOnClickListener(new OnClickListener() {
 
 				public void onClick(View view) {
-					// int itemId = (Integer) view.getTag();
-					// if (((CheckBox) view).isChecked())
-					// selectedItemsId.add(itemId);
-					// else {
-					// boolean tmp = selectedItemsId.remove((Integer) itemId);
-					// int p = 0;
-					// }
+					Parameter p = (Parameter) getItem((Integer) view.getTag() - 1);
+					if (((CheckBox) view).isChecked())
+						selectedPositions.add(p);
+					else
+						selectedPositions.remove(p);
+
+					if (listener != null)
+						listener.OnCheckBoxSelected(selectedPositions.size());
+
 				}
 			});
 
@@ -62,10 +68,10 @@ public class ParametersAdapter extends BaseObjectAdapter<Parameter> {
 				cbx_selected.setVisibility(CheckBox.GONE);
 			cbx_selected.setTag(item.getId());
 
-			// if (selectedItemsId.contains((Integer) item.getId()))
-			// cbx_selected.setChecked(true);
-			// else
-			// cbx_selected.setChecked(false);
+			if (selectedPositions.contains(item))
+				cbx_selected.setChecked(true);
+			else
+				cbx_selected.setChecked(false);
 
 			if (item.isActive())
 				lock.setVisibility(ImageView.GONE);
@@ -80,5 +86,4 @@ public class ParametersAdapter extends BaseObjectAdapter<Parameter> {
 
 		}
 	}
-
 }

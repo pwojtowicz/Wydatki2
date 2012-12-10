@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.entities.Category;
+import pl.wppiotrek85.wydatkibase.interfaces.IOnAdapterCheckboxClick;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,9 @@ import android.widget.TextView;
 
 public class CategoriesAdapter extends BaseObjectAdapter<Category> {
 
-	public CategoriesAdapter(Context context, ArrayList<Category> items) {
-		super(context, items);
+	public CategoriesAdapter(Context context, ArrayList<Category> items,
+			IOnAdapterCheckboxClick listener) {
+		super(context, items, listener);
 		// TODO Auto-generated constructor stub
 	}
 

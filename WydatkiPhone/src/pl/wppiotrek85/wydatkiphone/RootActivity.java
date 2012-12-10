@@ -4,15 +4,19 @@ import java.util.ArrayList;
 
 import pl.billennium.fragmenthelper.FragmentAdapter;
 import pl.billennium.fragmenthelper.FragmentObject;
+import pl.wppiotrek85.wydatkibase.enums.EObjectTypes;
 import pl.wppiotrek85.wydatkibase.fragments.AccountFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.CategoryFragmentList;
+import pl.wppiotrek85.wydatkibase.fragments.ObjectBaseFragment;
 import pl.wppiotrek85.wydatkibase.fragments.ParameterFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.ProjectsFragmentList;
+import pl.wppiotrek85.wydatkibase.interfaces.IFragmentActions;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -20,7 +24,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
 
 public class RootActivity extends FragmentActivity implements
-		ActionBar.TabListener {
+		ActionBar.TabListener, IFragmentActions {
 
 	ViewPager mViewPager;
 
@@ -41,11 +45,11 @@ public class RootActivity extends FragmentActivity implements
 
 		fragments.add(new FragmentObject(new AccountFragmentList(true),
 				"Konta", null));
-		fragments.add(new FragmentObject(new CategoryFragmentList(false),
+		fragments.add(new FragmentObject(new CategoryFragmentList(false, this),
 				"Kategorie", null));
-		fragments.add(new FragmentObject(new ParameterFragmentList(false),
-				"Parametry", null));
-		fragments.add(new FragmentObject(new ProjectsFragmentList(false),
+		fragments.add(new FragmentObject(
+				new ParameterFragmentList(false, this), "Parametry", null));
+		fragments.add(new FragmentObject(new ProjectsFragmentList(false, this),
 				"Projekty", null));
 
 		fAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments,
@@ -74,12 +78,10 @@ public class RootActivity extends FragmentActivity implements
 
 			}
 		});
-
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		getMenuInflater().inflate(R.menu.activity_root, menu);
 		return true;
 	}
@@ -100,74 +102,26 @@ public class RootActivity extends FragmentActivity implements
 			FragmentTransaction fragmentTransaction) {
 	}
 
-	// private void loadAccounts() {
-	// System.out.println("loadAccounts");
+	@Override
+	public void onAddBtnClick() {
 
-	//
-	// Account a = new Account(1, "Konto ING", 100.12, true);
-	// a.setIsSumInGlobalBalance(true);
-	// a.setLastActionDate(new Date());
-	// a.setImageIndex((byte) 1);
-	//
-	// // manager = new ObjectManager(ERepositoryTypes.Acoounts,
-	// // this, ERepositoryManagerMethods.Create, a);
-	//
-	// Category category = new Category(-1, "Kat1", true);
-	// category.setIsPositive(true);
-	// category.setParentId(0);
-	//
-	// Parameter[] parameters = new Parameter[2];
-	// parameters[0] = new Parameter(1, "1");
-	// parameters[1] = new Parameter(2, "2");
-	//
-	// category.setAttributes(parameters);
-	//
-	// manager = new ObjectManager(ERepositoryTypes.Categories, this,
-	// ERepositoryManagerMethods.Create, category);
-	// }
-	//
-	// @Override
-	// public void onTaskCancel() {
-	// System.out.println("onTaskCancel");
-	// }
-	//
-	// @Override
-	// public void onTaskProgress() {
-	// System.out.println("onTaskProgress");
-	// }
-	//
-	// @Override
-	// public void onTaskEnd() {
-	// System.out.println("onTaskEnd");
-	// if (dialog != null) {
-	// dialog.dismiss();
-	// dialog = null;
-	// }
-	// }
-	//
-	// @Override
-	// public void onTaskInvalidResponse(RepositoryException exception) {
-	// System.out.println("onTaskInvalidResponse");
-	// }
-	//
-	// @Override
-	// public void onTaskStart() {
-	// System.out.println("onTaskStart");
-	// dialog = new ProgressDialog(this);
-	// dialog.setMessage("Pobieranie");
-	// dialog.setIndeterminate(true);
-	// dialog.show();
-	// }
-	//
-	// @Override
-	// public void onTaskResponse(AsyncTaskResult response) {
-	// System.out.println("onTaskResponse");
-	// if (response.bundle instanceof Account) {
-	//
-	// } else if (response.bundle instanceof Account[]) {
-	//
-	// }
-	//
-	// }
+		ObjectBaseFragment tmp = (ObjectBaseFragment) fAdapter
+				.getItem(mViewPager.getCurrentItem());
+
+		Intent i = new Intent(this, EditElementActivity.class);
+		Bundle b = new Bundle();
+		if (tmp.getClass() == ParameterFragmentList.class) {
+			b.putSerializable(EditElementActivity.BUNDLE_OBJECT_TYPE,
+					EObjectTypes.Parameter);
+		} else if (tmp.getClass() == ProjectsFragmentList.class) {
+			b.putSerializable(EditElementActivity.BUNDLE_OBJECT_TYPE,
+					EObjectTypes.Project);
+		} else if (tmp.getClass() == CategoryFragmentList.class) {
+			b.putSerializable(EditElementActivity.BUNDLE_OBJECT_TYPE,
+					EObjectTypes.Category);
+		}
+		i.putExtras(b);
+		startActivity(i);
+	}
 
 }

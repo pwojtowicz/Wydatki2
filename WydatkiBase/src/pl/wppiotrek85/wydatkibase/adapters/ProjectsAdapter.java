@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.entities.Project;
+import pl.wppiotrek85.wydatkibase.interfaces.IOnAdapterCheckboxClick;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,9 @@ import android.widget.TextView;
 
 public class ProjectsAdapter extends BaseObjectAdapter<Project> {
 
-	public ProjectsAdapter(Context context, ArrayList<Project> items) {
-		super(context, items);
+	public ProjectsAdapter(Context context, ArrayList<Project> items,
+			IOnAdapterCheckboxClick listener) {
+		super(context, items, listener);
 		// TODO Auto-generated constructor stub
 	}
 

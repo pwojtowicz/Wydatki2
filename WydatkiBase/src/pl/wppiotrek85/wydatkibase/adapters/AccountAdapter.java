@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.entities.Account;
+import pl.wppiotrek85.wydatkibase.interfaces.IOnAdapterCheckboxClick;
 import pl.wppiotrek85.wydatkibase.units.AccountImages;
 import pl.wppiotrek85.wydatkibase.units.UnitConverter;
 import android.content.Context;
@@ -14,8 +15,9 @@ import android.widget.TextView;
 
 public class AccountAdapter extends BaseObjectAdapter<Account> {
 
-	public AccountAdapter(Context context, ArrayList<Account> items) {
-		super(context, items);
+	public AccountAdapter(Context context, ArrayList<Account> items,
+			IOnAdapterCheckboxClick listener) {
+		super(context, items, listener);
 	}
 
 	@Override

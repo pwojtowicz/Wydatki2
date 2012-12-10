@@ -2,37 +2,38 @@ package pl.wppiotrek85.wydatkibase.fragments;
 
 import java.util.ArrayList;
 
-import pl.billennium.fragmenthelper.BaseFragment;
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.adapters.ProjectsAdapter;
 import pl.wppiotrek85.wydatkibase.asynctasks.ReadRepositoryAsyncTask.AsyncTaskResult;
 import pl.wppiotrek85.wydatkibase.entities.Project;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
-import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
-import pl.wppiotrek85.wydatkibase.interfaces.IReadRepository;
+import pl.wppiotrek85.wydatkibase.interfaces.IFragmentActions;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
-public class ProjectsFragmentList extends BaseFragment implements
-		IReadRepository {
+public class ProjectsFragmentList extends ObjectBaseFragment {
 
 	private ListView objectListView;
 	private ProgressDialog dialog;
 	private ObjectManager manager;
 	private ProjectsAdapter adapter;
+	private IFragmentActions actions;
 
 	public ProjectsFragmentList() {
 		super(false);
 	}
 
-	public ProjectsFragmentList(boolean shouldReload) {
+	public ProjectsFragmentList(boolean shouldReload, IFragmentActions actions) {
 		super(shouldReload);
+		this.actions = actions;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -57,54 +58,30 @@ public class ProjectsFragmentList extends BaseFragment implements
 
 		if (adapter != null)
 			objectListView.setAdapter(adapter);
+
+		Button btn_add = (Button) convertView.findViewById(R.id.btn_add_new);
+		btn_add.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (actions != null) {
+					actions.onAddBtnClick();
+				}
+			}
+		});
+
 		return convertView;
-	}
-
-	@Override
-	public void onTaskStart() {
-		System.out.println("onTaskStart");
-		dialog = new ProgressDialog(getActivity());
-		dialog.setMessage("Pobieranie");
-		dialog.setIndeterminate(true);
-		dialog.setCancelable(false);
-		dialog.show();
-	}
-
-	@Override
-	public void onTaskCancel() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onTaskProgress() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onTaskEnd() {
-		System.out.println("onTaskEnd");
-		if (dialog != null) {
-			dialog.dismiss();
-			dialog = null;
-		}
 	}
 
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
 		if (response.bundle instanceof ArrayList<?>) {
 			adapter = new ProjectsAdapter(getActivity(),
-					(ArrayList<Project>) response.bundle);
+					(ArrayList<Project>) response.bundle, null);
 
 			objectListView.setAdapter(adapter);
 		}
 
 	}
 
-	@Override
-	public void onTaskInvalidResponse(RepositoryException exception) {
-		// TODO Auto-generated method stub
-
-	}
 }

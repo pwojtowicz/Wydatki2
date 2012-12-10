@@ -47,7 +47,7 @@ public class ReadRepositoryAsyncTask extends AsyncTask<Void, Void, Void> {
 		response = new AsyncTaskResult();
 
 		int i = 1;
-		while (i < 5) {
+		while (i < 1) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
