@@ -71,10 +71,11 @@ public final class R {
         public static final int include1=0x7f080006;
         public static final int listview=0x7f080025;
         public static final int ll=0x7f080021;
-        public static final int menu_settings=0x7f08003d;
+        public static final int menu_settings=0x7f08003f;
         public static final int new_cbx_visibleForAll=0x7f08001f;
         public static final int pager=0x7f080000;
         public static final int pager_title_strip=0x7f080001;
+        public static final int relativeLayout1=0x7f08003d;
         public static final int rl=0x7f080026;
         public static final int row_account_balance=0x7f08002e;
         public static final int row_account_image=0x7f08002b;
@@ -92,6 +93,7 @@ public final class R {
         public static final int row_project_lock=0x7f080039;
         public static final int row_project_name=0x7f08003a;
         public static final int scrollView1=0x7f080007;
+        public static final int single_textview_list_row_content_textview=0x7f08003e;
         public static final int textView1=0x7f080008;
         public static final int textView2=0x7f08000a;
     }
@@ -112,6 +114,7 @@ public final class R {
         public static final int row_parameter_layout=0x7f03000d;
         public static final int row_project_layout=0x7f03000e;
         public static final int save_cancle_buttons=0x7f03000f;
+        public static final int single_textview_list_row=0x7f030010;
     }
     public static final class menu {
         public static final int activity_root=0x7f070000;

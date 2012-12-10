@@ -2,6 +2,7 @@ package pl.wppiotrek85.wydatkibase.fragments.edit;
 
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.asynctasks.ReadRepositoryAsyncTask.AsyncTaskResult;
+import pl.wppiotrek85.wydatkibase.entities.Category;
 import pl.wppiotrek85.wydatkibase.fragments.ObjectBaseFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,9 +11,11 @@ import android.view.ViewGroup;
 
 public class EditCategoryFragment extends ObjectBaseFragment {
 
-	public EditCategoryFragment(boolean shouldReload) {
+	private Category currentItem;
+
+	public EditCategoryFragment(boolean shouldReload, Category item) {
 		super(shouldReload);
-		// TODO Auto-generated constructor stub
+		this.currentItem = item;
 	}
 
 	@Override

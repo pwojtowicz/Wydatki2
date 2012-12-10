@@ -29,7 +29,8 @@ public class ParameterRepository implements IObjectRepository<Parameter> {
 			insertStmt.bindLong(2, item.getTypeId());
 			insertStmt.bindString(3, item.getDefaultValue());
 			insertStmt.bindLong(4, item.isActive() ? 1 : 0);
-			insertStmt.bindString(5, item.getDataSource());
+			insertStmt.bindString(5,
+					item.getDataSource() != null ? item.getDataSource() : "");
 			insertStmt.executeInsert();
 
 			int id = dbm.getLastIncremetValue();

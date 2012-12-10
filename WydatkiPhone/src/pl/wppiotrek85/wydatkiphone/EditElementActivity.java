@@ -27,13 +27,13 @@ public class EditElementActivity extends FragmentActivity {
 
 			switch (type) {
 			case Category:
-				details = new EditCategoryFragment(false);
+				details = new EditCategoryFragment(false, null);
 				break;
 			case Parameter:
-				details = new EditParameterFragment(false);
+				details = new EditParameterFragment(false, null);
 				break;
 			case Project:
-				details = new EditProjectFragment(false);
+				details = new EditProjectFragment(false, null);
 				break;
 			case Account:
 				details = new EditAccountFragment(false);

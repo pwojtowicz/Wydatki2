@@ -49,6 +49,7 @@ public final class R {
 		public static final int account_btn_new_transfer = 0x7f080023;
 		public static final int Rl04 = 0x7f080020;
 		public static final int LinearLayout1 = 0x7f080030;
+		public static final int relativeLayout1 = 0x7f08003d;
 		public static final int textView1 = 0x7f080008;
 		public static final int edit_parameter_ll_cbx_defaultValue = 0x7f080019;
 		public static final int row_account_lock = 0x7f08002c;
@@ -60,6 +61,7 @@ public final class R {
 		public static final int edit_parameter_etbx_defaultValue = 0x7f080018;
 		public static final int edit_category_lv_parameters = 0x7f080011;
 		public static final int new_cbx_visibleForAll = 0x7f08001f;
+		public static final int single_textview_list_row_content_textview = 0x7f08003e;
 		public static final int edit_parameter_ll_dataSource = 0x7f08001c;
 		public static final int row_category_details = 0x7f080034;
 		public static final int account_tbx_balance = 0x7f080027;
@@ -109,6 +111,7 @@ public final class R {
 		public static final int fragment_categories_list = 0x7f030008;
 		public static final int row_parameter_layout = 0x7f03000d;
 		public static final int row_account_layout = 0x7f03000b;
+		public static final int single_textview_list_row = 0x7f030010;
 		public static final int fragment_projects_list = 0x7f03000a;
 		public static final int bottom_bar_object_list = 0x7f030001;
 		public static final int edit_project_layout = 0x7f030006;

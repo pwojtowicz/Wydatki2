@@ -47,7 +47,7 @@ public abstract class ObjectBaseFragment extends BaseFragment implements
 
 	@Override
 	public void onTaskInvalidResponse(RepositoryException exception) {
-		// TODO Auto-generated method stub
+		System.out.println("onTaskInvalidResponse");
 
 	}
 

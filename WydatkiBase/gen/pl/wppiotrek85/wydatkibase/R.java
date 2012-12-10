@@ -71,6 +71,7 @@ public final class R {
         public static int listview=0x7f070022;
         public static int ll=0x7f07001e;
         public static int new_cbx_visibleForAll=0x7f07001c;
+        public static int relativeLayout1=0x7f07003a;
         public static int rl=0x7f070023;
         public static int row_account_balance=0x7f07002b;
         public static int row_account_image=0x7f070028;
@@ -88,6 +89,7 @@ public final class R {
         public static int row_project_lock=0x7f070036;
         public static int row_project_name=0x7f070037;
         public static int scrollView1=0x7f070005;
+        public static int single_textview_list_row_content_textview=0x7f07003b;
         public static int textView1=0x7f070006;
         public static int textView2=0x7f070008;
     }
@@ -106,6 +108,7 @@ public final class R {
         public static int row_parameter_layout=0x7f03000b;
         public static int row_project_layout=0x7f03000c;
         public static int save_cancle_buttons=0x7f03000d;
+        public static int single_textview_list_row=0x7f03000e;
     }
     public static final class string {
         public static int add_new_object_btn=0x7f040002;
