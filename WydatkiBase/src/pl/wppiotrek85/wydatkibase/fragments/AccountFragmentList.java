@@ -63,6 +63,15 @@ public class AccountFragmentList extends ObjectBaseFragment {
 			ArrayList<Account> list = (ArrayList<Account>) response.bundle;
 			WydatkiGlobals.getInstance().setAccounts(list);
 			refreshFragment(false);
+
+			// Account a = new Account(-1, "test2", 123.12, true);
+			// a.setIsSumInGlobalBalance(true);
+			// a.setLastActionDate(new Date());
+			// a.setImageIndex((byte) 1);
+			// a.setIsVisibleForAll(true);
+			//
+			// manager = new ObjectManager(ERepositoryTypes.Accounts, this,
+			// ERepositoryManagerMethods.Create, a);
 		}
 
 	}

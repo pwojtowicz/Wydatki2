@@ -36,4 +36,25 @@
 
     <string name="units">Jednostki</string>
 
+    <string name="standart_parameters">Parametry podstawowe</string>
+
+    <string name="account_from">Z konta</string>
+
+    <string name="account_to">Na konto</string>
+
+    <string name="category">Kategoria</string>
+
+    <string name="balance">Kwota</string>
+
+    <string name="note">Notatka</string>
+
+    <string name="additional_parameters">Parametry dodatkowe</string>
+
+    <string name="project">Projekt</string>
+
+    <string name="date_and_time">Data i czas</string>
+    
+    <string name="no_selected_value">brak wartości</string>
+    
+
 </resources>

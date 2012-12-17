@@ -5,14 +5,17 @@ import java.util.ArrayList;
 import pl.billennium.fragmenthelper.FragmentAdapter;
 import pl.billennium.fragmenthelper.FragmentObject;
 import pl.wppiotrek85.wydatkibase.fragments.TransactionFragment;
+import pl.wppiotrek85.wydatkibase.interfaces.ITransactionListener;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageButton;
 
-public class TransactionActivity extends FragmentActivity {
+public class TransactionActivity extends FragmentActivity implements
+		ITransactionListener {
 
 	ViewPager mViewPager;
 
@@ -21,6 +24,8 @@ public class TransactionActivity extends FragmentActivity {
 	private FragmentAdapter fAdapter;
 	int i = 1;
 
+	private ImageButton removeViewBtn;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,8 +33,12 @@ public class TransactionActivity extends FragmentActivity {
 
 		fragments = new ArrayList<FragmentObject>();
 
-		fragments.add(new FragmentObject(new TransactionFragment(true),
-				"Transakcja " + String.valueOf(i), null));
+		Bundle b = new Bundle();
+		b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION, true);
+		b.putInt("INDEX", i);
+
+		fragments.add(new FragmentObject(new TransactionFragment(true, this),
+				"Transakcja " + String.valueOf(i), b));
 
 		fAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments,
 				0);
@@ -56,7 +65,13 @@ public class TransactionActivity extends FragmentActivity {
 				// TODO Auto-generated method stub
 			}
 		});
+		linkViews();
+	}
 
+	public void linkViews() {
+		removeViewBtn = (ImageButton) findViewById(R.id.ib_removeView);
+
+		setBtnEnabledState();
 	}
 
 	@Override
@@ -67,8 +82,13 @@ public class TransactionActivity extends FragmentActivity {
 
 	public void btnAddView_Click(View view) {
 		i++;
-		fAdapter.addFragment(new FragmentObject(new TransactionFragment(true),
-				"Transakcja " + String.valueOf(i), null));
+		Bundle b = new Bundle();
+		b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION, true);
+		b.putInt("INDEX", i);
+		fAdapter.addFragment(new FragmentObject(new TransactionFragment(true,
+				this), "Transakcja " + String.valueOf(i), b));
+		setBtnEnabledState();
+		mViewPager.setCurrentItem(fAdapter.getCount() - 1, true);
 	}
 
 	public void btnRemoveView_Click(View view) {
@@ -81,7 +101,21 @@ public class TransactionActivity extends FragmentActivity {
 			System.out.println("RemovedPage= "
 					+ String.valueOf(mViewPager.getCurrentItem()));
 		}
-
+		setBtnEnabledState();
 	}
 
+	public void setBtnEnabledState() {
+		int size = fAdapter.getCount();
+
+		if (size > 1)
+			removeViewBtn.setEnabled(true);
+		else
+			removeViewBtn.setEnabled(false);
+	}
+
+	@Override
+	public void onChangeValue(double value) {
+		// TODO Auto-generated method stub
+
+	}
 }
