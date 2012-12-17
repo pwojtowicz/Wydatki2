@@ -8,5 +8,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_object_manager">ObjectManager</string>
+    <string name="title_activity_transaction">Nowa transakcja</string>
+    <string name="income">wpływy</string>
+    <string name="expenses">wydatki</string>
 
 </resources>

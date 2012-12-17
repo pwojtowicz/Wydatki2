@@ -134,7 +134,7 @@ public class ParameterFragmentList extends ObjectBaseFragment implements
 		}
 
 		if (forceRefresh) {
-			manager = new ObjectManager(ERepositoryTypes.Projects, this,
+			manager = new ObjectManager(ERepositoryTypes.Parameters, this,
 					ERepositoryManagerMethods.ReadAll);
 		}
 

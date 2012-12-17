@@ -102,7 +102,7 @@ public class CategoryFragmentList extends ObjectBaseFragment {
 		}
 
 		if (forceRefresh) {
-			manager = new ObjectManager(ERepositoryTypes.Projects, this,
+			manager = new ObjectManager(ERepositoryTypes.Categories, this,
 					ERepositoryManagerMethods.ReadAll);
 		}
 

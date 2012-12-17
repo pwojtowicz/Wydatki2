@@ -29,6 +29,10 @@
             android:name="pl.wppiotrek85.wydatkiphone.ObjectManagerActivity"
             android:label="@string/title_activity_object_manager" >
         </activity>
+        <activity
+            android:name="pl.wppiotrek85.wydatkiphone.TransactionActivity"
+            android:label="@string/title_activity_transaction" >
+        </activity>
     </application>
 
 </manifest>

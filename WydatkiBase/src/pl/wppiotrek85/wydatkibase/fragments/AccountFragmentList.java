@@ -84,7 +84,7 @@ public class AccountFragmentList extends ObjectBaseFragment {
 		}
 
 		if (forceRefresh) {
-			manager = new ObjectManager(ERepositoryTypes.Projects, this,
+			manager = new ObjectManager(ERepositoryTypes.Accounts, this,
 					ERepositoryManagerMethods.ReadAll);
 		}
 

@@ -11,6 +11,7 @@ import pl.wppiotrek85.wydatkibase.fragments.ObjectBaseFragment;
 import pl.wppiotrek85.wydatkibase.fragments.ParameterFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.ProjectsFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.SettingsFragment;
+import pl.wppiotrek85.wydatkibase.fragments.TransactionFragment;
 import pl.wppiotrek85.wydatkibase.interfaces.IFragmentActions;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
@@ -153,6 +154,18 @@ public class RootActivity extends FragmentActivity implements
 	public void btnUnitsClick(View v) {
 		Intent i = new Intent(this, ObjectManagerActivity.class);
 		startActivity(i);
+	}
+
+	public void btnNewTransaction_Click(View v) {
+		Intent intent = new Intent(this, TransactionActivity.class);
+		intent.putExtra(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION, true);
+		startActivity(intent);
+	}
+
+	public void btnNewTransfer_Click(View v) {
+		Intent intent = new Intent(this, TransactionActivity.class);
+		intent.putExtra(TransactionFragment.BUNDLE_IS_NEW_TRANSFER, true);
+		startActivity(intent);
 	}
 
 }
