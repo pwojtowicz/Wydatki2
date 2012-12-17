@@ -11,7 +11,9 @@ import pl.wppiotrek85.wydatkibase.entities.SpinnerObject;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
+import pl.wppiotrek85.wydatkibase.support.ListSupport;
 import pl.wppiotrek85.wydatkibase.units.ParameterTypes;
+import pl.wppiotrek85.wydatkibase.units.ResultCodes;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -168,14 +170,16 @@ public class EditParameterFragment extends EditObjectBaseFragment<Parameter> {
 		boolean isValid = true;
 		StringBuilder sb = new StringBuilder();
 
+		String name = etbx_name.getText().toString().trim();
+
 		if (isUpdate) {
 			int parameterId = currentObject.getId();
 			currentObject = new Parameter();
 			currentObject.setId(parameterId);
 		}
 
-		if (etbx_name.getText().length() > 0) {
-			currentObject.setName(etbx_name.getText().toString());
+		if (name.length() > 0 && !ListSupport.isParameterNameUsed(name)) {
+			currentObject.setName(name);
 		} else {
 			isValid = false;
 			sb.append("\n" + getText(R.string.name));
@@ -217,8 +221,7 @@ public class EditParameterFragment extends EditObjectBaseFragment<Parameter> {
 
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
-		System.out.println("Response");
-
+		leaveActivity(ResultCodes.RESULT_NEED_UPDATE);
 	}
 
 }

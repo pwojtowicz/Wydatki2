@@ -1,22 +1,22 @@
-package pl.wppiotrek85.wydatkibase.fragments.edit;
+package pl.wppiotrek85.wydatkibase.fragments;
 
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.asynctasks.ReadRepositoryAsyncTask.AsyncTaskResult;
-import pl.wppiotrek85.wydatkibase.fragments.ObjectBaseFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class EditAccountFragment extends ObjectBaseFragment {
+public class SettingsFragment extends ObjectBaseFragment {
 
-	public EditAccountFragment(boolean shouldReload) {
+	public SettingsFragment(boolean shouldReload) {
 		super(shouldReload);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
+		// TODO Auto-generated method stub
 
 	}
 
@@ -33,15 +33,18 @@ public class EditAccountFragment extends ObjectBaseFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View convertView = inflater.inflate(R.layout.edit_account_layout, null);
-		return convertView;
+	public void refreshFragment(boolean forceRefresh) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void refreshFragment(boolean forceRefresh) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View convertView = inflater.inflate(R.layout.settings_fragment_layout,
+				null);
 
+		return convertView;
 	}
 
 }

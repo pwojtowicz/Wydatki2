@@ -10,7 +10,10 @@ import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
 import pl.wppiotrek85.wydatkibase.interfaces.IFragmentActions;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
+import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
+import pl.wppiotrek85.wydatkibase.units.ResultCodes;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +42,7 @@ public class ProjectsFragmentList extends ObjectBaseFragment {
 
 	@Override
 	public void OnFirtsShowFragment() {
-		manager = new ObjectManager(ERepositoryTypes.Projects, this,
-				ERepositoryManagerMethods.ReadAll);
+		refreshFragment(true);
 	}
 
 	@Override
@@ -76,10 +78,43 @@ public class ProjectsFragmentList extends ObjectBaseFragment {
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
 		if (response.bundle instanceof ArrayList<?>) {
-			adapter = new ProjectsAdapter(getActivity(),
-					(ArrayList<Project>) response.bundle, null);
+			ArrayList<Project> list = (ArrayList<Project>) response.bundle;
+			WydatkiGlobals.getInstance().setProjects(list);
 
-			objectListView.setAdapter(adapter);
+			refreshFragment(false);
+		}
+
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == ResultCodes.START_ACTIVITY_EDIT_PROJECT) {
+			if (resultCode == ResultCodes.RESULT_NEED_UPDATE) {
+				refreshFragment(false);
+			}
+		}
+	}
+
+	@Override
+	public void refreshFragment(boolean forceRefresh) {
+		if (!forceRefresh) {
+			ArrayList<Project> list = WydatkiGlobals.getInstance()
+					.getProjectsList();
+			if (list == null)
+				forceRefresh = true;
+			else {
+				if (adapter == null)
+					adapter = new ProjectsAdapter(getActivity(), list, null);
+				else
+					adapter.reloadItems(list);
+				objectListView.setAdapter(adapter);
+			}
+		}
+
+		if (forceRefresh) {
+			manager = new ObjectManager(ERepositoryTypes.Projects, this,
+					ERepositoryManagerMethods.ReadAll);
 		}
 
 	}

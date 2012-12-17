@@ -4,6 +4,7 @@ import pl.billennium.fragmenthelper.BaseFragment;
 import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
 import pl.wppiotrek85.wydatkibase.interfaces.IReadRepository;
 import android.app.ProgressDialog;
+import android.content.Intent;
 
 public abstract class ObjectBaseFragment extends BaseFragment implements
 		IReadRepository {
@@ -12,6 +13,13 @@ public abstract class ObjectBaseFragment extends BaseFragment implements
 
 	public ObjectBaseFragment(boolean shouldReload) {
 		super(shouldReload);
+	}
+
+	public void leaveActivity(int requestCode) {
+		Intent intent = getActivity().getIntent();
+		getActivity().setResult(requestCode, intent);
+		getActivity().finish();
+
 	}
 
 	@Override
@@ -48,7 +56,8 @@ public abstract class ObjectBaseFragment extends BaseFragment implements
 	@Override
 	public void onTaskInvalidResponse(RepositoryException exception) {
 		System.out.println("onTaskInvalidResponse");
-
 	}
+
+	public abstract void refreshFragment(boolean forceRefresh);
 
 }

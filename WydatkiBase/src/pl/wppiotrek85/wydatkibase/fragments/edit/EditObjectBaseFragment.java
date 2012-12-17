@@ -62,6 +62,11 @@ public abstract class EditObjectBaseFragment<T> extends ObjectBaseFragment {
 		});
 	}
 
+	@Override
+	public void refreshFragment(boolean forceRefresh) {
+
+	}
+
 	protected abstract void linkViews();
 
 	protected abstract void configureViews();

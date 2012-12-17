@@ -10,13 +10,10 @@ import pl.wppiotrek85.wydatkibase.fragments.CategoryFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.ObjectBaseFragment;
 import pl.wppiotrek85.wydatkibase.fragments.ParameterFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.ProjectsFragmentList;
-import pl.wppiotrek85.wydatkibase.fragments.SettingsFragment;
 import pl.wppiotrek85.wydatkibase.interfaces.IFragmentActions;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
 import pl.wppiotrek85.wydatkibase.units.ResultCodes;
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,10 +21,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
-import android.view.View;
 
-public class RootActivity extends FragmentActivity implements
-		ActionBar.TabListener, IFragmentActions {
+public class ObjectManagerActivity extends FragmentActivity implements
+		IFragmentActions {
 
 	ViewPager mViewPager;
 
@@ -50,9 +46,12 @@ public class RootActivity extends FragmentActivity implements
 
 		fragments.add(new FragmentObject(new AccountFragmentList(true),
 				"Konta", null));
-
-		fragments.add(new FragmentObject(new SettingsFragment(true),
-				"Ustawienia", null));
+		fragments.add(new FragmentObject(new CategoryFragmentList(false, this),
+				"Kategorie", null));
+		fragments.add(new FragmentObject(
+				new ParameterFragmentList(false, this), "Parametry", null));
+		fragments.add(new FragmentObject(new ProjectsFragmentList(false, this),
+				"Projekty", null));
 
 		fAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments,
 				0);
@@ -86,22 +85,6 @@ public class RootActivity extends FragmentActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_root, menu);
 		return true;
-	}
-
-	@Override
-	public void onTabSelected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-		mViewPager.setCurrentItem(tab.getPosition());
-	}
-
-	@Override
-	public void onTabUnselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
-
-	@Override
-	public void onTabReselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
 	}
 
 	@Override
@@ -144,15 +127,6 @@ public class RootActivity extends FragmentActivity implements
 		ObjectBaseFragment fragment = (ObjectBaseFragment) fAdapter
 				.getItem(mViewPager.getCurrentItem());
 		fragment.refreshFragment(false);
-	}
-
-	public void btnSettingsClick(View v) {
-
-	}
-
-	public void btnUnitsClick(View v) {
-		Intent i = new Intent(this, ObjectManagerActivity.class);
-		startActivity(i);
 	}
 
 }

@@ -6,6 +6,9 @@ import pl.wppiotrek85.wydatkibase.entities.Project;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
+import pl.wppiotrek85.wydatkibase.support.ListSupport;
+import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
+import pl.wppiotrek85.wydatkibase.units.ResultCodes;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,12 +51,12 @@ public class EditProjectFragment extends EditObjectBaseFragment<Project> {
 	@Override
 	protected void prepareToSave() {
 		boolean isValid = false;
-		if (isUpdate) {
-			// || (etbx_name.getText().length() > 0 && !ListSupport
-			// .isProjectNameUsed(etbx_name.getText().toString()))) {
+		String name = etbx_name.getText().toString().trim();
+		if (isUpdate
+				|| (name.length() > 0 && !ListSupport.isProjectNameUsed(name))) {
 			isValid = true;
 		} else
-			isValid = true;
+			isValid = false;
 
 		if (isValid) {
 			Project project = new Project();
@@ -63,7 +66,7 @@ public class EditProjectFragment extends EditObjectBaseFragment<Project> {
 				project.setId(projectId);
 			}
 
-			project.setName(etbx_name.getText().toString());
+			project.setName(name);
 			project.setIsActive(cbx_isActive.isChecked());
 			project.setIsVisibleForAll(cbx_visibleForAll.isChecked());
 			this.currentObject = project;
@@ -79,7 +82,11 @@ public class EditProjectFragment extends EditObjectBaseFragment<Project> {
 
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
-		System.out.println("Response");
+		if (response.bundle instanceof Project) {
+			WydatkiGlobals.getInstance().updateProjectsList(
+					(Project) response.bundle);
+		}
+		leaveActivity(ResultCodes.RESULT_NEED_UPDATE);
 	}
 
 }

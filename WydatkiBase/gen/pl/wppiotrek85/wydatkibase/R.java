@@ -42,6 +42,8 @@ public final class R {
         public static int TextView02=0x7f070011;
         public static int TextView03=0x7f070014;
         public static int TextView04=0x7f070017;
+        public static int View01=0x7f070042;
+        public static int View02=0x7f070043;
         public static int account_btn_budget=0x7f070021;
         public static int account_btn_new_transaction=0x7f07001f;
         public static int account_btn_new_transfer=0x7f070020;
@@ -68,10 +70,13 @@ public final class R {
         public static int imageButton2=0x7f070001;
         public static int imageButton3=0x7f070000;
         public static int include1=0x7f070004;
+        public static int linea=0x7f07003a;
+        public static int linearLayout2=0x7f07003c;
+        public static int linearLayout3=0x7f07003f;
         public static int listview=0x7f070022;
         public static int ll=0x7f07001e;
         public static int new_cbx_visibleForAll=0x7f07001c;
-        public static int relativeLayout1=0x7f07003a;
+        public static int relativeLayout1=0x7f070044;
         public static int rl=0x7f070023;
         public static int row_account_balance=0x7f07002b;
         public static int row_account_image=0x7f070028;
@@ -89,9 +94,14 @@ public final class R {
         public static int row_project_lock=0x7f070036;
         public static int row_project_name=0x7f070037;
         public static int scrollView1=0x7f070005;
-        public static int single_textview_list_row_content_textview=0x7f07003b;
+        public static int single_textview_list_row_content_textview=0x7f070045;
+        public static int test=0x7f07003b;
         public static int textView1=0x7f070006;
         public static int textView2=0x7f070008;
+        public static int unit_btn_categories=0x7f07003d;
+        public static int unit_btn_projects=0x7f070040;
+        public static int unit_btn_settings=0x7f07003e;
+        public static int unit_btn_units=0x7f070041;
     }
     public static final class layout {
         public static int bottom_bar_object_list=0x7f030000;
@@ -108,12 +118,14 @@ public final class R {
         public static int row_parameter_layout=0x7f03000b;
         public static int row_project_layout=0x7f03000c;
         public static int save_cancle_buttons=0x7f03000d;
-        public static int single_textview_list_row=0x7f03000e;
+        public static int settings_fragment_layout=0x7f03000e;
+        public static int single_textview_list_row=0x7f03000f;
     }
     public static final class string {
         public static int add_new_object_btn=0x7f040002;
         public static int app_name=0x7f040000;
         public static int cancel=0x7f04000c;
+        public static int categories=0x7f04000d;
         public static int default_value=0x7f040006;
         public static int edit_account_isVisibleForAll=0x7f040005;
         public static int edit_account_is_in_sum=0x7f040008;
@@ -122,8 +134,12 @@ public final class R {
         public static int parameter_datasource=0x7f04000a;
         public static int parameter_datasource_help=0x7f04000b;
         public static int parameter_type=0x7f040007;
+        public static int parameters=0x7f040010;
+        public static int projects=0x7f04000f;
         public static int saldo=0x7f040001;
         public static int save=0x7f040009;
+        public static int settings=0x7f04000e;
+        public static int units=0x7f040011;
     }
     public static final class style {
         /** 

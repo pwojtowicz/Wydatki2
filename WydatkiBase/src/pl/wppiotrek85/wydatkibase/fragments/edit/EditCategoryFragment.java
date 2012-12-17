@@ -20,7 +20,6 @@ public class EditCategoryFragment extends ObjectBaseFragment {
 
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -42,6 +41,11 @@ public class EditCategoryFragment extends ObjectBaseFragment {
 		View convertView = inflater
 				.inflate(R.layout.edit_category_layout, null);
 		return convertView;
+	}
+
+	@Override
+	public void refreshFragment(boolean forceRefresh) {
+
 	}
 
 }

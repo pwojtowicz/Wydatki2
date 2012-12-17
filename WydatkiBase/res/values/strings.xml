@@ -26,4 +26,14 @@
 
     <string name="cancel">Anuluj</string>
 
+    <string name="categories">Kategorie</string>
+
+    <string name="settings">Ustawienia</string>
+
+    <string name="projects">Projekty</string>
+
+    <string name="parameters">Parametry</string>
+
+    <string name="units">Jednostki</string>
+
 </resources>

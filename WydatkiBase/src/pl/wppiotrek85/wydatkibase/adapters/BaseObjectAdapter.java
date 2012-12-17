@@ -27,6 +27,11 @@ public abstract class BaseObjectAdapter<T> extends BaseAdapter {
 		this.listener = listener;
 	}
 
+	public void reloadItems(ArrayList<T> list) {
+		this.items = list;
+		this.notifyDataSetChanged();
+	}
+
 	public void addItem(T item) {
 		items.add(item);
 		this.notifyDataSetChanged();
