@@ -12,6 +12,7 @@ import pl.wppiotrek85.wydatkibase.entities.Account;
 import pl.wppiotrek85.wydatkibase.entities.Category;
 import pl.wppiotrek85.wydatkibase.entities.Project;
 import pl.wppiotrek85.wydatkibase.entities.SpinnerObject;
+import pl.wppiotrek85.wydatkibase.entities.Transaction;
 import pl.wppiotrek85.wydatkibase.interfaces.ITransactionListener;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import pl.wppiotrek85.wydatkibase.units.UnitConverter;
@@ -62,6 +63,9 @@ public class TransactionFragment extends ObjectBaseFragment {
 	private int accFrom = -1;
 	private int accTo = -1;
 	private int projPos = -1;
+
+	private Transaction currentTransaction = new Transaction();
+	private Transactionhelper helper = new Transactionhelper();
 
 	public TransactionFragment() {
 		super(false);
@@ -357,28 +361,56 @@ public class TransactionFragment extends ObjectBaseFragment {
 	}
 
 	private void saveValues() {
+
 		if (accountFrom != null) {
-			accFrom = accountFrom.getSelectedItemPosition();
+			helper.accMinusPosition = accountFrom.getSelectedItemPosition();
+			SpinnerObject so = (SpinnerObject) accountFrom.getSelectedItem();
+			if (isPositive.isChecked())
+				currentTransaction.setAccPlus(so.getId());
+			else
+				currentTransaction.setAccMinus(so.getId());
 		}
 
 		if (accountTo != null) {
-			accTo = accountTo.getSelectedItemPosition();
+			SpinnerObject so = (SpinnerObject) accountTo.getSelectedItem();
+			if (so != null) {
+				helper.accPlusPosition = accountTo.getSelectedItemPosition();
+				currentTransaction.setAccPlus(so.getId());
+			}
 		}
 
 		if (spn_project != null) {
-			projPos = spn_project.getSelectedItemPosition();
+			SpinnerObject so = (SpinnerObject) spn_project.getSelectedItem();
+			if (so != null) {
+				helper.projektPosition = spn_project.getSelectedItemPosition();
+				currentTransaction.setProjectId(so.getId());
+			}
+		}
+
+		if (category != null) {
+			helper.categoryPosition = category.getSelectedItemPosition();
 		}
 	}
 
 	private void restoreValues() {
-		if (accountFrom != null && accFrom >= 0) {
-			accountFrom.setSelection(accFrom);
+		if (accountFrom != null && helper.accMinusPosition >= 0) {
+			accountFrom.setSelection(helper.accMinusPosition);
 		}
-		if (accountTo != null && accTo >= 0) {
-			accountTo.setSelection(accTo);
+		if (accountTo != null && helper.accPlusPosition >= 0) {
+			accountTo.setSelection(helper.accPlusPosition);
 		}
-		if (spn_project != null && projPos >= 0) {
-			spn_project.setSelection(projPos);
+		if (spn_project != null && helper.projektPosition >= 0) {
+			spn_project.setSelection(helper.projektPosition);
 		}
+		if (category != null && helper.categoryPosition >= 0) {
+			category.setSelection(helper.categoryPosition);
+		}
+	}
+
+	private class Transactionhelper {
+		private int accMinusPosition = -1;
+		private int accPlusPosition = -1;
+		private int categoryPosition = -1;
+		private int projektPosition = -1;
 	}
 }
