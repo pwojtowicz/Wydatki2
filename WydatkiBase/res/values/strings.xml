@@ -56,5 +56,9 @@
     
     <string name="no_selected_value">brak wartości</string>
     
+    <string name="category_parent">Kategoria nadrzędna</string>
+    
+    <string name="edit_category_add_parameter">dodaj parametr</string>
+    
 
 </resources>

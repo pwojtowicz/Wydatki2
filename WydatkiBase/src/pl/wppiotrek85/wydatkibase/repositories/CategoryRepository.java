@@ -48,14 +48,14 @@ public class CategoryRepository implements IObjectRepository<Category> {
 	private void insertCategoryParameter(int categoryId, Parameter[] parameters) {
 		dbm.getDataBase().delete(WydatkiBaseHelper.TABLE_CATERORY_PARAMETERS,
 				"catId=?", new String[] { String.valueOf(categoryId) });
-
-		for (Parameter parameter : parameters) {
-			SQLiteStatement insertStmt = dbm.getDataBase().compileStatement(
-					INSERT_TO_CATERORY_PARAMETERS);
-			insertStmt.bindLong(1, categoryId);
-			insertStmt.bindLong(2, parameter.getId());
-			insertStmt.executeInsert();
-		}
+		if (parameters != null)
+			for (Parameter parameter : parameters) {
+				SQLiteStatement insertStmt = dbm.getDataBase()
+						.compileStatement(INSERT_TO_CATERORY_PARAMETERS);
+				insertStmt.bindLong(1, categoryId);
+				insertStmt.bindLong(2, parameter.getId());
+				insertStmt.executeInsert();
+			}
 	}
 
 	@Override

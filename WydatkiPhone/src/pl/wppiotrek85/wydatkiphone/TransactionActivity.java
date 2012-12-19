@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.ImageButton;
 
 public class TransactionActivity extends FragmentActivity implements
@@ -80,7 +80,23 @@ public class TransactionActivity extends FragmentActivity implements
 		return true;
 	}
 
-	public void btnAddView_Click(View view) {
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_save:
+			return true;
+		case R.id.menu_add:
+			btnAddView();
+			return true;
+		case R.id.menu_delete:
+			btnRemoveView();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	public void btnAddView() {
 		i++;
 		Bundle b = new Bundle();
 		b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION, true);
@@ -91,7 +107,7 @@ public class TransactionActivity extends FragmentActivity implements
 		mViewPager.setCurrentItem(fAdapter.getCount() - 1, true);
 	}
 
-	public void btnRemoveView_Click(View view) {
+	public void btnRemoveView() {
 		int position = mViewPager.getCurrentItem();
 		if ((position < 0) || (position >= fAdapter.getCount())
 				|| (fAdapter.getCount() <= 1)) {
@@ -115,7 +131,6 @@ public class TransactionActivity extends FragmentActivity implements
 
 	@Override
 	public void onChangeValue(double value) {
-		// TODO Auto-generated method stub
 
 	}
 }

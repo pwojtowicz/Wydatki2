@@ -10,12 +10,14 @@ import pl.wppiotrek85.wydatkibase.adapters.SpinnerAdapter;
 import pl.wppiotrek85.wydatkibase.asynctasks.ReadRepositoryAsyncTask.AsyncTaskResult;
 import pl.wppiotrek85.wydatkibase.entities.Account;
 import pl.wppiotrek85.wydatkibase.entities.Category;
+import pl.wppiotrek85.wydatkibase.entities.InvokeTransactionParameter;
 import pl.wppiotrek85.wydatkibase.entities.Project;
 import pl.wppiotrek85.wydatkibase.entities.SpinnerObject;
 import pl.wppiotrek85.wydatkibase.entities.Transaction;
 import pl.wppiotrek85.wydatkibase.interfaces.ITransactionListener;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import pl.wppiotrek85.wydatkibase.units.UnitConverter;
+import pl.wppiotrek85.wydatkibase.views.ViewType;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -103,7 +105,7 @@ public class TransactionFragment extends ObjectBaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+		System.out.println("onCreateView " + String.valueOf(i));
 		View convertView = inflater.inflate(
 				R.layout.fragment_transaction_layout, null);
 
@@ -120,8 +122,48 @@ public class TransactionFragment extends ObjectBaseFragment {
 		return convertView;
 	}
 
+	private void testViews() {
+		ArrayList<InvokeTransactionParameter> items = new ArrayList<InvokeTransactionParameter>();
+
+		InvokeTransactionParameter p1 = new InvokeTransactionParameter(1,
+				"EditText", ViewType.TEXT_BOX, "default", null);
+
+		InvokeTransactionParameter p2 = new InvokeTransactionParameter(1,
+				"CheckBox", ViewType.CHECKBOX, true, null);
+		InvokeTransactionParameter p3 = new InvokeTransactionParameter(1,
+				"DropDown", ViewType.DROP_DOWN_LIST, "3", "1;2;3;4;5");
+		InvokeTransactionParameter p4 = new InvokeTransactionParameter(1,
+				"Number", ViewType.NUMBER, "12", null);
+
+		items.add(p1);
+		items.add(p2);
+		items.add(p3);
+		items.add(p4);
+
+		p1 = new InvokeTransactionParameter(1, "EditText", ViewType.TEXT_BOX,
+				null, null);
+
+		p2 = new InvokeTransactionParameter(1, "CheckBox", ViewType.CHECKBOX,
+				null, null);
+		p3 = new InvokeTransactionParameter(1, "DropDown",
+				ViewType.DROP_DOWN_LIST, null, "1;2;3;4;5");
+		p4 = new InvokeTransactionParameter(1, "Number", ViewType.NUMBER, null,
+				null);
+
+		items.add(p1);
+		items.add(p2);
+		items.add(p3);
+		items.add(p4);
+
+		if (helper.items == null) {
+			adapter = new InvokeTransactionAdapter(getActivity(), items);
+			helper.items = adapter.getAllItems();
+		}
+	}
+
 	private void linkViews(View convertView) {
-		adapter = new InvokeTransactionAdapter(getActivity());
+
+		testViews();
 
 		list = (ListView) convertView
 				.findViewById(R.id.invoke_transactions_listview);
@@ -173,6 +215,9 @@ public class TransactionFragment extends ObjectBaseFragment {
 
 		list.addHeaderView(header);
 		list.addFooterView(footer);
+
+		list.setClickable(true);
+		list.setItemsCanFocus(true);
 	}
 
 	public void configureViews() {
@@ -390,6 +435,8 @@ public class TransactionFragment extends ObjectBaseFragment {
 		if (category != null) {
 			helper.categoryPosition = category.getSelectedItemPosition();
 		}
+
+		helper.items = adapter.getAllItems();
 	}
 
 	private void restoreValues() {
@@ -405,6 +452,7 @@ public class TransactionFragment extends ObjectBaseFragment {
 		if (category != null && helper.categoryPosition >= 0) {
 			category.setSelection(helper.categoryPosition);
 		}
+		adapter = new InvokeTransactionAdapter(getActivity(), helper.items);
 	}
 
 	private class Transactionhelper {
@@ -412,5 +460,6 @@ public class TransactionFragment extends ObjectBaseFragment {
 		private int accPlusPosition = -1;
 		private int categoryPosition = -1;
 		private int projektPosition = -1;
+		ArrayList<InvokeTransactionParameter> items;
 	}
 }

@@ -31,6 +31,8 @@
         </activity>
         <activity
             android:name="pl.wppiotrek85.wydatkiphone.TransactionActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_transaction" >
         </activity>
     </application>

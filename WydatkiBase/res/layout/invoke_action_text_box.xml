@@ -17,6 +17,9 @@
 
     <EditText
         android:id="@+id/invoke_action_text_edittext"
+        android:focusable="true"
+		android:focusableInTouchMode="true"
+		android:clickable="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 

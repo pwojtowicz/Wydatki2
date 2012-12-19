@@ -3,6 +3,7 @@ package pl.wppiotrek85.wydatkibase.support;
 import java.util.Collection;
 
 import pl.wppiotrek85.wydatkibase.entities.Account;
+import pl.wppiotrek85.wydatkibase.entities.Category;
 import pl.wppiotrek85.wydatkibase.entities.Parameter;
 import pl.wppiotrek85.wydatkibase.entities.Project;
 
@@ -35,6 +36,16 @@ public class ListSupport {
 		Collection<Parameter> items = globals.getParametersList();
 		for (Parameter parameter : items) {
 			if (parameter.getName().equals(name))
+				return true;
+		}
+		return false;
+	}
+
+	public static boolean isCategoryNameUsed(String name) {
+		WydatkiGlobals globals = WydatkiGlobals.getInstance();
+		Collection<Category> items = globals.getCategoriesList();
+		for (Category category : items) {
+			if (category.getName().equals(name))
 				return true;
 		}
 		return false;

@@ -11,5 +11,6 @@
     <string name="title_activity_transaction">Nowa transakcja</string>
     <string name="income">wpływy</string>
     <string name="expenses">wydatki</string>
+    <string name="refresh">odśwież</string>
 
 </resources>

@@ -2,11 +2,10 @@ package pl.wppiotrek85.wydatkibase.adapters;
 
 import java.util.ArrayList;
 
-import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.entities.InvokeTransactionParameter;
+import pl.wppiotrek85.wydatkibase.views.CustomViewFactory;
 import pl.wppiotrek85.wydatkibase.views.ViewType;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -17,8 +16,13 @@ public class InvokeTransactionAdapter extends BaseAdapter {
 
 	private final Context context;
 
-	public InvokeTransactionAdapter(Context context) {
+	public InvokeTransactionAdapter(Context context,
+			ArrayList<InvokeTransactionParameter> items) {
 		this.context = context;
+		if (items == null)
+			this.items = new ArrayList<InvokeTransactionParameter>();
+		else
+			this.items = items;
 	}
 
 	public int getCount() {
@@ -49,9 +53,12 @@ public class InvokeTransactionAdapter extends BaseAdapter {
 		// clearFillableItems();
 
 		// Pobieranie typu widoku
+
 		int viewType = getItemViewType(index);
 
 		InvokeTransactionParameter paramInstance = (InvokeTransactionParameter) getItem(index);
+
+		System.out.println("Parameter name: " + paramInstance.getName());
 
 		if (view == null) {
 			view = prepareView(view, viewType, paramInstance, false);
@@ -65,14 +72,13 @@ public class InvokeTransactionAdapter extends BaseAdapter {
 
 	private View prepareView(View view, int viewType,
 			InvokeTransactionParameter paramInstance, boolean fillOnly) {
-		// view = CustomViewFactory.createOrFill(viewType, context,
-		// paramInstance,
-		// fillOnly, view);
+		view = CustomViewFactory.createOrFill(viewType, context, paramInstance,
+				fillOnly, view);
 
-		LayoutInflater layoutInflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		view = layoutInflater.inflate(R.layout.invoke_action_comment, null);
+		// LayoutInflater layoutInflater = (LayoutInflater) context
+		// .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		//
+		// view = layoutInflater.inflate(R.layout.invoke_action_comment, null);
 		return view;
 	}
 

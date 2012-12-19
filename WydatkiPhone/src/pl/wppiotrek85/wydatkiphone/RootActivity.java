@@ -25,6 +25,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 public class RootActivity extends FragmentActivity implements
@@ -85,8 +86,19 @@ public class RootActivity extends FragmentActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_root, menu);
+		getMenuInflater().inflate(R.menu.refresh_menu, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_refresh:
+			refreshActualFragment();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -144,7 +156,7 @@ public class RootActivity extends FragmentActivity implements
 	private void refreshActualFragment() {
 		ObjectBaseFragment fragment = (ObjectBaseFragment) fAdapter
 				.getItem(mViewPager.getCurrentItem());
-		fragment.refreshFragment(false);
+		fragment.refreshFragment(true);
 	}
 
 	public void btnSettingsClick(View v) {
