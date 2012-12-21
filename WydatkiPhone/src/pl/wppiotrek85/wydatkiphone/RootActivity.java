@@ -180,4 +180,10 @@ public class RootActivity extends FragmentActivity implements
 		startActivity(intent);
 	}
 
+	@Override
+	public void onReturnSelectedItemsIdClick() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

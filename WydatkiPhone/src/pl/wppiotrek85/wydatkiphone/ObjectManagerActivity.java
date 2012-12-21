@@ -145,4 +145,9 @@ public class ObjectManagerActivity extends FragmentActivity implements
 		fragment.refreshFragment(true);
 	}
 
+	@Override
+	public void onReturnSelectedItemsIdClick() {
+
+	}
+
 }

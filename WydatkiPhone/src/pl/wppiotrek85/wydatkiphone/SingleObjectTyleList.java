@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.KeyEvent;
 import android.view.Menu;
 
 public class SingleObjectTyleList extends FragmentActivity implements
@@ -46,7 +45,8 @@ public class SingleObjectTyleList extends FragmentActivity implements
 						true,
 						this,
 						isChecakble,
-						bundle.getString(BUNDLE_SELECTED_PARAMETERS_FOR_CATEGORY));
+						bundle.getString(BUNDLE_SELECTED_PARAMETERS_FOR_CATEGORY),
+						true);
 				break;
 			default:
 				break;
@@ -95,21 +95,15 @@ public class SingleObjectTyleList extends FragmentActivity implements
 	}
 
 	@Override
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (isSelectedForCategory) {
-				Intent intent = this.getIntent();
-				this.setResult(RESULT_OK, intent);
-				String items = ListSupport.ArrayListIntegerToString(details
-						.getSelectedItemsList());
-				intent.putExtra(
-						EditCategoryFragment.BUNDLE_SELECTED_PARAMETERS,
-						items.toString());
-			}
-			finish();
-			return true;
+	public void onReturnSelectedItemsIdClick() {
+		if (isSelectedForCategory) {
+			Intent intent = this.getIntent();
+			this.setResult(RESULT_OK, intent);
+			String items = ListSupport.ArrayListIntegerToString(details
+					.getSelectedItemsList());
+			intent.putExtra(EditCategoryFragment.BUNDLE_SELECTED_PARAMETERS,
+					items.toString());
 		}
-		return super.onKeyUp(keyCode, event);
+		finish();
 	}
-
 }

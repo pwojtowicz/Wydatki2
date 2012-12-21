@@ -21,8 +21,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class ParameterFragmentList extends ObjectBaseFragment implements
@@ -32,9 +34,10 @@ public class ParameterFragmentList extends ObjectBaseFragment implements
 	private ProgressDialog dialog;
 	private ObjectManager manager;
 	private ParametersAdapter adapter;
-	private LinearLayout actionBar;
+	private RelativeLayout actionBar;
 	private IFragmentActions actions;
 	private String selectedItems = "";
+	private boolean startFromCategory = false;
 
 	public ParameterFragmentList() {
 		super(false, false);
@@ -45,6 +48,15 @@ public class ParameterFragmentList extends ObjectBaseFragment implements
 		super(shouldReload, isChecakble);
 		this.actions = actions;
 		this.selectedItems = selectedItems;
+	}
+
+	public ParameterFragmentList(boolean shouldReload,
+			IFragmentActions actions, Boolean isChecakble,
+			String selectedItems, boolean startFromCategory) {
+		super(shouldReload, isChecakble);
+		this.actions = actions;
+		this.selectedItems = selectedItems;
+		this.startFromCategory = startFromCategory;
 	}
 
 	@Override
@@ -67,9 +79,20 @@ public class ParameterFragmentList extends ObjectBaseFragment implements
 
 		objectListView.setOnItemClickListener(this);
 
-		actionBar = (LinearLayout) convertView
+		actionBar = (RelativeLayout) convertView
 				.findViewById(R.id.bottom_actionbar);
-		OnCheckBoxSelected(0);
+
+		int size = 0;
+		if (startFromCategory) {
+			((ImageButton) convertView.findViewById(R.id.actionbar_btn_delete))
+					.setVisibility(ImageButton.GONE);
+			((ImageButton) convertView.findViewById(R.id.actionbar_btn_edit))
+					.setVisibility(ImageButton.GONE);
+			((ImageButton) convertView.findViewById(R.id.actionbar_btn_lock))
+					.setVisibility(ImageButton.GONE);
+			size = 1;
+		}
+		OnCheckBoxSelected(size);
 
 		Button btn_add = (Button) convertView.findViewById(R.id.btn_add_new);
 		btn_add.setOnClickListener(new OnClickListener() {
@@ -81,6 +104,16 @@ public class ParameterFragmentList extends ObjectBaseFragment implements
 				}
 			}
 		});
+
+		((ImageButton) convertView
+				.findViewById(R.id.actionbar_btn_returnSelected))
+				.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if (actions != null)
+							actions.onReturnSelectedItemsIdClick();
+					}
+				});
 
 		if (adapter != null)
 			objectListView.setAdapter(adapter);
@@ -114,6 +147,8 @@ public class ParameterFragmentList extends ObjectBaseFragment implements
 
 	@Override
 	public void OnCheckBoxSelected(int size) {
+		if (startFromCategory)
+			size = 1;
 		if (size > 0)
 			actionBar.setVisibility(LinearLayout.VISIBLE);
 		else
