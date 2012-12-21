@@ -1,18 +1,30 @@
 package pl.wppiotrek85.wydatkiphone;
 
+import java.util.ArrayList;
+
+import pl.wppiotrek85.wydatkibase.entities.Category;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
+import pl.wppiotrek85.wydatkibase.entities.Parameter;
 import pl.wppiotrek85.wydatkibase.enums.EObjectTypes;
 import pl.wppiotrek85.wydatkibase.fragments.ObjectBaseFragment;
 import pl.wppiotrek85.wydatkibase.fragments.edit.EditAccountFragment;
 import pl.wppiotrek85.wydatkibase.fragments.edit.EditCategoryFragment;
 import pl.wppiotrek85.wydatkibase.fragments.edit.EditParameterFragment;
 import pl.wppiotrek85.wydatkibase.fragments.edit.EditProjectFragment;
+import pl.wppiotrek85.wydatkibase.interfaces.IEditCategoryActions;
+import pl.wppiotrek85.wydatkibase.support.ListSupport;
+import pl.wppiotrek85.wydatkibase.units.ResultCodes;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
-public class EditElementActivity extends FragmentActivity {
+public class EditElementActivity extends FragmentActivity implements
+		IEditCategoryActions {
 
 	public static final String BUNDLE_OBJECT_TYPE = "Type";
+	private ModelBase currentObject;
+	ObjectBaseFragment details = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +33,13 @@ public class EditElementActivity extends FragmentActivity {
 
 		Bundle bundle = this.getIntent().getExtras();
 		if (bundle != null) {
-			ObjectBaseFragment details = null;
+
 			EObjectTypes type = (EObjectTypes) bundle
 					.getSerializable(BUNDLE_OBJECT_TYPE);
 
 			switch (type) {
 			case Category:
-				details = new EditCategoryFragment(false, null);
+				details = new EditCategoryFragment(false, null, this);
 				break;
 			case Parameter:
 				details = new EditParameterFragment(false, null);
@@ -36,7 +48,7 @@ public class EditElementActivity extends FragmentActivity {
 				details = new EditProjectFragment(false, null);
 				break;
 			case Account:
-				details = new EditAccountFragment(false);
+				details = new EditAccountFragment(false, null);
 				break;
 			default:
 				break;
@@ -49,6 +61,57 @@ public class EditElementActivity extends FragmentActivity {
 
 				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 				ft.commit();
+			}
+		}
+	}
+
+	@Override
+	public void showParametersForCategory(Category currentObject) {
+		this.currentObject = currentObject;
+		Intent intent = new Intent(this, SingleObjectTyleList.class);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(SingleObjectTyleList.BUNDLE_OBJECT_TYPE,
+				EObjectTypes.Parameter);
+
+		bundle.putBoolean(ObjectBaseFragment.BUNDLE_ISCHECKABLE, true);
+		bundle.putBoolean(
+				SingleObjectTyleList.BUNDLE_SELECT_PARAMETER_FOR_CATEGORY, true);
+
+		if (currentObject.getAttributes() != null) {
+			bundle.putString(
+					SingleObjectTyleList.BUNDLE_SELECTED_PARAMETERS_FOR_CATEGORY,
+					ListSupport.ArrayToString(currentObject.getAttributes()));
+		}
+
+		intent.putExtras(bundle);
+		startActivityForResult(intent,
+				ResultCodes.START_ACTIVITY_LIST_PARAMETER);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			if (requestCode == ResultCodes.START_ACTIVITY_LIST_PARAMETER) {
+				if (currentObject != null) {
+					String items = data
+							.getStringExtra(EditCategoryFragment.BUNDLE_SELECTED_PARAMETERS);
+					ArrayList<Integer> itemsArr = ListSupport
+							.StringToIntegerArrayList(items);
+
+					int size = itemsArr.size();
+					Parameter[] parameters = new Parameter[size];
+					for (int i = 0; i < size; i++) {
+						Parameter p = new Parameter();
+						p.setId(itemsArr.get(i));
+						parameters[i] = p;
+					}
+
+					if (details != null) {
+						((EditCategoryFragment) details)
+								.setParameters(parameters);
+					}
+				}
 			}
 		}
 	}

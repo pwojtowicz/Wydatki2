@@ -1,10 +1,10 @@
 package pl.wppiotrek85.wydatkibase.adapters;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.interfaces.IOnAdapterCheckboxClick;
+import pl.wppiotrek85.wydatkibase.support.ListSupport;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
@@ -14,9 +14,9 @@ public abstract class BaseObjectAdapter<T> extends BaseAdapter {
 	protected ArrayList<T> items;
 	protected Context context;
 	protected LayoutInflater inflater;
-	protected Boolean isCheckable = true;
+	protected Boolean isCheckable = false;
 	protected IOnAdapterCheckboxClick listener;
-	protected List<Object> selectedPositions = new ArrayList<Object>();
+	protected ArrayList<Integer> selectedItemsId = new ArrayList<Integer>();
 
 	public BaseObjectAdapter(Context context, ArrayList<T> items,
 			IOnAdapterCheckboxClick listener) {
@@ -25,6 +25,16 @@ public abstract class BaseObjectAdapter<T> extends BaseAdapter {
 		inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.listener = listener;
+		if (this.listener != null)
+			isCheckable = true;
+	}
+
+	public BaseObjectAdapter(Context context, ArrayList<T> items,
+			IOnAdapterCheckboxClick listener, String selectedItems) {
+		this(context, items, listener);
+		if (selectedItems != null)
+			selectedItemsId = ListSupport
+					.StringToIntegerArrayList(selectedItems);
 	}
 
 	public void reloadItems(ArrayList<T> list) {
@@ -50,6 +60,10 @@ public abstract class BaseObjectAdapter<T> extends BaseAdapter {
 	@Override
 	public long getItemId(int index) {
 		return ((ModelBase) items.get(index)).getId();
+	}
+
+	public ArrayList<Integer> getSelectedItemsList() {
+		return selectedItemsId;
 	}
 
 }

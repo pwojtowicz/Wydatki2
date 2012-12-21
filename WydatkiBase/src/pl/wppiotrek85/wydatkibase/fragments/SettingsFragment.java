@@ -1,5 +1,7 @@
 package pl.wppiotrek85.wydatkibase.fragments;
 
+import java.util.ArrayList;
+
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.asynctasks.ReadRepositoryAsyncTask.AsyncTaskResult;
 import android.os.Bundle;
@@ -10,7 +12,7 @@ import android.view.ViewGroup;
 public class SettingsFragment extends ObjectBaseFragment {
 
 	public SettingsFragment(boolean shouldReload) {
-		super(shouldReload);
+		super(shouldReload, false);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -45,6 +47,11 @@ public class SettingsFragment extends ObjectBaseFragment {
 				null);
 
 		return convertView;
+	}
+
+	@Override
+	public ArrayList<Integer> getSelectedItemsList() {
+		return null;
 	}
 
 }

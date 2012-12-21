@@ -19,7 +19,12 @@ public class ParametersAdapter extends BaseObjectAdapter<Parameter> {
 	public ParametersAdapter(Context context, ArrayList<Parameter> items,
 			IOnAdapterCheckboxClick listener) {
 		super(context, items, listener);
-		// TODO Auto-generated constructor stub
+
+	}
+
+	public ParametersAdapter(Context context, ArrayList<Parameter> items,
+			IOnAdapterCheckboxClick listener, String selectedItems) {
+		super(context, items, listener, selectedItems);
 	}
 
 	@Override
@@ -52,12 +57,13 @@ public class ParametersAdapter extends BaseObjectAdapter<Parameter> {
 				public void onClick(View view) {
 					Parameter p = (Parameter) getItem((Integer) view.getTag() - 1);
 					if (((CheckBox) view).isChecked())
-						selectedPositions.add(p);
+						selectedItemsId.add(p.getId());
 					else
-						selectedPositions.remove(p);
+						selectedItemsId.remove(selectedItemsId.indexOf(p
+								.getId()));
 
 					if (listener != null)
-						listener.OnCheckBoxSelected(selectedPositions.size());
+						listener.OnCheckBoxSelected(selectedItemsId.size());
 
 				}
 			});
@@ -68,7 +74,7 @@ public class ParametersAdapter extends BaseObjectAdapter<Parameter> {
 				cbx_selected.setVisibility(CheckBox.GONE);
 			cbx_selected.setTag(item.getId());
 
-			if (selectedPositions.contains(item))
+			if (selectedItemsId.contains(item.getId()))
 				cbx_selected.setChecked(true);
 			else
 				cbx_selected.setChecked(false);

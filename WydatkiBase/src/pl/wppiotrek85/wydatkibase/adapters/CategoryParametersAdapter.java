@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.entities.Parameter;
+import pl.wppiotrek85.wydatkibase.enums.ViewState;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import pl.wppiotrek85.wydatkibase.units.ParameterTypes;
 import pl.wppiotrek85.wydatkibase.views.ViewType;
@@ -71,8 +72,7 @@ public class CategoryParametersAdapter extends BaseAdapter {
 
 		Object o = getItem(index);
 		if (convertView == null
-		// || (obj != null && viewType == ViewType.DEFAULT && obj instanceof
-		// ViewState)
+				|| (obj != null && viewType == ViewType.DEFAULT && obj instanceof ViewState)
 				|| (obj != null && viewType == ViewType.CONTROL && obj instanceof ParameterAdapterObjectHandler)) {
 
 			switch (viewType) {
@@ -104,7 +104,7 @@ public class CategoryParametersAdapter extends BaseAdapter {
 			oh = (ParameterAdapterObjectHandler) convertView.getTag();
 			fillRow(oh, convertView, o, index);
 		} else {
-			// convertView.setTag(ViewState.Section);
+			convertView.setTag(ViewState.Section);
 			fillControll(o, convertView);
 		}
 

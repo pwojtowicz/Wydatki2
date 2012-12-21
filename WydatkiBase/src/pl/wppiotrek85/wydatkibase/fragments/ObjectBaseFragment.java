@@ -1,5 +1,7 @@
 package pl.wppiotrek85.wydatkibase.fragments;
 
+import java.util.ArrayList;
+
 import pl.billennium.fragmenthelper.BaseFragment;
 import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
 import pl.wppiotrek85.wydatkibase.interfaces.IReadRepository;
@@ -9,10 +11,14 @@ import android.content.Intent;
 public abstract class ObjectBaseFragment extends BaseFragment implements
 		IReadRepository {
 
-	private ProgressDialog dialog;
+	public static final String BUNDLE_ISCHECKABLE = "isCheckable";
 
-	public ObjectBaseFragment(boolean shouldReload) {
+	private ProgressDialog dialog;
+	protected Boolean isChecakble = false;
+
+	public ObjectBaseFragment(boolean shouldReload, Boolean isChecakble) {
 		super(shouldReload);
+		this.isChecakble = isChecakble;
 	}
 
 	public void leaveActivity(int requestCode) {
@@ -59,5 +65,7 @@ public abstract class ObjectBaseFragment extends BaseFragment implements
 	}
 
 	public abstract void refreshFragment(boolean forceRefresh);
+
+	public abstract ArrayList<Integer> getSelectedItemsList();
 
 }

@@ -45,12 +45,12 @@ public class ObjectManagerActivity extends FragmentActivity implements
 
 		fragments = new ArrayList<FragmentObject>();
 
-		fragments.add(new FragmentObject(new AccountFragmentList(true),
-				"Konta", null));
+		fragments.add(new FragmentObject(new AccountFragmentList(true, this,
+				true), "Konta", null));
 		fragments.add(new FragmentObject(new CategoryFragmentList(false, this),
 				"Kategorie", null));
-		fragments.add(new FragmentObject(
-				new ParameterFragmentList(false, this), "Parametry", null));
+		fragments.add(new FragmentObject(new ParameterFragmentList(false, this,
+				false, null), "Parametry", null));
 		fragments.add(new FragmentObject(new ProjectsFragmentList(false, this),
 				"Projekty", null));
 
@@ -120,6 +120,10 @@ public class ObjectManagerActivity extends FragmentActivity implements
 			b.putSerializable(EditElementActivity.BUNDLE_OBJECT_TYPE,
 					EObjectTypes.Category);
 			resultCode = ResultCodes.START_ACTIVITY_EDIT_CATEGORY;
+		} else if (tmp.getClass() == AccountFragmentList.class) {
+			b.putSerializable(EditElementActivity.BUNDLE_OBJECT_TYPE,
+					EObjectTypes.Account);
+			resultCode = ResultCodes.START_ACTIVITY_EDIT_ACOOUNT;
 		}
 		i.putExtras(b);
 		startActivityForResult(i, resultCode);

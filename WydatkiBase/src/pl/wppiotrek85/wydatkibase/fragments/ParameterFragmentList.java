@@ -34,14 +34,17 @@ public class ParameterFragmentList extends ObjectBaseFragment implements
 	private ParametersAdapter adapter;
 	private LinearLayout actionBar;
 	private IFragmentActions actions;
+	private String selectedItems = "";
 
 	public ParameterFragmentList() {
-		super(false);
+		super(false, false);
 	}
 
-	public ParameterFragmentList(boolean shouldReload, IFragmentActions actions) {
-		super(shouldReload);
+	public ParameterFragmentList(boolean shouldReload,
+			IFragmentActions actions, Boolean isChecakble, String selectedItems) {
+		super(shouldReload, isChecakble);
 		this.actions = actions;
+		this.selectedItems = selectedItems;
 	}
 
 	@Override
@@ -126,7 +129,12 @@ public class ParameterFragmentList extends ObjectBaseFragment implements
 				forceRefresh = true;
 			else {
 				if (adapter == null)
-					adapter = new ParametersAdapter(getActivity(), list, null);
+					if (super.isChecakble)
+						adapter = new ParametersAdapter(getActivity(), list,
+								this, selectedItems);
+					else
+						adapter = new ParametersAdapter(getActivity(), list,
+								null);
 				else
 					adapter.reloadItems(list);
 				objectListView.setAdapter(adapter);
@@ -138,6 +146,14 @@ public class ParameterFragmentList extends ObjectBaseFragment implements
 					ERepositoryManagerMethods.ReadAll);
 		}
 
+	}
+
+	@Override
+	public ArrayList<Integer> getSelectedItemsList() {
+		if (adapter != null) {
+			return adapter.getSelectedItemsList();
+		}
+		return null;
 	}
 
 }

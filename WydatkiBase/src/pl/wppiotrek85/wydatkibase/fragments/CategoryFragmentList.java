@@ -29,11 +29,11 @@ public class CategoryFragmentList extends ObjectBaseFragment {
 	private IFragmentActions actions;
 
 	public CategoryFragmentList() {
-		super(false);
+		super(false, false);
 	}
 
 	public CategoryFragmentList(boolean shouldReload, IFragmentActions actions) {
-		super(shouldReload);
+		super(shouldReload, false);
 		this.actions = actions;
 		// TODO Auto-generated constructor stub
 	}
@@ -106,6 +106,11 @@ public class CategoryFragmentList extends ObjectBaseFragment {
 					ERepositoryManagerMethods.ReadAll);
 		}
 
+	}
+
+	@Override
+	public ArrayList<Integer> getSelectedItemsList() {
+		return null;
 	}
 
 }

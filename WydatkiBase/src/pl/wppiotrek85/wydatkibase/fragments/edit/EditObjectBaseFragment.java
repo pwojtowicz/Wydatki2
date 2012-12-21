@@ -1,5 +1,7 @@
 package pl.wppiotrek85.wydatkibase.fragments.edit;
 
+import java.util.ArrayList;
+
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.fragments.ObjectBaseFragment;
 import android.view.View;
@@ -17,7 +19,7 @@ public abstract class EditObjectBaseFragment<T> extends ObjectBaseFragment {
 	protected boolean isUpdate = false;
 
 	public EditObjectBaseFragment(boolean shouldReload, T object) {
-		super(shouldReload);
+		super(shouldReload, false);
 		this.currentObject = object;
 		if (currentObject != null)
 			isUpdate = true;
@@ -65,6 +67,11 @@ public abstract class EditObjectBaseFragment<T> extends ObjectBaseFragment {
 	@Override
 	public void refreshFragment(boolean forceRefresh) {
 
+	}
+
+	@Override
+	public ArrayList<Integer> getSelectedItemsList() {
+		return null;
 	}
 
 	protected abstract void linkViews();

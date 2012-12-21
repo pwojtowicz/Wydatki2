@@ -32,8 +32,12 @@
         <activity
             android:name="pl.wppiotrek85.wydatkiphone.TransactionActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustPan"
-            android:label="@string/title_activity_transaction" >
+            android:label="@string/title_activity_transaction"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="pl.wppiotrek85.wydatkiphone.SingleObjectTyleList"
+            android:label="@string/title_activity_single_object_tyle_list" >
         </activity>
     </application>
 

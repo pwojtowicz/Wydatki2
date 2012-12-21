@@ -70,13 +70,13 @@ public class TransactionFragment extends ObjectBaseFragment {
 	private Transactionhelper helper = new Transactionhelper();
 
 	public TransactionFragment() {
-		super(false);
+		super(false, false);
 		this.listener = null;
 	}
 
 	public TransactionFragment(boolean shouldReload,
 			ITransactionListener listener) {
-		super(shouldReload);
+		super(shouldReload, false);
 		this.listener = listener;
 	}
 
@@ -461,5 +461,10 @@ public class TransactionFragment extends ObjectBaseFragment {
 		private int categoryPosition = -1;
 		private int projektPosition = -1;
 		ArrayList<InvokeTransactionParameter> items;
+	}
+
+	@Override
+	public ArrayList<Integer> getSelectedItemsList() {
+		return null;
 	}
 }

@@ -4,41 +4,48 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
+    
+
     <LinearLayout
-        android:id="@+id/ll"
+        android:id="@+id/llh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="1" >
+        android:orientation="vertical" >
 
         <Button
-            android:id="@+id/account_btn_new_transaction"
-            style="@style/Style_TextWithShadow"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="0.33"
-            android:background="@color/btn_blue"
-            android:onClick="btnNewTransaction_Click"
-            android:text="Nowa transakcja" />
+        android:id="@+id/btn_add_new"
+        style="@style/Style_TextWithShadow"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/btn_blue"
+        android:text="@string/add_new_object_btn" />
 
-        <Button
-            android:id="@+id/account_btn_new_transfer"
-            style="@style/Style_TextWithShadow"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="0.33"
-            android:background="@color/btn_blue"
-            android:onClick="btnNewTransfer_Click"
-            android:text="Nowy przelew" />
+        <LinearLayout
+            android:id="@+id/ll_transactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1" >
 
-        <Button
-            android:id="@+id/account_btn_budget"
-            style="@style/Style_TextWithShadow"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="0.33"
-            android:background="@color/btn_blue"
-            android:text="Budżety" />
+            <Button
+                android:id="@+id/account_btn_new_transaction"
+                style="@style/Style_TextWithShadow"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@color/btn_blue"
+                android:onClick="btnNewTransaction_Click"
+                android:text="Nowa transakcja" />
 
+            <Button
+                android:id="@+id/account_btn_new_transfer"
+                style="@style/Style_TextWithShadow"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@color/btn_blue"
+                android:onClick="btnNewTransfer_Click"
+                android:text="Nowy przelew" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -46,21 +53,19 @@
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:visibility="gone" >
-
     </LinearLayout>
 
     <ListView
         android:id="@+id/listview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/rl"
-        android:layout_below="@+id/ll"
+        android:layout_above="@+id/rl_accounts_balance"
+        android:layout_below="@+id/llh"
         android:cacheColorHint="@android:color/transparent" >
-
     </ListView>
 
     <RelativeLayout
-        android:id="@+id/rl"
+        android:id="@+id/rl_accounts_balance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -92,7 +97,6 @@
             android:layout_toLeftOf="@+id/account_tbx_balance"
             android:text="@string/saldo"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
     </RelativeLayout>
 
 </RelativeLayout>

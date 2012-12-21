@@ -12,6 +12,7 @@ import pl.wppiotrek85.wydatkibase.entities.Parameter;
 import pl.wppiotrek85.wydatkibase.entities.SpinnerObject;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
+import pl.wppiotrek85.wydatkibase.interfaces.IEditCategoryActions;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
 import pl.wppiotrek85.wydatkibase.support.ListSupport;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
@@ -37,9 +38,14 @@ public class EditCategoryFragment extends EditObjectBaseFragment<Category> {
 	private ToggleButton tbn_isPositive;
 	private Spinner spn_parent;
 	private CategoryParametersAdapter adapter;
+	private IEditCategoryActions listener;
 
-	public EditCategoryFragment(boolean shouldReload, Category item) {
+	public static final String BUNDLE_SELECTED_PARAMETERS = "selectedParameters";
+
+	public EditCategoryFragment(boolean shouldReload, Category item,
+			IEditCategoryActions listener) {
 		super(shouldReload, item);
+		this.listener = listener;
 	}
 
 	@Override
@@ -47,18 +53,18 @@ public class EditCategoryFragment extends EditObjectBaseFragment<Category> {
 			Bundle savedInstanceState) {
 		View convertView = inflater
 				.inflate(R.layout.edit_category_layout, null);
+		setListHeader(convertView);
 		return convertView;
 	}
 
-	@Override
-	protected void linkViews() {
+	private void setListHeader(View convertView) {
 		LayoutInflater layoutInflater = (LayoutInflater) getActivity()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View header = layoutInflater.inflate(R.layout.edit_category_header,
 				null);
 
-		listView = (ListView) getView().findViewById(
-				R.id.edit_category_lv_parameters);
+		listView = (ListView) convertView
+				.findViewById(R.id.edit_category_lv_parameters);
 
 		etbx_name = (EditText) header.findViewById(R.id.edit_etbx_name);
 		cbx_isActive = (CheckBox) header.findViewById(R.id.edit_cbx_isActive);
@@ -68,7 +74,8 @@ public class EditCategoryFragment extends EditObjectBaseFragment<Category> {
 		btn_addParameters.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				// showParametersActivity();
+				if (listener != null)
+					listener.showParametersForCategory(currentObject);
 			}
 		});
 
@@ -77,17 +84,34 @@ public class EditCategoryFragment extends EditObjectBaseFragment<Category> {
 		spn_parent = (Spinner) header
 				.findViewById(R.id.edit_category_spn_parent);
 
+		spn_parent.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			public void onItemSelected(AdapterView<?> adapterView, View view,
+					int index, long id) {
+				SpinerHelper oh = (SpinerHelper) view.getTag();
+				if (oh.object.getId() >= 0)
+					onCategoryChange(oh.object.getId());
+
+			}
+
+			public void onNothingSelected(AdapterView<?> adapterView) {
+			}
+		});
 		listView.addHeaderView(header);
+	}
+
+	@Override
+	protected void linkViews() {
+
 	}
 
 	@Override
 	protected void configureViews() {
 		adapter = new CategoryParametersAdapter(getActivity());
 
-		if (!isUpdate) {
+		if (!isUpdate && currentObject == null) {
 			currentObject = new Category();
 		}
-
 		listView.setAdapter(adapter);
 
 		refreshFragment(false);
@@ -95,7 +119,6 @@ public class EditCategoryFragment extends EditObjectBaseFragment<Category> {
 			etbx_name.setText(currentObject.getName());
 			cbx_isActive.setChecked(currentObject.isActive());
 			tbn_isPositive.setChecked(currentObject.isPositive());
-
 		}
 	}
 
@@ -124,21 +147,6 @@ public class EditCategoryFragment extends EditObjectBaseFragment<Category> {
 			if (isUpdate && currentObject.getParentId() != 0)
 				spn_parent.setSelection(getSelectedIndexById(
 						currentObject.getParentId(), items));
-
-			spn_parent.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-				public void onItemSelected(AdapterView<?> adapterView,
-						View view, int index, long id) {
-					SpinerHelper oh = (SpinerHelper) view.getTag();
-					if (oh.object.getId() >= 0)
-						onCategoryChange(oh.object.getId());
-
-				}
-
-				public void onNothingSelected(AdapterView<?> adapterView) {
-				}
-			});
-
 		}
 	}
 
@@ -188,8 +196,6 @@ public class EditCategoryFragment extends EditObjectBaseFragment<Category> {
 
 		}
 		getCategories();
-		// getParameters();
-
 	}
 
 	@Override
@@ -216,7 +222,6 @@ public class EditCategoryFragment extends EditObjectBaseFragment<Category> {
 			category.setAttributes(currentObject.getAttributes());
 			this.currentObject = category;
 			saveObject();
-
 		}
 	}
 
@@ -228,12 +233,20 @@ public class EditCategoryFragment extends EditObjectBaseFragment<Category> {
 		else
 			new ObjectManager(ERepositoryTypes.Categories, this,
 					ERepositoryManagerMethods.Create, currentObject);
-
 	}
 
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
 		leaveActivity(ResultCodes.RESULT_NEED_UPDATE);
+	}
+
+	public void setParameters(Parameter[] parameters) {
+		if (parameters != null) {
+			if (currentObject != null)
+				currentObject.setAttributes(parameters);
+			refreshFragment(false);
+		}
+
 	}
 
 }

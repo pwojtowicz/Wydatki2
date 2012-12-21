@@ -12,5 +12,6 @@
     <string name="income">wpływy</string>
     <string name="expenses">wydatki</string>
     <string name="refresh">odśwież</string>
+    <string name="title_activity_single_object_tyle_list">Lista obiektów</string>
 
 </resources>

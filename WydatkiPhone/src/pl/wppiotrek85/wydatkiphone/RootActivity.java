@@ -50,7 +50,7 @@ public class RootActivity extends FragmentActivity implements
 
 		fragments = new ArrayList<FragmentObject>();
 
-		fragments.add(new FragmentObject(new AccountFragmentList(true),
+		fragments.add(new FragmentObject(new AccountFragmentList(true, false),
 				"Konta", null));
 
 		fragments.add(new FragmentObject(new SettingsFragment(true),

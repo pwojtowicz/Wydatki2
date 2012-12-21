@@ -31,11 +31,11 @@ public class ProjectsFragmentList extends ObjectBaseFragment {
 	private IFragmentActions actions;
 
 	public ProjectsFragmentList() {
-		super(false);
+		super(false, false);
 	}
 
 	public ProjectsFragmentList(boolean shouldReload, IFragmentActions actions) {
-		super(shouldReload);
+		super(shouldReload, false);
 		this.actions = actions;
 		// TODO Auto-generated constructor stub
 	}
@@ -117,6 +117,11 @@ public class ProjectsFragmentList extends ObjectBaseFragment {
 					ERepositoryManagerMethods.ReadAll);
 		}
 
+	}
+
+	@Override
+	public ArrayList<Integer> getSelectedItemsList() {
+		return null;
 	}
 
 }
