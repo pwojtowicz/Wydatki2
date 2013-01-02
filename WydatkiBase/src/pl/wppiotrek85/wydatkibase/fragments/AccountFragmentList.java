@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -76,6 +78,16 @@ public class AccountFragmentList extends ObjectBaseFragment {
 
 		objectListView = (ListView) convertView.findViewById(R.id.listview);
 
+		objectListView
+				.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+					public boolean onItemLongClick(AdapterView<?> arg0,
+							View arg1, int pos, long id) {
+						actions.onUpdateObject(adapter.getItem(pos));
+						return true;
+					}
+				});
+
 		if (adapter != null)
 			objectListView.setAdapter(adapter);
 		linkViews(convertView);
@@ -114,7 +126,6 @@ public class AccountFragmentList extends ObjectBaseFragment {
 			WydatkiGlobals.getInstance().setAccounts(list);
 			refreshFragment(false);
 		}
-
 	}
 
 	@Override

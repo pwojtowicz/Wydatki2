@@ -106,4 +106,11 @@ public class SingleObjectTyleList extends FragmentActivity implements
 		}
 		finish();
 	}
+
+	@Override
+	public void onUpdateObject(Object item) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

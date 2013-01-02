@@ -12,6 +12,7 @@ import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
 import pl.wppiotrek85.wydatkibase.support.ListSupport;
+import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import pl.wppiotrek85.wydatkibase.units.ParameterTypes;
 import pl.wppiotrek85.wydatkibase.units.ResultCodes;
 import android.os.Bundle;
@@ -221,6 +222,10 @@ public class EditParameterFragment extends EditObjectBaseFragment<Parameter> {
 
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
+		if (response.bundle instanceof Parameter) {
+			WydatkiGlobals.getInstance().updateParametersList(
+					(Parameter) response.bundle);
+		}
 		leaveActivity(ResultCodes.RESULT_NEED_UPDATE);
 	}
 

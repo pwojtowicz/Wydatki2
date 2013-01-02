@@ -12,35 +12,34 @@ import android.widget.BaseAdapter;
 
 public class InvokeTransactionAdapter extends BaseAdapter {
 
-	ArrayList<InvokeTransactionParameter> items = new ArrayList<InvokeTransactionParameter>();
+	private ArrayList<InvokeTransactionParameter> items = new ArrayList<InvokeTransactionParameter>();
 
 	private final Context context;
 
 	public InvokeTransactionAdapter(Context context,
 			ArrayList<InvokeTransactionParameter> items) {
 		this.context = context;
-		if (items == null)
+		if (this.items == null)
 			this.items = new ArrayList<InvokeTransactionParameter>();
 		else
 			this.items = items;
 	}
 
 	public int getCount() {
-		return items.size();
+		return this.items.size();
 	}
 
 	public Object getItem(int index) {
-		return items.get(index);
+		return this.items.get(index);
 	}
 
 	public long getItemId(int index) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int getItemViewType(int index) {
-		return items.get(index).getTypeId();
+		return this.items.get(index).getTypeId();
 	}
 
 	@Override
@@ -83,7 +82,7 @@ public class InvokeTransactionAdapter extends BaseAdapter {
 	}
 
 	public void setParamaters(ArrayList<InvokeTransactionParameter> arrayList) {
-		items = arrayList;
+		this.items = arrayList;
 		this.notifyDataSetChanged();
 	}
 

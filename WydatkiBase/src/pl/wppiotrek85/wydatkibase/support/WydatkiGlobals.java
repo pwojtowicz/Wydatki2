@@ -13,6 +13,8 @@ public class WydatkiGlobals {
 
 	private static volatile WydatkiGlobals instance = null;
 
+	private static final boolean isLocalVersion = true;
+
 	public static WydatkiGlobals getInstance() {
 		if (instance == null) {
 			synchronized (WydatkiGlobals.class) {
@@ -31,6 +33,15 @@ public class WydatkiGlobals {
 	private LinkedHashMap<Integer, Account> accountsDictionary;
 	private LinkedHashMap<Integer, Parameter> parametersDictionary;
 	private LinkedHashMap<Integer, Project> projectsDictionary;
+	private Object currentEditObject;
+
+	public void setCurrentEditObject(Object item) {
+		this.currentEditObject = item;
+	}
+
+	public Object getCurrentEditObject() {
+		return this.currentEditObject;
+	}
 
 	public Project getProjectById(int projectId) {
 		return projectsDictionary.get(projectId);
@@ -154,4 +165,9 @@ public class WydatkiGlobals {
 		}
 		this.categoriesDictionary = dictionary;
 	}
+
+	public static boolean isLocalVersion() {
+		return isLocalVersion;
+	}
+
 }

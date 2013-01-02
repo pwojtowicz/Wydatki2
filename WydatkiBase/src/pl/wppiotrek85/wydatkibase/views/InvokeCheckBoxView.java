@@ -55,8 +55,8 @@ public class InvokeCheckBoxView extends InvokeBaseView {
 
 	@Override
 	public void setDefaultValue() {
-		boolean isChecked = content.getDefaultValue() != null ? (Boolean) content
-				.getDefaultValue() : false;
+		boolean isChecked = content.getDefaultValue() != null ? Boolean
+				.valueOf(content.getDefaultValue().toString()) : false;
 
 		if (content.getValue() != null) {
 			isChecked = Boolean.parseBoolean(content.getValue());

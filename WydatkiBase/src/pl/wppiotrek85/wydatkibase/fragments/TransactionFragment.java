@@ -7,22 +7,25 @@ import java.util.Date;
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.adapters.InvokeTransactionAdapter;
 import pl.wppiotrek85.wydatkibase.adapters.SpinnerAdapter;
+import pl.wppiotrek85.wydatkibase.adapters.SpinnerAdapter.SpinerHelper;
 import pl.wppiotrek85.wydatkibase.asynctasks.ReadRepositoryAsyncTask.AsyncTaskResult;
 import pl.wppiotrek85.wydatkibase.entities.Account;
 import pl.wppiotrek85.wydatkibase.entities.Category;
 import pl.wppiotrek85.wydatkibase.entities.InvokeTransactionParameter;
+import pl.wppiotrek85.wydatkibase.entities.Parameter;
 import pl.wppiotrek85.wydatkibase.entities.Project;
 import pl.wppiotrek85.wydatkibase.entities.SpinnerObject;
 import pl.wppiotrek85.wydatkibase.entities.Transaction;
 import pl.wppiotrek85.wydatkibase.interfaces.ITransactionListener;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import pl.wppiotrek85.wydatkibase.units.UnitConverter;
-import pl.wppiotrek85.wydatkibase.views.ViewType;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -65,6 +68,7 @@ public class TransactionFragment extends ObjectBaseFragment {
 	private int accFrom = -1;
 	private int accTo = -1;
 	private int projPos = -1;
+	private boolean hasAdditionalParameters = false;
 
 	private Transaction currentTransaction = new Transaction();
 	private Transactionhelper helper = new Transactionhelper();
@@ -123,42 +127,13 @@ public class TransactionFragment extends ObjectBaseFragment {
 	}
 
 	private void testViews() {
-		ArrayList<InvokeTransactionParameter> items = new ArrayList<InvokeTransactionParameter>();
-
-		InvokeTransactionParameter p1 = new InvokeTransactionParameter(1,
-				"EditText", ViewType.TEXT_BOX, "default", null);
-
-		InvokeTransactionParameter p2 = new InvokeTransactionParameter(1,
-				"CheckBox", ViewType.CHECKBOX, true, null);
-		InvokeTransactionParameter p3 = new InvokeTransactionParameter(1,
-				"DropDown", ViewType.DROP_DOWN_LIST, "3", "1;2;3;4;5");
-		InvokeTransactionParameter p4 = new InvokeTransactionParameter(1,
-				"Number", ViewType.NUMBER, "12", null);
-
-		items.add(p1);
-		items.add(p2);
-		items.add(p3);
-		items.add(p4);
-
-		p1 = new InvokeTransactionParameter(1, "EditText", ViewType.TEXT_BOX,
-				null, null);
-
-		p2 = new InvokeTransactionParameter(1, "CheckBox", ViewType.CHECKBOX,
-				null, null);
-		p3 = new InvokeTransactionParameter(1, "DropDown",
-				ViewType.DROP_DOWN_LIST, null, "1;2;3;4;5");
-		p4 = new InvokeTransactionParameter(1, "Number", ViewType.NUMBER, null,
-				null);
-
-		items.add(p1);
-		items.add(p2);
-		items.add(p3);
-		items.add(p4);
-
-		if (helper.items == null) {
-			adapter = new InvokeTransactionAdapter(getActivity(), items);
-			helper.items = adapter.getAllItems();
-		}
+		// ArrayList<InvokeTransactionParameter> items = new
+		// ArrayList<InvokeTransactionParameter>();
+		//
+		// if (helper.items == null) {
+		// adapter = new InvokeTransactionAdapter(getActivity(), items);
+		// helper.items = adapter.getAllItems();
+		// }
 	}
 
 	private void linkViews(View convertView) {
@@ -238,19 +213,19 @@ public class TransactionFragment extends ObjectBaseFragment {
 		// refreshActivity();
 
 		if (!isTransfer) {
-			// category.setOnItemSelectedListener(new OnItemSelectedListener() {
-			//
-			// public void onItemSelected(AdapterView<?> adapterView,
-			// View view, int index, long id) {
-			// SpinerHelper oh = (SpinerHelper) view.getTag();
-			// if (oh.object.getId() > 0)
-			// onCategoryChange(oh.object);
-			//
-			// }
-			//
-			// public void onNothingSelected(AdapterView<?> adapterView) {
-			// }
-			// });
+			category.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+				public void onItemSelected(AdapterView<?> adapterView,
+						View view, int index, long id) {
+					SpinerHelper oh = (SpinerHelper) view.getTag();
+					// if (oh.object.getId() > 0)
+					onCategoryChange(oh.object);
+
+				}
+
+				public void onNothingSelected(AdapterView<?> adapterView) {
+				}
+			});
 		}
 
 		list.setAdapter(adapter);
@@ -266,6 +241,61 @@ public class TransactionFragment extends ObjectBaseFragment {
 
 		if (spn_project != null)
 			getProjects();
+	}
+
+	protected void onCategoryChange(SpinnerObject object) {
+		if (!isTransfer) {
+			WydatkiGlobals globals = WydatkiGlobals.getInstance();
+			// ArrayList<Category> cat = globals.getCategoriesList();
+			ArrayList<InvokeTransactionParameter> parameters = new ArrayList<InvokeTransactionParameter>();
+			// if (cat != null) {
+
+			addParameterForCategoryId(object.getId(), parameters);
+
+			// }
+			if (parameters.size() > 0) {
+				additionParametersTextView.setVisibility(TextView.VISIBLE);
+				hasAdditionalParameters = true;
+			} else {
+				additionParametersTextView.setVisibility(TextView.GONE);
+				hasAdditionalParameters = false;
+			}
+			Category c = globals.getCategoryById(object.getId());
+			if (c != null) {
+				isPositive.setChecked(c.isPositive());
+			}
+			if (adapter == null)
+				adapter = new InvokeTransactionAdapter(getActivity(),
+						parameters);
+			else
+				adapter.setParamaters(parameters);
+
+			list.setAdapter(adapter);
+
+		}
+	}
+
+	private void addParameterForCategoryId(int categoryId,
+			ArrayList<InvokeTransactionParameter> parameters) {
+		WydatkiGlobals globals = WydatkiGlobals.getInstance();
+		Category item = globals.getCategoryById(categoryId);
+		if (item != null) {
+			if (item.getId() == categoryId) {
+
+				if (item.getParentId() > 0)
+					addParameterForCategoryId(item.getParentId(), parameters);
+				for (Parameter parameter : item.getAttributes()) {
+					parameter = globals.getParameterById(parameter.getId());
+
+					InvokeTransactionParameter param = new InvokeTransactionParameter(
+							parameter.getId(), parameter.getName(),
+							parameter.getTypeId(), parameter.getDefaultValue(),
+							parameter.getDataSource());
+					parameters.add(param);
+
+				}
+			}
+		}
 	}
 
 	private void configureDateAndTime() {
@@ -303,8 +333,8 @@ public class TransactionFragment extends ObjectBaseFragment {
 					android.R.layout.simple_spinner_item, strArray);
 
 			spn_project.setAdapter(adapter);
-
-		}
+		} else
+			ll_project.setVisibility(LinearLayout.GONE);
 	}
 
 	private void getAccounts(Spinner spinner) {
@@ -337,6 +367,8 @@ public class TransactionFragment extends ObjectBaseFragment {
 		if (categories != null) {
 
 			ArrayList<SpinnerObject> items = new ArrayList<SpinnerObject>();
+			items.add(new SpinnerObject(-1, getText(R.string.no_selected_value)
+					.toString()));
 
 			int blockCategoryId = -1;
 			for (Category item : categories) {
@@ -410,10 +442,11 @@ public class TransactionFragment extends ObjectBaseFragment {
 		if (accountFrom != null) {
 			helper.accMinusPosition = accountFrom.getSelectedItemPosition();
 			SpinnerObject so = (SpinnerObject) accountFrom.getSelectedItem();
-			if (isPositive.isChecked())
-				currentTransaction.setAccPlus(so.getId());
-			else
-				currentTransaction.setAccMinus(so.getId());
+			if (so != null)
+				if (isPositive.isChecked())
+					currentTransaction.setAccPlus(so.getId());
+				else
+					currentTransaction.setAccMinus(so.getId());
 		}
 
 		if (accountTo != null) {
@@ -436,7 +469,8 @@ public class TransactionFragment extends ObjectBaseFragment {
 			helper.categoryPosition = category.getSelectedItemPosition();
 		}
 
-		helper.items = adapter.getAllItems();
+		if (adapter != null)
+			helper.items = adapter.getAllItems();
 	}
 
 	private void restoreValues() {

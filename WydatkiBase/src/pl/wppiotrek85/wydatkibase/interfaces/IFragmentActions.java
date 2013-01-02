@@ -6,4 +6,6 @@ public interface IFragmentActions {
 
 	public void onReturnSelectedItemsIdClick();
 
+	public void onUpdateObject(Object item);
+
 }

@@ -9,6 +9,8 @@ import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
 import pl.wppiotrek85.wydatkibase.support.ListSupport;
+import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
+import pl.wppiotrek85.wydatkibase.units.ResultCodes;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,8 +43,11 @@ public class EditAccountFragment extends EditObjectBaseFragment<Account> {
 
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
-		// TODO Auto-generated method stub
-
+		if (response.bundle instanceof Account) {
+			WydatkiGlobals.getInstance().updateAccountsList(
+					(Account) response.bundle);
+		}
+		leaveActivity(ResultCodes.RESULT_NEED_UPDATE);
 	}
 
 	@Override

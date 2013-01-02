@@ -2,9 +2,11 @@ package pl.wppiotrek85.wydatkiphone;
 
 import java.util.ArrayList;
 
+import pl.wppiotrek85.wydatkibase.entities.Account;
 import pl.wppiotrek85.wydatkibase.entities.Category;
 import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.entities.Parameter;
+import pl.wppiotrek85.wydatkibase.entities.Project;
 import pl.wppiotrek85.wydatkibase.enums.EObjectTypes;
 import pl.wppiotrek85.wydatkibase.fragments.ObjectBaseFragment;
 import pl.wppiotrek85.wydatkibase.fragments.edit.EditAccountFragment;
@@ -13,6 +15,7 @@ import pl.wppiotrek85.wydatkibase.fragments.edit.EditParameterFragment;
 import pl.wppiotrek85.wydatkibase.fragments.edit.EditProjectFragment;
 import pl.wppiotrek85.wydatkibase.interfaces.IEditCategoryActions;
 import pl.wppiotrek85.wydatkibase.support.ListSupport;
+import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import pl.wppiotrek85.wydatkibase.units.ResultCodes;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +26,7 @@ public class EditElementActivity extends FragmentActivity implements
 		IEditCategoryActions {
 
 	public static final String BUNDLE_OBJECT_TYPE = "Type";
+	public static final String BUNDLE_OBJECT = "Object";
 	private ModelBase currentObject;
 	ObjectBaseFragment details = null;
 
@@ -37,22 +41,29 @@ public class EditElementActivity extends FragmentActivity implements
 			EObjectTypes type = (EObjectTypes) bundle
 					.getSerializable(BUNDLE_OBJECT_TYPE);
 
+			Object o = WydatkiGlobals.getInstance().getCurrentEditObject();
+
 			switch (type) {
 			case Category:
-				details = new EditCategoryFragment(false, null, this);
+				details = new EditCategoryFragment(false, (o != null
+						&& o instanceof Category ? (Category) o : null), this);
 				break;
 			case Parameter:
-				details = new EditParameterFragment(false, null);
+				details = new EditParameterFragment(false, (o != null
+						&& o instanceof Parameter ? (Parameter) o : null));
 				break;
 			case Project:
-				details = new EditProjectFragment(false, null);
+				details = new EditProjectFragment(false, (o != null
+						&& o instanceof Project ? (Project) o : null));
 				break;
 			case Account:
-				details = new EditAccountFragment(false, null);
+				details = new EditAccountFragment(false, (o != null
+						&& o instanceof Account ? (Account) o : null));
 				break;
 			default:
 				break;
 			}
+			WydatkiGlobals.getInstance().setCurrentEditObject(null);
 
 			if (details != null) {
 				FragmentTransaction ft = getSupportFragmentManager()

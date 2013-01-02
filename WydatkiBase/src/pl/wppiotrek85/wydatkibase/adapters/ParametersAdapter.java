@@ -51,16 +51,16 @@ public class ParametersAdapter extends BaseObjectAdapter<Parameter> {
 			CheckBox cbx_selected = (CheckBox) convertView
 					.findViewById(R.id.row_cbx_selected);
 
-			cbx_selected.setTag(position);
+			cbx_selected.setTag(item.getId());
 			cbx_selected.setOnClickListener(new OnClickListener() {
 
 				public void onClick(View view) {
-					Parameter p = (Parameter) getItem((Integer) view.getTag() - 1);
+					int objectId = (Integer) view.getTag();
 					if (((CheckBox) view).isChecked())
-						selectedItemsId.add(p.getId());
+						selectedItemsId.add(objectId);
 					else
-						selectedItemsId.remove(selectedItemsId.indexOf(p
-								.getId()));
+						selectedItemsId.remove(selectedItemsId
+								.indexOf(objectId));
 
 					if (listener != null)
 						listener.OnCheckBoxSelected(selectedItemsId.size());
@@ -72,7 +72,6 @@ public class ParametersAdapter extends BaseObjectAdapter<Parameter> {
 				cbx_selected.setVisibility(CheckBox.VISIBLE);
 			else
 				cbx_selected.setVisibility(CheckBox.GONE);
-			cbx_selected.setTag(item.getId());
 
 			if (selectedItemsId.contains(item.getId()))
 				cbx_selected.setChecked(true);

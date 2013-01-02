@@ -119,6 +119,7 @@ public class EditCategoryFragment extends EditObjectBaseFragment<Category> {
 			etbx_name.setText(currentObject.getName());
 			cbx_isActive.setChecked(currentObject.isActive());
 			tbn_isPositive.setChecked(currentObject.isPositive());
+
 		}
 	}
 
@@ -171,7 +172,7 @@ public class EditCategoryFragment extends EditObjectBaseFragment<Category> {
 			}
 		}
 		if (objectId > 0) {
-			adapter.addParameter("Parametry nadrz«dne");
+			adapter.addParameter("Parametry nadrzędne");
 			addParameterForCategoryId(objectId, globals);
 		}
 		adapter.refresh();
@@ -237,6 +238,10 @@ public class EditCategoryFragment extends EditObjectBaseFragment<Category> {
 
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
+		if (response.bundle instanceof Category) {
+			WydatkiGlobals.getInstance().updateCategoriesList(
+					(Category) response.bundle);
+		}
 		leaveActivity(ResultCodes.RESULT_NEED_UPDATE);
 	}
 

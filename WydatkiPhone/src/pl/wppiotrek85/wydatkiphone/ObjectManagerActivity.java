@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import pl.billennium.fragmenthelper.FragmentAdapter;
 import pl.billennium.fragmenthelper.FragmentObject;
+import pl.wppiotrek85.wydatkibase.entities.Account;
+import pl.wppiotrek85.wydatkibase.entities.Category;
+import pl.wppiotrek85.wydatkibase.entities.Parameter;
+import pl.wppiotrek85.wydatkibase.entities.Project;
 import pl.wppiotrek85.wydatkibase.enums.EObjectTypes;
 import pl.wppiotrek85.wydatkibase.fragments.AccountFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.CategoryFragmentList;
@@ -13,6 +17,7 @@ import pl.wppiotrek85.wydatkibase.fragments.ProjectsFragmentList;
 import pl.wppiotrek85.wydatkibase.interfaces.IFragmentActions;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
+import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import pl.wppiotrek85.wydatkibase.units.ResultCodes;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -148,6 +153,34 @@ public class ObjectManagerActivity extends FragmentActivity implements
 	@Override
 	public void onReturnSelectedItemsIdClick() {
 
+	}
+
+	@Override
+	public void onUpdateObject(Object item) {
+		Intent i = new Intent(this, EditElementActivity.class);
+		Bundle b = new Bundle();
+		int resultCode = 0;
+		if (item instanceof Parameter) {
+			b.putSerializable(EditElementActivity.BUNDLE_OBJECT_TYPE,
+					EObjectTypes.Parameter);
+			resultCode = ResultCodes.START_ACTIVITY_EDIT_PARAMETER;
+		} else if (item instanceof Project) {
+			b.putSerializable(EditElementActivity.BUNDLE_OBJECT_TYPE,
+					EObjectTypes.Project);
+			resultCode = ResultCodes.START_ACTIVITY_EDIT_PROJECT;
+		} else if (item instanceof Category) {
+			b.putSerializable(EditElementActivity.BUNDLE_OBJECT_TYPE,
+					EObjectTypes.Category);
+			resultCode = ResultCodes.START_ACTIVITY_EDIT_CATEGORY;
+		} else if (item instanceof Account) {
+			b.putSerializable(EditElementActivity.BUNDLE_OBJECT_TYPE,
+					EObjectTypes.Account);
+			resultCode = ResultCodes.START_ACTIVITY_EDIT_ACOOUNT;
+		}
+		WydatkiGlobals.getInstance().setCurrentEditObject(item);
+
+		i.putExtras(b);
+		startActivityForResult(i, resultCode);
 	}
 
 }

@@ -121,19 +121,23 @@ public class CategoryRepository implements IObjectRepository<Category> {
 
 	@Override
 	public boolean delete(Category item) {
-		if (item != null)
+		if (item != null) {
 			return delete(item.getId());
+		}
 		return false;
 	}
 
 	@Override
 	public boolean delete(int id) {
-		dbm.getDataBase().delete(WydatkiBaseHelper.TABLE_CATERORY_PARAMETERS,
-				"catId=?", new String[] { String.valueOf(id) });
+		dbm.checkIsOpen();
+		int removedCount = dbm.getDataBase().delete(
+				WydatkiBaseHelper.TABLE_CATERORY_PARAMETERS, "catId=?",
+				new String[] { String.valueOf(id) });
 
 		long result = dbm.getDataBase().delete(
 				WydatkiBaseHelper.TABLE_CATERORIES, "ID=?",
 				new String[] { String.valueOf(id) });
+		dbm.close();
 		return result > 0 ? true : false;
 	}
 

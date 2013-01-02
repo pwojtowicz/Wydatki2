@@ -186,4 +186,10 @@ public class RootActivity extends FragmentActivity implements
 
 	}
 
+	@Override
+	public void onUpdateObject(Object item) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

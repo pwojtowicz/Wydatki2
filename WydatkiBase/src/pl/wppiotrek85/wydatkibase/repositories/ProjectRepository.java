@@ -6,6 +6,7 @@ import pl.wppiotrek85.wydatkibase.database.WydatkiBaseHelper;
 import pl.wppiotrek85.wydatkibase.entities.Project;
 import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepository;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
+import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
@@ -60,6 +61,9 @@ public class ProjectRepository implements IObjectRepository<Project> {
 				p.setId(cursor.getInt(0));
 				p.setName(cursor.getString(1));
 				p.setIsActive(cursor.getLong(2) == 1 ? true : false);
+
+				if (WydatkiGlobals.getInstance().isLocalVersion())
+					p.setIsVisibleForAll(true);
 				list.add(p);
 			} while (cursor.moveToNext());
 		}

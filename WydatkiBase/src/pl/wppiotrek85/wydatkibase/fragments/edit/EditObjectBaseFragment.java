@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.fragments.ObjectBaseFragment;
+import pl.wppiotrek85.wydatkibase.units.ResultCodes;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -59,7 +60,7 @@ public abstract class EditObjectBaseFragment<T> extends ObjectBaseFragment {
 		b = (Button) this.getView().findViewById(R.id.bCancel);
 		b.setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0) {
-				// leaveActivity(ResultCodes.RESULT_NO_ACTION);
+				leaveActivity(ResultCodes.RESULT_NO_ACTION);
 			}
 		});
 	}

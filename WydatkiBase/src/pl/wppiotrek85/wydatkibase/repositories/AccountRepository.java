@@ -7,6 +7,7 @@ import pl.wppiotrek85.wydatkibase.database.WydatkiBaseHelper;
 import pl.wppiotrek85.wydatkibase.entities.Account;
 import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepository;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
+import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
@@ -73,7 +74,8 @@ public class AccountRepository implements IObjectRepository<Account> {
 				a.setIsActive(cursor.getLong(4) == 1 ? true : false);
 				a.setIsSumInGlobalBalance(cursor.getLong(5) == 1 ? true : false);
 				a.setImageIndex((byte) cursor.getLong(6));
-				a.setIsVisibleForAll(true);
+				if (WydatkiGlobals.getInstance().isLocalVersion())
+					a.setIsVisibleForAll(true);
 				list.add(a);
 			} while (cursor.moveToNext());
 		}

@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -79,6 +80,18 @@ public class ParameterFragmentList extends ObjectBaseFragment implements
 
 		objectListView.setOnItemClickListener(this);
 
+		if (!startFromCategory) {
+			objectListView
+					.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+						public boolean onItemLongClick(AdapterView<?> arg0,
+								View arg1, int pos, long id) {
+							actions.onUpdateObject(adapter.getItem(pos));
+							return true;
+						}
+					});
+		}
+
 		actionBar = (RelativeLayout) convertView
 				.findViewById(R.id.bottom_actionbar);
 
@@ -131,7 +144,6 @@ public class ParameterFragmentList extends ObjectBaseFragment implements
 		if (response.bundle instanceof Parameter) {
 			OnFirtsShowFragment();
 		}
-
 	}
 
 	@Override
