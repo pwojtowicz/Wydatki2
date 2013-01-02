@@ -4,7 +4,14 @@ import java.util.ArrayList;
 
 import pl.billennium.fragmenthelper.FragmentAdapter;
 import pl.billennium.fragmenthelper.FragmentObject;
+import pl.wppiotrek85.wydatkibase.asynctasks.ReadRepositoryAsyncTask.AsyncTaskResult;
+import pl.wppiotrek85.wydatkibase.entities.Category;
+import pl.wppiotrek85.wydatkibase.entities.Parameter;
+import pl.wppiotrek85.wydatkibase.entities.Project;
 import pl.wppiotrek85.wydatkibase.enums.EObjectTypes;
+import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
+import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
+import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
 import pl.wppiotrek85.wydatkibase.fragments.AccountFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.CategoryFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.ObjectBaseFragment;
@@ -13,8 +20,10 @@ import pl.wppiotrek85.wydatkibase.fragments.ProjectsFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.SettingsFragment;
 import pl.wppiotrek85.wydatkibase.fragments.TransactionFragment;
 import pl.wppiotrek85.wydatkibase.interfaces.IFragmentActions;
+import pl.wppiotrek85.wydatkibase.interfaces.IReadRepository;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
+import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import pl.wppiotrek85.wydatkibase.units.ResultCodes;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -29,7 +38,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class RootActivity extends FragmentActivity implements
-		ActionBar.TabListener, IFragmentActions {
+		ActionBar.TabListener, IFragmentActions, IReadRepository {
 
 	ViewPager mViewPager;
 
@@ -82,6 +91,13 @@ public class RootActivity extends FragmentActivity implements
 
 			}
 		});
+
+		loadObjects();
+	}
+
+	private void loadObjects() {
+		new ObjectManager(ERepositoryTypes.Categories, this,
+				ERepositoryManagerMethods.ReadAll);
 	}
 
 	@Override
@@ -170,7 +186,7 @@ public class RootActivity extends FragmentActivity implements
 
 	public void btnNewTransaction_Click(View v) {
 		Intent intent = new Intent(this, TransactionActivity.class);
-		intent.putExtra(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION, true);
+		// intent.putExtra(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION, true);
 		startActivity(intent);
 	}
 
@@ -188,6 +204,64 @@ public class RootActivity extends FragmentActivity implements
 
 	@Override
 	public void onUpdateObject(Object item) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTaskStart() {
+		dialog = new ProgressDialog(this);
+		dialog.setMessage("Pobieranie");
+		dialog.setIndeterminate(true);
+		dialog.setCancelable(false);
+		dialog.show();
+	}
+
+	@Override
+	public void onTaskCancel() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTaskProgress() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTaskEnd() {
+		if (dialog != null) {
+			dialog.dismiss();
+			dialog = null;
+		}
+	}
+
+	@Override
+	public void onTaskResponse(AsyncTaskResult response) {
+		if (response.bundle instanceof ArrayList<?>) {
+			Object o = ((ArrayList<Object>) response.bundle).get(0);
+			if (o instanceof Category) {
+				ArrayList<Category> list = (ArrayList<Category>) response.bundle;
+				WydatkiGlobals.getInstance().setCategories(list);
+
+				new ObjectManager(ERepositoryTypes.Parameters, this,
+						ERepositoryManagerMethods.ReadAll);
+			} else if (o instanceof Parameter) {
+				ArrayList<Parameter> list = (ArrayList<Parameter>) response.bundle;
+				WydatkiGlobals.getInstance().setParameters(list);
+
+				new ObjectManager(ERepositoryTypes.Projects, this,
+						ERepositoryManagerMethods.ReadAll);
+			} else if (o instanceof Project) {
+				ArrayList<Project> list = (ArrayList<Project>) response.bundle;
+				WydatkiGlobals.getInstance().setProjects(list);
+			}
+		}
+	}
+
+	@Override
+	public void onTaskInvalidResponse(RepositoryException exception) {
 		// TODO Auto-generated method stub
 
 	}

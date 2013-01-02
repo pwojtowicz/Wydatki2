@@ -23,6 +23,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -36,7 +37,7 @@ import android.widget.ToggleButton;
 
 public class TransactionFragment extends ObjectBaseFragment {
 
-	public static final String BUNDLE_IS_NEW_TRANSACTION = "newTransaction";
+	// public static final String BUNDLE_IS_NEW_TRANSACTION = "newTransaction";
 	public static final String BUNDLE_IS_NEW_TRANSFER = "newTransfer";
 
 	private static final int TIME_DIALOG_ID = 0;
@@ -115,8 +116,7 @@ public class TransactionFragment extends ObjectBaseFragment {
 
 		Bundle extras = getArguments();
 		if (extras != null) {
-			extras.getBoolean(BUNDLE_IS_NEW_TRANSACTION, false);
-			extras.getBoolean(BUNDLE_IS_NEW_TRANSFER, false);
+			isTransfer = extras.getBoolean(BUNDLE_IS_NEW_TRANSFER, false);
 
 			i = extras.getInt("INDEX");
 		}
@@ -126,19 +126,7 @@ public class TransactionFragment extends ObjectBaseFragment {
 		return convertView;
 	}
 
-	private void testViews() {
-		// ArrayList<InvokeTransactionParameter> items = new
-		// ArrayList<InvokeTransactionParameter>();
-		//
-		// if (helper.items == null) {
-		// adapter = new InvokeTransactionAdapter(getActivity(), items);
-		// helper.items = adapter.getAllItems();
-		// }
-	}
-
 	private void linkViews(View convertView) {
-
-		testViews();
 
 		list = (ListView) convertView
 				.findViewById(R.id.invoke_transactions_listview);
@@ -241,6 +229,16 @@ public class TransactionFragment extends ObjectBaseFragment {
 
 		if (spn_project != null)
 			getProjects();
+
+		value.setOnFocusChangeListener(new OnFocusChangeListener() {
+
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (listener != null)
+					listener.onChangeValue();
+			}
+		});
+
 	}
 
 	protected void onCategoryChange(SpinnerObject object) {
@@ -469,6 +467,8 @@ public class TransactionFragment extends ObjectBaseFragment {
 			helper.categoryPosition = category.getSelectedItemPosition();
 		}
 
+		helper.value = value.getText().toString();
+
 		if (adapter != null)
 			helper.items = adapter.getAllItems();
 	}
@@ -486,6 +486,8 @@ public class TransactionFragment extends ObjectBaseFragment {
 		if (category != null && helper.categoryPosition >= 0) {
 			category.setSelection(helper.categoryPosition);
 		}
+		value.setText(helper.value);
+
 		adapter = new InvokeTransactionAdapter(getActivity(), helper.items);
 	}
 
@@ -494,11 +496,21 @@ public class TransactionFragment extends ObjectBaseFragment {
 		private int accPlusPosition = -1;
 		private int categoryPosition = -1;
 		private int projektPosition = -1;
+		private String value = "";
 		ArrayList<InvokeTransactionParameter> items;
 	}
 
 	@Override
 	public ArrayList<Integer> getSelectedItemsList() {
 		return null;
+	}
+
+	public double getCurrentValue() {
+		String v = value.getText().toString().trim();
+		if (value.length() > 0)
+			return Double.parseDouble(value.getText().toString())
+					* (isPositive.isChecked() ? 1 : -1);
+
+		return 0.0;
 	}
 }

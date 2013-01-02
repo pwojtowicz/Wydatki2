@@ -23,6 +23,8 @@ public class TransactionActivity extends FragmentActivity implements
 
 	private FragmentAdapter fAdapter;
 	int i = 1;
+	// boolean isTransaction = false;
+	boolean isTransfer = false;
 
 	private ImageButton removeViewBtn;
 
@@ -31,10 +33,21 @@ public class TransactionActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_transaction);
 
+		Bundle bundle = getIntent().getExtras();
+
+		if (bundle != null) {
+			// isTransaction = bundle.getBoolean(
+			// TransactionFragment.BUNDLE_IS_NEW_TRANSACTION, false);
+			isTransfer = bundle.getBoolean(
+					TransactionFragment.BUNDLE_IS_NEW_TRANSFER, false);
+		}
+
 		fragments = new ArrayList<FragmentObject>();
 
 		Bundle b = new Bundle();
-		b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION, true);
+		// b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION,
+		// isTransaction);
+		b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSFER, isTransfer);
 		b.putInt("INDEX", i);
 
 		fragments.add(new FragmentObject(new TransactionFragment(true, this),
@@ -77,6 +90,17 @@ public class TransactionActivity extends FragmentActivity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_transaction, menu);
+		if (isTransfer)
+			for (int i = 0; i < menu.size(); i++) {
+				MenuItem item = menu.getItem(i);
+				switch (item.getItemId()) {
+				case R.id.menu_add:
+					item.setVisible(false);
+				case R.id.menu_delete:
+					item.setVisible(false);
+				}
+			}
+
 		return true;
 	}
 
@@ -99,7 +123,9 @@ public class TransactionActivity extends FragmentActivity implements
 	public void btnAddView() {
 		i++;
 		Bundle b = new Bundle();
-		b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION, true);
+		// b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION,
+		// isTransaction);
+		b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSFER, isTransfer);
 		b.putInt("INDEX", i);
 		fAdapter.addFragment(new FragmentObject(new TransactionFragment(true,
 				this), "Transakcja " + String.valueOf(i), b));
@@ -130,7 +156,12 @@ public class TransactionActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void onChangeValue(double value) {
-
+	public void onChangeValue() {
+		double value = 0.0;
+		for (FragmentObject fragment : fragments) {
+			value += ((TransactionFragment) fragment.getFragment())
+					.getCurrentValue();
+		}
+		this.setTitle("Kwota: " + String.valueOf(value) + " z³");
 	}
 }
