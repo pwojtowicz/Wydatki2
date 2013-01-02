@@ -137,7 +137,10 @@ public class ObjectManagerActivity extends FragmentActivity implements
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == ResultCodes.START_ACTIVITY_EDIT_PROJECT) {
+		if (requestCode == ResultCodes.START_ACTIVITY_EDIT_PROJECT
+				|| requestCode == ResultCodes.START_ACTIVITY_EDIT_ACOOUNT
+				|| requestCode == ResultCodes.START_ACTIVITY_EDIT_CATEGORY
+				|| requestCode == ResultCodes.START_ACTIVITY_EDIT_PARAMETER) {
 			if (resultCode == ResultCodes.RESULT_NEED_UPDATE) {
 				refreshActualFragment();
 			}
