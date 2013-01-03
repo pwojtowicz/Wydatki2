@@ -32,6 +32,7 @@ public final class R {
         public static int transparent_background=0x7f020005;
     }
     public static final class id {
+        public static int LL01=0x7f07005a;
         public static int LinearLayout1=0x7f07002e;
         public static int RL01=0x7f070006;
         public static int RL02=0x7f070017;
@@ -42,8 +43,8 @@ public final class R {
         public static int TextView02=0x7f070012;
         public static int TextView03=0x7f07001a;
         public static int TextView04=0x7f07001d;
-        public static int View01=0x7f070064;
-        public static int View02=0x7f070065;
+        public static int View01=0x7f070069;
+        public static int View02=0x7f07006a;
         public static int account_btn_new_transaction=0x7f070027;
         public static int account_btn_new_transfer=0x7f070028;
         public static int account_tbx_balance=0x7f07002b;
@@ -51,8 +52,8 @@ public final class R {
         public static int actionbar_btn_edit=0x7f070001;
         public static int actionbar_btn_lock=0x7f070002;
         public static int actionbar_btn_returnSelected=0x7f070004;
-        public static int bCancel=0x7f07005a;
-        public static int bSave=0x7f07005b;
+        public static int bCancel=0x7f07005f;
+        public static int bSave=0x7f070060;
         public static int bottom_actionbar=0x7f07002d;
         public static int btn_add_new=0x7f070025;
         public static int control_row_tbx_section_name=0x7f070005;
@@ -98,14 +99,14 @@ public final class R {
         public static int invoke_transaction_header_spinner_category=0x7f070040;
         public static int invoke_transaction_header_tbn_ispositive=0x7f070043;
         public static int invoke_transactions_listview=0x7f07002f;
-        public static int linea=0x7f07005c;
-        public static int linearLayout2=0x7f07005e;
-        public static int linearLayout3=0x7f070061;
+        public static int linea=0x7f070061;
+        public static int linearLayout2=0x7f070063;
+        public static int linearLayout3=0x7f070066;
         public static int listview=0x7f070029;
         public static int ll_transactions=0x7f070026;
         public static int llh=0x7f070024;
         public static int new_cbx_visibleForAll=0x7f070022;
-        public static int relativeLayout1=0x7f070066;
+        public static int relativeLayout1=0x7f07006b;
         public static int rl=0x7f070000;
         public static int rl_accounts_balance=0x7f07002a;
         public static int row_account_balance=0x7f07004e;
@@ -123,19 +124,23 @@ public final class R {
         public static int row_parameter_type=0x7f070057;
         public static int row_project_lock=0x7f070058;
         public static int row_project_name=0x7f070059;
+        public static int row_transaction_accounts=0x7f07005c;
+        public static int row_transaction_date=0x7f07005e;
+        public static int row_transaction_note=0x7f07005d;
+        public static int row_transaction_value=0x7f07005b;
         public static int scrollView1=0x7f070008;
-        public static int single_textview_list_row_content_textview=0x7f070067;
+        public static int single_textview_list_row_content_textview=0x7f07006c;
         public static int speakButton=0x7f070049;
-        public static int test=0x7f07005d;
+        public static int test=0x7f070062;
         public static int textView1=0x7f070009;
         public static int textView2=0x7f07000b;
         public static int textView3=0x7f07003f;
         public static int textView4=0x7f070042;
         public static int textView5=0x7f070047;
-        public static int unit_btn_categories=0x7f07005f;
-        public static int unit_btn_projects=0x7f070062;
-        public static int unit_btn_settings=0x7f070060;
-        public static int unit_btn_units=0x7f070063;
+        public static int unit_btn_categories=0x7f070064;
+        public static int unit_btn_projects=0x7f070067;
+        public static int unit_btn_settings=0x7f070065;
+        public static int unit_btn_units=0x7f070068;
     }
     public static final class layout {
         public static int bottom_bar_object_list=0x7f030000;
@@ -150,21 +155,24 @@ public final class R {
         public static int fragment_parameters_list=0x7f030009;
         public static int fragment_projects_list=0x7f03000a;
         public static int fragment_transaction_layout=0x7f03000b;
-        public static int invoke_action_check_box=0x7f03000c;
-        public static int invoke_action_comment=0x7f03000d;
-        public static int invoke_action_date=0x7f03000e;
-        public static int invoke_action_drop_down_list=0x7f03000f;
-        public static int invoke_action_text_box=0x7f030010;
-        public static int invoke_transaction_footer=0x7f030011;
-        public static int invoke_transaction_header=0x7f030012;
-        public static int row_account_layout=0x7f030013;
-        public static int row_category_layout=0x7f030014;
-        public static int row_parameter_layout=0x7f030015;
-        public static int row_project_layout=0x7f030016;
-        public static int row_property_layout=0x7f030017;
-        public static int save_cancle_buttons=0x7f030018;
-        public static int settings_fragment_layout=0x7f030019;
-        public static int single_textview_list_row=0x7f03001a;
+        public static int fragment_transactions_list=0x7f03000c;
+        public static int invoke_action_check_box=0x7f03000d;
+        public static int invoke_action_comment=0x7f03000e;
+        public static int invoke_action_date=0x7f03000f;
+        public static int invoke_action_drop_down_list=0x7f030010;
+        public static int invoke_action_text_box=0x7f030011;
+        public static int invoke_transaction_footer=0x7f030012;
+        public static int invoke_transaction_header=0x7f030013;
+        public static int row_account_layout=0x7f030014;
+        public static int row_category_layout=0x7f030015;
+        public static int row_control_view=0x7f030016;
+        public static int row_parameter_layout=0x7f030017;
+        public static int row_project_layout=0x7f030018;
+        public static int row_property_layout=0x7f030019;
+        public static int row_transaction_layout=0x7f03001a;
+        public static int save_cancle_buttons=0x7f03001b;
+        public static int settings_fragment_layout=0x7f03001c;
+        public static int single_textview_list_row=0x7f03001d;
     }
     public static final class string {
         public static int account_from=0x7f040013;

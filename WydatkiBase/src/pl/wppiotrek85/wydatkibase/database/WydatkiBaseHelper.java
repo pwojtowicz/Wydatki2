@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class WydatkiBaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "wydatki.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	public static final String TABLE_ACCOUNTS = "Account";
 	public static final String TABLE_CATERORIES = "Category";
@@ -16,6 +16,9 @@ public class WydatkiBaseHelper extends SQLiteOpenHelper {
 
 	public static final String TABLE_PARAMETERS = "Parameter";
 	public static final String TABLE_PROJECTS = "Project";
+
+	public static final String TABLE_TRANSACTION = "Transactions";
+	public static final String TABLE_TRANSACTION_PARAMETERS = "TransactionsParameter";
 
 	private static final String CREATE_ACCOUNTS = "create table "
 			+ TABLE_ACCOUNTS
@@ -36,6 +39,14 @@ public class WydatkiBaseHelper extends SQLiteOpenHelper {
 	private static final String CREATE_CATERORY_PARAMETERS = "create table "
 			+ TABLE_CATERORY_PARAMETERS + "(catId INTEGER, parId INTEGER);";
 
+	private static final String CREATE_TRANSACTION = "create table "
+			+ TABLE_TRANSACTION
+			+ "(ID INTEGER primary key autoincrement, AccPlus INTEGER, AccMinus INTEGER, Value REAL, ActionDate NUMERIC, Note TEXT, CategoryId INTEGER, ProjectId INTEGER);";
+
+	private static final String CREATE_TRANSACTION_PARAMETERS = "create table "
+			+ TABLE_TRANSACTION_PARAMETERS
+			+ "(TransactionId INTEGER, ParameterId INTEGER, Value TEXT);";
+
 	public WydatkiBaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		SQLiteDatabase db = getWritableDatabase();
@@ -50,6 +61,10 @@ public class WydatkiBaseHelper extends SQLiteOpenHelper {
 		database.execSQL(CREATE_PARAMETERS);
 		database.execSQL(CREATE_PROJECTS);
 		database.execSQL(CREATE_CATERORY_PARAMETERS);
+
+		database.execSQL(CREATE_TRANSACTION_PARAMETERS);
+		database.execSQL(CREATE_TRANSACTION);
+
 	}
 
 	@Override
@@ -60,6 +75,9 @@ public class WydatkiBaseHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATERORIES);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PARAMETERS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROJECTS);
+
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRANSACTION_PARAMETERS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRANSACTION);
 		onCreate(db);
 	}
 }

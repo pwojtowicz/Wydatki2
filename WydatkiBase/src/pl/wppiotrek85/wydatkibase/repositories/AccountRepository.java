@@ -5,13 +5,13 @@ import java.util.Date;
 
 import pl.wppiotrek85.wydatkibase.database.WydatkiBaseHelper;
 import pl.wppiotrek85.wydatkibase.entities.Account;
-import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepository;
+import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepositoryArrayList;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
-public class AccountRepository implements IObjectRepository<Account> {
+public class AccountRepository implements IObjectRepositoryArrayList<Account> {
 
 	DataBaseManager dbm = DataBaseManager.getInstance();
 
@@ -98,6 +98,12 @@ public class AccountRepository implements IObjectRepository<Account> {
 				"ID=?", new String[] { String.valueOf(id) });
 		dbm.close();
 		return result > 0 ? true : false;
+	}
+
+	@Override
+	public int createAllFromList(ArrayList<Account> items) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

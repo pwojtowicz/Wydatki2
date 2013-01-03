@@ -6,8 +6,10 @@ import java.util.LinkedHashMap;
 
 import pl.wppiotrek85.wydatkibase.entities.Account;
 import pl.wppiotrek85.wydatkibase.entities.Category;
+import pl.wppiotrek85.wydatkibase.entities.ItemsContainer;
 import pl.wppiotrek85.wydatkibase.entities.Parameter;
 import pl.wppiotrek85.wydatkibase.entities.Project;
+import pl.wppiotrek85.wydatkibase.entities.Transaction;
 
 public class WydatkiGlobals {
 
@@ -33,6 +35,7 @@ public class WydatkiGlobals {
 	private LinkedHashMap<Integer, Account> accountsDictionary;
 	private LinkedHashMap<Integer, Parameter> parametersDictionary;
 	private LinkedHashMap<Integer, Project> projectsDictionary;
+	private ItemsContainer<Transaction> transactionsContainer;
 	private Object currentEditObject;
 
 	public void setCurrentEditObject(Object item) {
@@ -134,6 +137,12 @@ public class WydatkiGlobals {
 		return projects;
 	}
 
+	public ItemsContainer<Transaction> getTransactionsContainer() {
+		if (transactionsContainer == null)
+			return null;
+		return transactionsContainer;
+	}
+
 	public void setParameters(ArrayList<Parameter> list) {
 		LinkedHashMap<Integer, Parameter> dictionary = new LinkedHashMap<Integer, Parameter>();
 		for (Parameter item : list) {
@@ -164,6 +173,10 @@ public class WydatkiGlobals {
 			dictionary.put(item.getId(), item);
 		}
 		this.categoriesDictionary = dictionary;
+	}
+
+	public void setTransactionsContainer(ItemsContainer<Transaction> container) {
+		this.transactionsContainer = container;
 	}
 
 	public static boolean isLocalVersion() {

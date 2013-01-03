@@ -19,6 +19,7 @@ import pl.wppiotrek85.wydatkibase.fragments.ParameterFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.ProjectsFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.SettingsFragment;
 import pl.wppiotrek85.wydatkibase.fragments.TransactionFragment;
+import pl.wppiotrek85.wydatkibase.fragments.TransactionsFragmentList;
 import pl.wppiotrek85.wydatkibase.interfaces.IFragmentActions;
 import pl.wppiotrek85.wydatkibase.interfaces.IReadRepository;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
@@ -61,6 +62,9 @@ public class RootActivity extends FragmentActivity implements
 
 		fragments.add(new FragmentObject(new AccountFragmentList(true, false),
 				"Konta", null));
+
+		fragments.add(new FragmentObject(new TransactionsFragmentList(true,
+				false), "Transakcje", null));
 
 		fragments.add(new FragmentObject(new SettingsFragment(true),
 				"Ustawienia", null));
@@ -240,22 +244,24 @@ public class RootActivity extends FragmentActivity implements
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
 		if (response.bundle instanceof ArrayList<?>) {
-			Object o = ((ArrayList<Object>) response.bundle).get(0);
-			if (o instanceof Category) {
-				ArrayList<Category> list = (ArrayList<Category>) response.bundle;
-				WydatkiGlobals.getInstance().setCategories(list);
+			if (((ArrayList<Object>) response.bundle).size() > 0) {
+				Object o = ((ArrayList<Object>) response.bundle).get(0);
+				if (o instanceof Category) {
+					ArrayList<Category> list = (ArrayList<Category>) response.bundle;
+					WydatkiGlobals.getInstance().setCategories(list);
 
-				new ObjectManager(ERepositoryTypes.Parameters, this,
-						ERepositoryManagerMethods.ReadAll);
-			} else if (o instanceof Parameter) {
-				ArrayList<Parameter> list = (ArrayList<Parameter>) response.bundle;
-				WydatkiGlobals.getInstance().setParameters(list);
+					new ObjectManager(ERepositoryTypes.Parameters, this,
+							ERepositoryManagerMethods.ReadAll);
+				} else if (o instanceof Parameter) {
+					ArrayList<Parameter> list = (ArrayList<Parameter>) response.bundle;
+					WydatkiGlobals.getInstance().setParameters(list);
 
-				new ObjectManager(ERepositoryTypes.Projects, this,
-						ERepositoryManagerMethods.ReadAll);
-			} else if (o instanceof Project) {
-				ArrayList<Project> list = (ArrayList<Project>) response.bundle;
-				WydatkiGlobals.getInstance().setProjects(list);
+					new ObjectManager(ERepositoryTypes.Projects, this,
+							ERepositoryManagerMethods.ReadAll);
+				} else if (o instanceof Project) {
+					ArrayList<Project> list = (ArrayList<Project>) response.bundle;
+					WydatkiGlobals.getInstance().setProjects(list);
+				}
 			}
 		}
 	}

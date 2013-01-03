@@ -4,8 +4,18 @@ import java.util.ArrayList;
 
 import pl.billennium.fragmenthelper.FragmentAdapter;
 import pl.billennium.fragmenthelper.FragmentObject;
+import pl.wppiotrek85.wydatkibase.asynctasks.ReadRepositoryAsyncTask.AsyncTaskResult;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
+import pl.wppiotrek85.wydatkibase.entities.Transaction;
+import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
+import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
+import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
 import pl.wppiotrek85.wydatkibase.fragments.TransactionFragment;
+import pl.wppiotrek85.wydatkibase.fragments.TransactionFragment.ValidationHelper;
+import pl.wppiotrek85.wydatkibase.interfaces.IReadRepository;
 import pl.wppiotrek85.wydatkibase.interfaces.ITransactionListener;
+import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -15,7 +25,7 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 
 public class TransactionActivity extends FragmentActivity implements
-		ITransactionListener {
+		ITransactionListener, IReadRepository {
 
 	ViewPager mViewPager;
 
@@ -27,6 +37,8 @@ public class TransactionActivity extends FragmentActivity implements
 	boolean isTransfer = false;
 
 	private ImageButton removeViewBtn;
+
+	private ProgressDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +120,7 @@ public class TransactionActivity extends FragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_save:
+			saveTransactions();
 			return true;
 		case R.id.menu_add:
 			btnAddView();
@@ -163,5 +176,67 @@ public class TransactionActivity extends FragmentActivity implements
 					.getCurrentValue();
 		}
 		this.setTitle("Kwota: " + String.valueOf(value) + " z³");
+	}
+
+	private void saveTransactions() {
+		ArrayList<ModelBase> transactions = new ArrayList<ModelBase>();
+		String errorMessage = null;
+		for (FragmentObject fragment : fragments) {
+			ValidationHelper<Transaction> validation = ((TransactionFragment) fragment
+					.getFragment()).getCurrentTransaction();
+			if (validation.isValid())
+				transactions.add(validation.getItem());
+			else {
+				errorMessage = validation.getErrorMessage();
+				break;
+			}
+		}
+
+		if (errorMessage != null) {
+
+		} else {
+			new ObjectManager(ERepositoryTypes.Transactions, this,
+					ERepositoryManagerMethods.CreateAllFromList, transactions);
+		}
+
+	}
+
+	@Override
+	public void onTaskStart() {
+		System.out.println("onTaskStart");
+		dialog = new ProgressDialog(this);
+		dialog.setMessage("Zapisywanie");
+		dialog.setIndeterminate(true);
+		dialog.setCancelable(false);
+		dialog.show();
+	}
+
+	@Override
+	public void onTaskCancel() {
+
+	}
+
+	@Override
+	public void onTaskProgress() {
+
+	}
+
+	@Override
+	public void onTaskEnd() {
+		System.out.println("onTaskEnd");
+		if (dialog != null) {
+			dialog.dismiss();
+			dialog = null;
+		}
+	}
+
+	@Override
+	public void onTaskResponse(AsyncTaskResult response) {
+		finish();
+	}
+
+	@Override
+	public void onTaskInvalidResponse(RepositoryException exception) {
+		System.out.println("onTaskInvalidResponse");
 	}
 }

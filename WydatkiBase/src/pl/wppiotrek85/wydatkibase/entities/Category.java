@@ -12,6 +12,10 @@ public class Category extends ModelBase {
 		this.setIsActive(isActive);
 	}
 
+	public Category(int id) {
+		super.setId(id);
+	}
+
 	private String name;
 
 	private Boolean isActive;

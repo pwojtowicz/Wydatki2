@@ -1,27 +1,48 @@
 package pl.wppiotrek85.wydatkibase.asynctasks;
 
+import java.util.ArrayList;
+
 import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryException;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
 import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
 import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepository;
+import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepositoryArrayList;
+import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepositoryItemCointainer;
 import pl.wppiotrek85.wydatkibase.interfaces.IReadRepository;
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 public class ReadRepositoryAsyncTask extends AsyncTask<Void, Void, Void> {
+
+	public final static String BUNDLE_ID = "ID";
+	public final static String BUNDLE_SKIP = "SKIP";
+	public final static String BUNDLE_TAKE = "TAKE";
 
 	private IReadRepository listener;
 	private ERepositoryManagerMethods method;
 	private AsyncTaskResult response;
 	private IObjectRepository repository;
 	private ModelBase item;
-	private int id;
+	private ArrayList<ModelBase> items;
+
+	private Bundle bundle;
 
 	public ReadRepositoryAsyncTask(IReadRepository listener,
 			ERepositoryManagerMethods method, IObjectRepository repository) {
 		this.listener = listener;
 		this.method = method;
 		this.repository = repository;
+
+	}
+
+	public ReadRepositoryAsyncTask(IReadRepository listener,
+			ERepositoryManagerMethods method, IObjectRepository repository,
+			Bundle bundle) {
+		this.listener = listener;
+		this.method = method;
+		this.repository = repository;
+		this.bundle = bundle;
 	}
 
 	public ReadRepositoryAsyncTask(IReadRepository listener,
@@ -35,11 +56,11 @@ public class ReadRepositoryAsyncTask extends AsyncTask<Void, Void, Void> {
 
 	public ReadRepositoryAsyncTask(IReadRepository listener,
 			ERepositoryManagerMethods method, IObjectRepository repository,
-			int id) {
+			ArrayList<ModelBase> items) {
 		this.listener = listener;
 		this.method = method;
 		this.repository = repository;
-		this.id = id;
+		this.items = items;
 	}
 
 	@Override
@@ -57,7 +78,16 @@ public class ReadRepositoryAsyncTask extends AsyncTask<Void, Void, Void> {
 			i++;
 		}
 		try {
+			int id = 0;
 			switch (method) {
+			case CreateAllFromList:
+				id = repository.createAllFromList(items);
+				if (id > 0) {
+					response.bundle = items;
+				} else
+					throw new RepositoryException(
+							ERepositoryException.ObjectNotCreated);
+				break;
 			case Create:
 				id = repository.create(item);
 				if (id > 0) {
@@ -66,18 +96,51 @@ public class ReadRepositoryAsyncTask extends AsyncTask<Void, Void, Void> {
 				} else
 					throw new RepositoryException(
 							ERepositoryException.ObjectNotCreated);
+
 				break;
 			case Delete:
 				if (item != null)
 					response.bundle = repository.delete(item);
-				else
-					response.bundle = repository.delete(id);
+				else {
+					if (bundle != null) {
+						int objectId = bundle.getInt(BUNDLE_ID, 0);
+						response.bundle = repository.delete(objectId);
+					} else
+						throw new RepositoryException(
+								ERepositoryException.NoObjectIdBundle);
+				}
 				break;
 			case Read:
-				response.bundle = repository.read(id);
+				if (bundle != null) {
+					int objectId = bundle.getInt(BUNDLE_ID, 0);
+					response.bundle = repository.read(objectId);
+				} else
+					throw new RepositoryException(
+							ERepositoryException.NoObjectIdBundle);
+
 				break;
 			case ReadAll:
-				response.bundle = repository.readAll();
+				if (repository instanceof IObjectRepositoryArrayList)
+					response.bundle = ((IObjectRepositoryArrayList) repository)
+							.readAll();
+				else if (repository instanceof IObjectRepositoryItemCointainer)
+					response.bundle = ((IObjectRepositoryItemCointainer) repository)
+							.readAll();
+				break;
+			case ReadAllWithSkip:
+				if (bundle != null) {
+					int skip = bundle.getInt(BUNDLE_SKIP, 0);
+					int take = bundle.getInt(BUNDLE_TAKE, 0);
+					if (repository instanceof IObjectRepositoryItemCointainer)
+						response.bundle = ((IObjectRepositoryItemCointainer) repository)
+								.readAll(skip, take);
+					else
+						throw new RepositoryException(
+								ERepositoryException.RepositoryDoNotSupportsSkipAndTake);
+				} else
+					throw new RepositoryException(
+							ERepositoryException.NoSkipOrTakeBundle);
+
 				break;
 			case Update:
 				response.bundle = repository.update(item);

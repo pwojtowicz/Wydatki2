@@ -6,13 +6,13 @@ import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
 
 public interface IObjectRepository<T> {
 
+	public int createAllFromList(ArrayList<T> items);
+
 	public int create(T item);
 
 	public T update(T item);
 
 	public T read(int id);
-
-	public ArrayList<T> readAll();
 
 	public boolean delete(T item) throws RepositoryException;
 

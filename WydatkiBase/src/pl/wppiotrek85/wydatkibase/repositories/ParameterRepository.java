@@ -6,12 +6,13 @@ import pl.wppiotrek85.wydatkibase.database.WydatkiBaseHelper;
 import pl.wppiotrek85.wydatkibase.entities.Parameter;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryException;
 import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
-import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepository;
+import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepositoryArrayList;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
-public class ParameterRepository implements IObjectRepository<Parameter> {
+public class ParameterRepository implements
+		IObjectRepositoryArrayList<Parameter> {
 
 	DataBaseManager dbm = DataBaseManager.getInstance();
 
@@ -105,6 +106,12 @@ public class ParameterRepository implements IObjectRepository<Parameter> {
 			throw new RepositoryException(
 					ERepositoryException.ParameterJoinToCategory, null);
 
+	}
+
+	@Override
+	public int createAllFromList(ArrayList<Parameter> items) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

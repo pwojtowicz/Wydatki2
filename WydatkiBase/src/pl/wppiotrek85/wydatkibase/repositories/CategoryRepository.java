@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import pl.wppiotrek85.wydatkibase.database.WydatkiBaseHelper;
 import pl.wppiotrek85.wydatkibase.entities.Category;
 import pl.wppiotrek85.wydatkibase.entities.Parameter;
-import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepository;
+import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepositoryArrayList;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
-public class CategoryRepository implements IObjectRepository<Category> {
+public class CategoryRepository implements IObjectRepositoryArrayList<Category> {
 
 	DataBaseManager dbm = DataBaseManager.getInstance();
 
@@ -139,6 +139,12 @@ public class CategoryRepository implements IObjectRepository<Category> {
 				new String[] { String.valueOf(id) });
 		dbm.close();
 		return result > 0 ? true : false;
+	}
+
+	@Override
+	public int createAllFromList(ArrayList<Category> items) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

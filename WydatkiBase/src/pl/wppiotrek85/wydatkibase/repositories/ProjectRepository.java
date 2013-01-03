@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.database.WydatkiBaseHelper;
 import pl.wppiotrek85.wydatkibase.entities.Project;
-import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepository;
+import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepositoryArrayList;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
-public class ProjectRepository implements IObjectRepository<Project> {
+public class ProjectRepository implements IObjectRepositoryArrayList<Project> {
 
 	DataBaseManager dbm = DataBaseManager.getInstance();
 
@@ -86,6 +86,12 @@ public class ProjectRepository implements IObjectRepository<Project> {
 				"ID=?", new String[] { String.valueOf(id) });
 		dbm.close();
 		return result > 0 ? true : false;
+	}
+
+	@Override
+	public int createAllFromList(ArrayList<Project> items) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

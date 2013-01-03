@@ -313,26 +313,25 @@ public class TransactionFragment extends ObjectBaseFragment {
 	private void getProjects() {
 		WydatkiGlobals globals = WydatkiGlobals.getInstance();
 		ArrayList<Project> projects = globals.getProjectsList();
-		if (projects != null) {
 
-			ArrayList<SpinnerObject> items = new ArrayList<SpinnerObject>();
-			items.add(new SpinnerObject(-1, getText(R.string.no_selected_value)
-					.toString()));
+		ArrayList<SpinnerObject> items = new ArrayList<SpinnerObject>();
+		items.add(new SpinnerObject(-1, getText(R.string.no_selected_value)
+				.toString()));
 
+		if (projects != null)
 			for (Project item : projects) {
 				if (item.isActive())
 					items.add(new SpinnerObject(item.getId(), item.getName()));
 			}
 
-			SpinnerObject[] strArray = new SpinnerObject[items.size()];
-			items.toArray(strArray);
+		SpinnerObject[] strArray = new SpinnerObject[items.size()];
+		items.toArray(strArray);
 
-			SpinnerAdapter adapter = new SpinnerAdapter(getActivity(),
-					android.R.layout.simple_spinner_item, strArray);
+		SpinnerAdapter adapter = new SpinnerAdapter(getActivity(),
+				android.R.layout.simple_spinner_item, strArray);
 
-			spn_project.setAdapter(adapter);
-		} else
-			ll_project.setVisibility(LinearLayout.GONE);
+		spn_project.setAdapter(adapter);
+
 	}
 
 	private void getAccounts(Spinner spinner) {
@@ -491,15 +490,6 @@ public class TransactionFragment extends ObjectBaseFragment {
 		adapter = new InvokeTransactionAdapter(getActivity(), helper.items);
 	}
 
-	private class Transactionhelper {
-		private int accMinusPosition = -1;
-		private int accPlusPosition = -1;
-		private int categoryPosition = -1;
-		private int projektPosition = -1;
-		private String value = "";
-		ArrayList<InvokeTransactionParameter> items;
-	}
-
 	@Override
 	public ArrayList<Integer> getSelectedItemsList() {
 		return null;
@@ -512,5 +502,119 @@ public class TransactionFragment extends ObjectBaseFragment {
 					* (isPositive.isChecked() ? 1 : -1);
 
 		return 0.0;
+	}
+
+	public ValidationHelper<Transaction> getCurrentTransaction() {
+		prepareToSave();
+
+		ValidationHelper<Transaction> result = new ValidationHelper<Transaction>();
+		result.isValid = true;
+		result.item = currentTransaction;
+
+		return result;
+	}
+
+	private void prepareToSave() {
+		String valueTxt = value.getText().toString();
+		String noteTxt = note.getText().toString();
+		// if (valueTxt.length() == 0) {
+		// AlertDialog warning = DialogFactory.create(DialogType.ErrorDialog,
+		// null, this, null);
+		// warning.setMessage(getText(R.string.dialog_no_value));
+		// warning.show();
+		//
+		// } else
+		{
+
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.YEAR, Year);
+			cal.set(Calendar.MONTH, month);
+			cal.set(Calendar.DAY_OF_MONTH, day);
+			cal.set(Calendar.HOUR_OF_DAY, hour);
+			cal.set(Calendar.MINUTE, minute);
+
+			currentTransaction.setValue(Double.parseDouble(valueTxt));
+			currentTransaction.setNote(noteTxt);
+			currentTransaction.setDate(cal.getTime());
+
+			if (!isTransfer) {
+				int accountFromId = ((SpinnerObject) accountFrom
+						.getSelectedItem()).getId();
+
+				int projectId = ((SpinnerObject) spn_project.getSelectedItem())
+						.getId();
+
+				if (projectId > 0) {
+					currentTransaction.setProjectId(projectId);
+				}
+
+				currentTransaction.setAccMinus(accountFromId);
+				int accountToId = -1;
+				if (isTransfer) {
+					accountToId = ((SpinnerObject) accountTo.getSelectedItem())
+							.getId();
+					currentTransaction.setAccPlus(accountToId);
+				}
+
+				if (isPositive.isChecked()) {
+					accountToId = accountFromId;
+					currentTransaction.setAccPlus(accountToId);
+					currentTransaction.setAccMinus(0);
+				}
+
+				int categoryId = ((SpinnerObject) category.getSelectedItem())
+						.getId();
+
+				Category c = new Category();
+				c.setId(categoryId);
+				if (hasAdditionalParameters) {
+					ArrayList<Parameter> items = new ArrayList<Parameter>();
+					ArrayList<InvokeTransactionParameter> parameters = adapter
+							.getAllItems();
+					for (InvokeTransactionParameter item : parameters) {
+						items.add(new Parameter(item.getId(), item.getValue()));
+					}
+					Parameter[] elements = new Parameter[items.size()];
+					c.setAttributes(items.toArray(elements));
+				}
+
+				currentTransaction.setCategory(c);
+			} else if (isTransfer) {
+				int accountFromId = ((SpinnerObject) accountFrom
+						.getSelectedItem()).getId();
+				int accountToId = ((SpinnerObject) accountTo.getSelectedItem())
+						.getId();
+				currentTransaction.setAccMinus(accountFromId);
+				currentTransaction.setAccPlus(accountToId);
+			}
+		}
+	}
+
+	private class Transactionhelper {
+		private int accMinusPosition = -1;
+		private int accPlusPosition = -1;
+		private int categoryPosition = -1;
+		private int projektPosition = -1;
+		private String value = "";
+		ArrayList<InvokeTransactionParameter> items;
+	}
+
+	public class ValidationHelper<T> {
+		private boolean isValid = false;
+		private String errorMessage;
+		private T item;
+
+		public boolean isValid() {
+			return isValid;
+		}
+
+		public String getErrorMessage() {
+			return errorMessage;
+		}
+
+		public T getItem() {
+			return item;
+		}
+
 	}
 }
