@@ -7,6 +7,6 @@ public interface IObjectRepositoryItemCointainer<T> extends
 
 	public ItemsContainer<T> readAll();
 
-	public ItemsContainer<T> readAll(int skip, int count);
+	public ItemsContainer<T> readAll(int skip, int count, int accountId);
 
 }

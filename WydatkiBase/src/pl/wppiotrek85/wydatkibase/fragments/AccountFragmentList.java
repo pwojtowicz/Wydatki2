@@ -83,7 +83,8 @@ public class AccountFragmentList extends ObjectBaseFragment {
 
 					public boolean onItemLongClick(AdapterView<?> arg0,
 							View arg1, int pos, long id) {
-						actions.onUpdateObject(adapter.getItem(pos));
+						actions.onShowAccountTransactions(((Account) adapter
+								.getItem(pos)).getId());
 						return true;
 					}
 				});

@@ -20,20 +20,21 @@ public class ObjectManager {
 	public ObjectManager(ERepositoryTypes type, IReadRepository listener,
 			ERepositoryManagerMethods method) {
 		IObjectRepository repository = createRepository(type);
-		startTask(repository, listener, method, null, -1, -1);
+		startTask(repository, listener, method, null, -1, -1, -1);
 	}
 
 	public ObjectManager(ERepositoryTypes type, IReadRepository listener,
-			int skip, int take) {
+			int skip, int take, int accountId) {
 		IObjectRepository repository = createRepository(type);
 		startTask(repository, listener,
-				ERepositoryManagerMethods.ReadAllWithSkip, null, skip, take);
+				ERepositoryManagerMethods.ReadAllWithSkip, null, skip, take,
+				accountId);
 	}
 
 	public ObjectManager(ERepositoryTypes type, IReadRepository listener,
 			ERepositoryManagerMethods method, ModelBase item) {
 		IObjectRepository repository = createRepository(type);
-		startTask(repository, listener, method, item, -1, -1);
+		startTask(repository, listener, method, item, -1, -1, -1);
 	}
 
 	public ObjectManager(ERepositoryTypes type, IReadRepository listener,
@@ -60,7 +61,7 @@ public class ObjectManager {
 
 	private void startTask(IObjectRepository repository,
 			IReadRepository listener, ERepositoryManagerMethods method,
-			ModelBase item, int skip, int take) {
+			ModelBase item, int skip, int take, int accountId) {
 		ReadRepositoryAsyncTask task;
 		if (item != null)
 			task = new ReadRepositoryAsyncTask(listener, method, repository,
@@ -70,6 +71,7 @@ public class ObjectManager {
 				Bundle b = new Bundle();
 				b.putInt(ReadRepositoryAsyncTask.BUNDLE_SKIP, skip);
 				b.putInt(ReadRepositoryAsyncTask.BUNDLE_TAKE, take);
+				b.putInt(ReadRepositoryAsyncTask.BUNDLE_ID, accountId);
 				task = new ReadRepositoryAsyncTask(listener, method,
 						repository, b);
 			} else

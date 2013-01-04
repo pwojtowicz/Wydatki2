@@ -1,6 +1,7 @@
 package pl.wppiotrek85.wydatkibase.support;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
@@ -175,8 +176,23 @@ public class WydatkiGlobals {
 		this.categoriesDictionary = dictionary;
 	}
 
-	public void setTransactionsContainer(ItemsContainer<Transaction> container) {
-		this.transactionsContainer = container;
+	public void setTransactionsContainer(ItemsContainer<Transaction> container,
+			boolean canAdd) {
+		if (this.transactionsContainer == null || canAdd == false)
+			this.transactionsContainer = container;
+		else {
+			ArrayList<Transaction> oldTransactions = new ArrayList<Transaction>(
+					Arrays.asList(this.transactionsContainer.getItems()));
+			ArrayList<Transaction> newTransactions = new ArrayList<Transaction>(
+					Arrays.asList(container.getItems()));
+
+			oldTransactions.addAll(newTransactions);
+
+			this.transactionsContainer.setItems(oldTransactions
+					.toArray(new Transaction[oldTransactions.size()]));
+			this.transactionsContainer.setTotalCount(container.getTotalCount());
+
+		}
 	}
 
 	public static boolean isLocalVersion() {

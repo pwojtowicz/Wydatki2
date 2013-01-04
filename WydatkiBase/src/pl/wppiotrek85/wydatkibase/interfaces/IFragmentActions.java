@@ -8,4 +8,6 @@ public interface IFragmentActions {
 
 	public void onUpdateObject(Object item);
 
+	public void onShowAccountTransactions(int accountId);
+
 }

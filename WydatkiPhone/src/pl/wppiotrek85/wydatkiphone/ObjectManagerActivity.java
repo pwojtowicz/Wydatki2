@@ -186,4 +186,9 @@ public class ObjectManagerActivity extends FragmentActivity implements
 		startActivityForResult(i, resultCode);
 	}
 
+	@Override
+	public void onShowAccountTransactions(int accountId) {
+
+	}
+
 }

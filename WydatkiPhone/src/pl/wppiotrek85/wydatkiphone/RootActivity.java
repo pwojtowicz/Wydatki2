@@ -60,11 +60,11 @@ public class RootActivity extends FragmentActivity implements
 
 		fragments = new ArrayList<FragmentObject>();
 
-		fragments.add(new FragmentObject(new AccountFragmentList(true, false),
-				"Konta", null));
+		fragments.add(new FragmentObject(new AccountFragmentList(true, this,
+				false), "Konta", null));
 
 		fragments.add(new FragmentObject(new TransactionsFragmentList(true,
-				false), "Transakcje", null));
+				false, 0), "Transakcje", null));
 
 		fragments.add(new FragmentObject(new SettingsFragment(true),
 				"Ustawienia", null));
@@ -270,6 +270,18 @@ public class RootActivity extends FragmentActivity implements
 	public void onTaskInvalidResponse(RepositoryException exception) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onShowAccountTransactions(int accountId) {
+		Intent intent = new Intent(this, SingleObjectTyleList.class);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(SingleObjectTyleList.BUNDLE_OBJECT_TYPE,
+				EObjectTypes.Transactions);
+		bundle.putInt(SingleObjectTyleList.BUNDLE_ACCOUNT_ID, accountId);
+		intent.putExtras(bundle);
+
+		startActivity(intent);
 	}
 
 }

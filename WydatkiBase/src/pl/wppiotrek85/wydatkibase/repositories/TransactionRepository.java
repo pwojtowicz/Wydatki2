@@ -42,7 +42,9 @@ public class TransactionRepository implements
 			if (result != 0)
 				dbm.getDataBase().setTransactionSuccessful();
 		} catch (SQLException e) {
-
+			System.out.println(e.getMessage());
+		} catch (RepositoryException e) {
+			e.printStackTrace();
 		} finally {
 			dbm.getDataBase().endTransaction();
 			dbm.close();
@@ -60,7 +62,9 @@ public class TransactionRepository implements
 			createTransaction(item, dbm);
 			dbm.getDataBase().setTransactionSuccessful();
 		} catch (SQLException e) {
-
+			System.out.println(e.getMessage());
+		} catch (RepositoryException e) {
+			e.printStackTrace();
 		} finally {
 			dbm.getDataBase().endTransaction();
 			dbm.close();
@@ -68,8 +72,15 @@ public class TransactionRepository implements
 		return (int) result;
 	}
 
-	private int createTransaction(Transaction item, DataBaseManager dbm) {
+	private int createTransaction(Transaction item, DataBaseManager dbm)
+			throws RepositoryException {
 		long result = 0;
+
+		AccountRepository accountRepo = new AccountRepository(dbm);
+
+		if (item.getCategory() == null)
+			item.setCategory(new Category(-1));
+
 		SQLiteStatement insertStmt = dbm.getDataBase().compileStatement(
 				INSERT_TO_TRANSACTION);
 		insertStmt.bindLong(1, item.getAccPlus());
@@ -80,6 +91,15 @@ public class TransactionRepository implements
 		insertStmt.bindLong(6, item.getCategory().getId());
 		insertStmt.bindLong(7, item.getProjectId());
 		result = insertStmt.executeInsert();
+
+		if (item.getAccMinus() > 0)
+			accountRepo.updateAccountBalance(item.getAccMinus(),
+					item.getValue(), false);
+
+		if (item.getAccPlus() > 0)
+			accountRepo.updateAccountBalance(item.getAccPlus(),
+					item.getValue(), true);
+
 		if (result > 0) {
 			int id = 0;
 			if (item.getCategory() != null
@@ -139,28 +159,31 @@ public class TransactionRepository implements
 				.query(WydatkiBaseHelper.TABLE_TRANSACTION,
 						new String[] { "ID,AccPlus, AccMinus, Value,ActionDate, Note, CategoryId, ProjectId" },
 						null, null, null, null, "ActionDate");
-		return read(cursor);
+		return read(cursor, 0);
 	}
 
 	@Override
-	public ItemsContainer<Transaction> readAll(int skip, int count) {
+	public ItemsContainer<Transaction> readAll(int skip, int count,
+			int accountId) {
 		dbm.checkIsOpen();
 		Cursor cursor = dbm
 				.getDataBase()
 				.query(WydatkiBaseHelper.TABLE_TRANSACTION,
 						new String[] { "ID,AccPlus, AccMinus, Value,ActionDate, Note, CategoryId, ProjectId" },
-						null,
-						null,
+						(accountId > 0 ? "AccPlus = ? OR AccMinus = ?" : null),
+						(accountId > 0 ? new String[] {
+								String.valueOf(accountId),
+								String.valueOf(accountId) } : null),
 						null,
 						null,
 						"ActionDate DESC "
 								+ String.format("LIMIT %d, %d", skip, count));
-		return read(cursor);
+		return read(cursor, accountId);
 	}
 
-	private ItemsContainer<Transaction> read(Cursor cursor) {
+	private ItemsContainer<Transaction> read(Cursor cursor, int accountId) {
 		ItemsContainer<Transaction> container = new ItemsContainer<Transaction>();
-		container.setTotalCount(8);
+		container.setTotalCount(getTransactionTotalCount(accountId));
 
 		ArrayList<Transaction> list = new ArrayList<Transaction>();
 
@@ -186,6 +209,23 @@ public class TransactionRepository implements
 		container.setItems(list.toArray(new Transaction[list.size()]));
 
 		return container;
+	}
+
+	public int getTransactionTotalCount(int accoutnId) {
+		try {
+			String sql = " WHERE AccPlus =" + String.valueOf(accoutnId)
+					+ " || AccMinus =" + String.valueOf(accoutnId);
+			if (accoutnId == 0)
+				sql = "";
+			Cursor c = dbm.getDataBase().rawQuery(
+					"Select Count(1) From "
+							+ WydatkiBaseHelper.TABLE_TRANSACTION + sql, null);
+			c.moveToFirst();
+			return c.getInt(0);
+		} catch (Exception e) {
+			return -1;
+		}
+
 	}
 
 }

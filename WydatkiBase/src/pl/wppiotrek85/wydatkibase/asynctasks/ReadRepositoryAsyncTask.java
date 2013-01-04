@@ -131,9 +131,10 @@ public class ReadRepositoryAsyncTask extends AsyncTask<Void, Void, Void> {
 				if (bundle != null) {
 					int skip = bundle.getInt(BUNDLE_SKIP, 0);
 					int take = bundle.getInt(BUNDLE_TAKE, 0);
+					int accountId = bundle.getInt(BUNDLE_ID, 0);
 					if (repository instanceof IObjectRepositoryItemCointainer)
 						response.bundle = ((IObjectRepositoryItemCointainer) repository)
-								.readAll(skip, take);
+								.readAll(skip, take, accountId);
 					else
 						throw new RepositoryException(
 								ERepositoryException.RepositoryDoNotSupportsSkipAndTake);

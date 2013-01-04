@@ -27,8 +27,16 @@ public class TransactionsFragmentList extends ObjectBaseFragment implements
 	private ObjectManager manager;
 	private TransactionAdapter adapter;
 
-	public TransactionsFragmentList(boolean shouldReload, Boolean isChecakble) {
+	private int skip = 0;
+	private int take = 20;
+	private boolean readMore = false;
+	private boolean hasMore = false;
+	private int accountId = 0;
+
+	public TransactionsFragmentList(boolean shouldReload, Boolean isChecakble,
+			int accountId) {
 		super(shouldReload, isChecakble);
+		this.accountId = accountId;
 	}
 
 	@Override
@@ -46,8 +54,9 @@ public class TransactionsFragmentList extends ObjectBaseFragment implements
 	public void onTaskResponse(AsyncTaskResult response) {
 		if (response.bundle instanceof ItemsContainer) {
 			ItemsContainer<Transaction> containt = (ItemsContainer<Transaction>) response.bundle;
-
-			WydatkiGlobals.getInstance().setTransactionsContainer(containt);
+			this.skip += containt.getItems().length;
+			WydatkiGlobals.getInstance().setTransactionsContainer(containt,
+					readMore ? true : false);
 			refreshFragment(false);
 		}
 	}
@@ -72,15 +81,20 @@ public class TransactionsFragmentList extends ObjectBaseFragment implements
 			if (list == null)
 				forceRefresh = true;
 			else {
+				this.hasMore = container.hasMore();
 				adapter = new TransactionAdapter(getActivity(), list,
-						container.hasMore());
+						this.hasMore);
+
 				objectListView.setAdapter(adapter);
 			}
 		}
 
 		if (forceRefresh) {
+			skip = 0;
+			readMore = false;
+			hasMore = false;
 			manager = new ObjectManager(ERepositoryTypes.Transactions, this, 0,
-					1);
+					take, accountId);
 		}
 	}
 
@@ -95,10 +109,16 @@ public class TransactionsFragmentList extends ObjectBaseFragment implements
 		Object o = view.getTag();
 		if (o instanceof ViewState) {
 			ViewState state = (ViewState) o;
-			if (state == ViewState.DownloadMore) {
+			if (state == ViewState.DownloadMore && hasMore) {
 				adapter.getMoreTransactions();
+				getMoreTransactions();
 			}
 		}
+	}
 
+	private void getMoreTransactions() {
+		readMore = true;
+		manager = new ObjectManager(ERepositoryTypes.Transactions, this, skip,
+				take, accountId);
 	}
 }

@@ -3,6 +3,7 @@ package pl.wppiotrek85.wydatkiphone;
 import pl.wppiotrek85.wydatkibase.enums.EObjectTypes;
 import pl.wppiotrek85.wydatkibase.fragments.ObjectBaseFragment;
 import pl.wppiotrek85.wydatkibase.fragments.ParameterFragmentList;
+import pl.wppiotrek85.wydatkibase.fragments.TransactionsFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.edit.EditCategoryFragment;
 import pl.wppiotrek85.wydatkibase.interfaces.IFragmentActions;
 import pl.wppiotrek85.wydatkibase.support.ListSupport;
@@ -19,6 +20,7 @@ public class SingleObjectTyleList extends FragmentActivity implements
 	public static final String BUNDLE_OBJECT_TYPE = "ObjectType";
 	public static final String BUNDLE_SELECTED_PARAMETERS_FOR_CATEGORY = "1";
 	public static final String BUNDLE_SELECT_PARAMETER_FOR_CATEGORY = "2";
+	public static final String BUNDLE_ACCOUNT_ID = "3";
 	ObjectBaseFragment details = null;
 	private boolean isSelectedForCategory;
 
@@ -39,6 +41,8 @@ public class SingleObjectTyleList extends FragmentActivity implements
 			isSelectedForCategory = bundle.getBoolean(
 					BUNDLE_SELECT_PARAMETER_FOR_CATEGORY, false);
 
+			int accountId = bundle.getInt(BUNDLE_ACCOUNT_ID, 0);
+
 			switch (type) {
 			case Parameter:
 				details = new ParameterFragmentList(
@@ -47,6 +51,9 @@ public class SingleObjectTyleList extends FragmentActivity implements
 						isChecakble,
 						bundle.getString(BUNDLE_SELECTED_PARAMETERS_FOR_CATEGORY),
 						true);
+				break;
+			case Transactions:
+				details = new TransactionsFragmentList(true, false, accountId);
 				break;
 			default:
 				break;
@@ -110,6 +117,11 @@ public class SingleObjectTyleList extends FragmentActivity implements
 	@Override
 	public void onUpdateObject(Object item) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onShowAccountTransactions(int accountId) {
 
 	}
 
