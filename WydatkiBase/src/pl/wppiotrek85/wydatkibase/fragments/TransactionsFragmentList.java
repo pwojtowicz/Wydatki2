@@ -9,15 +9,19 @@ import pl.wppiotrek85.wydatkibase.asynctasks.ReadRepositoryAsyncTask.AsyncTaskRe
 import pl.wppiotrek85.wydatkibase.entities.ItemsContainer;
 import pl.wppiotrek85.wydatkibase.entities.Transaction;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
+import pl.wppiotrek85.wydatkibase.enums.ViewState;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class TransactionsFragmentList extends ObjectBaseFragment {
+public class TransactionsFragmentList extends ObjectBaseFragment implements
+		OnItemClickListener {
 
 	private ListView objectListView;
 	private ObjectManager manager;
@@ -25,7 +29,6 @@ public class TransactionsFragmentList extends ObjectBaseFragment {
 
 	public TransactionsFragmentList(boolean shouldReload, Boolean isChecakble) {
 		super(shouldReload, isChecakble);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -35,6 +38,7 @@ public class TransactionsFragmentList extends ObjectBaseFragment {
 				R.layout.fragment_transactions_list, null);
 
 		objectListView = (ListView) convertView.findViewById(R.id.listview);
+		objectListView.setOnItemClickListener(this);
 		return convertView;
 	}
 
@@ -71,19 +75,30 @@ public class TransactionsFragmentList extends ObjectBaseFragment {
 				adapter = new TransactionAdapter(getActivity(), list,
 						container.hasMore());
 				objectListView.setAdapter(adapter);
-
 			}
 		}
 
 		if (forceRefresh) {
 			manager = new ObjectManager(ERepositoryTypes.Transactions, this, 0,
-					2);
+					1);
 		}
 	}
 
 	@Override
 	public ArrayList<Integer> getSelectedItemsList() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		Object o = view.getTag();
+		if (o instanceof ViewState) {
+			ViewState state = (ViewState) o;
+			if (state == ViewState.DownloadMore) {
+				adapter.getMoreTransactions();
+			}
+		}
+
 	}
 }

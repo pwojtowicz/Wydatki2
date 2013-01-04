@@ -160,7 +160,7 @@ public class TransactionRepository implements
 
 	private ItemsContainer<Transaction> read(Cursor cursor) {
 		ItemsContainer<Transaction> container = new ItemsContainer<Transaction>();
-		container.setTotalCount(4);
+		container.setTotalCount(8);
 
 		ArrayList<Transaction> list = new ArrayList<Transaction>();
 

@@ -7,6 +7,7 @@ import pl.wppiotrek85.wydatkibase.entities.Transaction;
 import pl.wppiotrek85.wydatkibase.enums.ViewState;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import pl.wppiotrek85.wydatkibase.units.UnitConverter;
+import pl.wppiotrek85.wydatkibase.views.ControlListRowView;
 import pl.wppiotrek85.wydatkibase.views.ViewType;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ public class TransactionAdapter extends BaseAdapter {
 	private ArrayList<Transaction> items = new ArrayList<Transaction>();
 	private LayoutInflater mInflater;
 	private View controlView;
+	private ViewState actualControlState = ViewState.Normal;
 
 	public TransactionAdapter(Context context, ArrayList<Transaction> list,
 			boolean hasMore) {
@@ -30,8 +32,10 @@ public class TransactionAdapter extends BaseAdapter {
 		if (list != null)
 			this.items = list;
 
-		if (hasMore)
+		if (hasMore) {
 			this.items.add(null);
+			actualControlState = ViewState.DownloadMore;
+		}
 	}
 
 	public int getCount() {
@@ -89,13 +93,13 @@ public class TransactionAdapter extends BaseAdapter {
 						.inflate(R.layout.row_control_view, null);
 				break;
 			}
-
 		}
 		if (o != null) {
+			TransactionAdapterObjectHandler ohs = (TransactionAdapterObjectHandler) convertView
+					.getTag();
 			fillRow(convertView, o, index);
 		} else {
-			controlView = convertView;
-			setDownloadView();
+			setDownloadView(convertView);
 		}
 
 		return convertView;
@@ -151,14 +155,11 @@ public class TransactionAdapter extends BaseAdapter {
 
 	}
 
-	private void setDownloadView() {
-		// ControlView control = new ControlView(context, controlView,
-		// controlViewState);
-		// control.addCustomMessage(ViewState.Normal,
-		// R.string.transaction_list_get_more_issues);
-		// control.addCustomMessage(ViewState.Downloading,
-		// R.string.transaction_list_getting_more_issues);
-		// controlView = control.getView();
+	private void setDownloadView(View convertView) {
+		ControlListRowView control = new ControlListRowView(context,
+				convertView, actualControlState);
+
+		controlView = control.getView();
 	}
 
 	public class TransactionAdapterObjectHandler {
@@ -168,6 +169,12 @@ public class TransactionAdapter extends BaseAdapter {
 		public TextView note;
 		public TextView date;
 
+	}
+
+	public void getMoreTransactions() {
+		actualControlState = ViewState.Downloading;
+		// setDownloadView(controlView);
+		this.notifyDataSetChanged();
 	}
 
 }

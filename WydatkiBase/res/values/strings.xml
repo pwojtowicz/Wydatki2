@@ -60,5 +60,10 @@
     
     <string name="edit_category_add_parameter">dodaj parametr</string>
     
+    <string name="get_more_data">Pobierz kolejne</string>
+    <string name="nothing_to_show_on_list">Brak elementów</string>
+    <string name="download_error_try_again">Błąd, spróbuj ponownie</string>
+     <string name="getting_more_data">Pobieranie danych</string>
+    
 
 </resources>
