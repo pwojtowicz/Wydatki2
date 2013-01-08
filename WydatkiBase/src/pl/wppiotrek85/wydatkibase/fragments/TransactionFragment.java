@@ -466,6 +466,8 @@ public class TransactionFragment extends ObjectBaseFragment {
 			helper.categoryPosition = category.getSelectedItemPosition();
 		}
 
+		helper.note = note.getText().toString().trim();
+
 		helper.value = value.getText().toString();
 
 		if (adapter != null)
@@ -486,6 +488,7 @@ public class TransactionFragment extends ObjectBaseFragment {
 			category.setSelection(helper.categoryPosition);
 		}
 		value.setText(helper.value);
+		note.setText(helper.note);
 
 		adapter = new InvokeTransactionAdapter(getActivity(), helper.items);
 	}
@@ -496,6 +499,8 @@ public class TransactionFragment extends ObjectBaseFragment {
 	}
 
 	public double getCurrentValue() {
+		if (isTransfer)
+			return 0.0;
 		String v = value.getText().toString().trim();
 		if (value.length() > 0)
 			return Double.parseDouble(value.getText().toString())
@@ -591,6 +596,7 @@ public class TransactionFragment extends ObjectBaseFragment {
 	}
 
 	private class Transactionhelper {
+		private String note = "";
 		private int accMinusPosition = -1;
 		private int accPlusPosition = -1;
 		private int categoryPosition = -1;

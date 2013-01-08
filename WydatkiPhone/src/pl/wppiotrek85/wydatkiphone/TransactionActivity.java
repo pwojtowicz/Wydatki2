@@ -106,7 +106,8 @@ public class TransactionActivity extends FragmentActivity implements
 			for (int i = 0; i < menu.size(); i++) {
 				MenuItem item = menu.getItem(i);
 				switch (item.getItemId()) {
-				case R.id.menu_add:
+				case R.id.menu_add_transfer:
+				case R.id.menu_add_transaction:
 					item.setVisible(false);
 				case R.id.menu_delete:
 					item.setVisible(false);
@@ -122,8 +123,11 @@ public class TransactionActivity extends FragmentActivity implements
 		case R.id.menu_save:
 			saveTransactions();
 			return true;
-		case R.id.menu_add:
-			btnAddView();
+		case R.id.menu_add_transaction:
+			btnAddTransactionView();
+			return true;
+		case R.id.menu_add_transfer:
+			btnAddTransferView();
 			return true;
 		case R.id.menu_delete:
 			btnRemoveView();
@@ -133,7 +137,7 @@ public class TransactionActivity extends FragmentActivity implements
 		}
 	}
 
-	public void btnAddView() {
+	public void btnAddTransactionView() {
 		i++;
 		Bundle b = new Bundle();
 		// b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION,
@@ -142,6 +146,19 @@ public class TransactionActivity extends FragmentActivity implements
 		b.putInt("INDEX", i);
 		fAdapter.addFragment(new FragmentObject(new TransactionFragment(true,
 				this), "Transakcja " + String.valueOf(i), b));
+		setBtnEnabledState();
+		mViewPager.setCurrentItem(fAdapter.getCount() - 1, true);
+	}
+
+	public void btnAddTransferView() {
+		i++;
+		Bundle b = new Bundle();
+		// b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION,
+		// isTransaction);
+		b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSFER, true);
+		b.putInt("INDEX", i);
+		fAdapter.addFragment(new FragmentObject(new TransactionFragment(true,
+				this), "Transfer " + String.valueOf(i), b));
 		setBtnEnabledState();
 		mViewPager.setCurrentItem(fAdapter.getCount() - 1, true);
 	}

@@ -112,9 +112,10 @@ public final class R {
         public static final int listview=0x7f080031;
         public static final int ll_transactions=0x7f08002e;
         public static final int llh=0x7f08002c;
-        public static final int menu_add=0x7f080078;
-        public static final int menu_delete=0x7f080079;
-        public static final int menu_refresh=0x7f08007a;
+        public static final int menu_add_transaction=0x7f080078;
+        public static final int menu_add_transfer=0x7f080079;
+        public static final int menu_delete=0x7f08007a;
+        public static final int menu_refresh=0x7f08007b;
         public static final int menu_save=0x7f080077;
         public static final int menu_settings=0x7f080076;
         public static final int new_cbx_visibleForAll=0x7f08002a;

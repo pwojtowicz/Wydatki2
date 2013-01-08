@@ -26,7 +26,7 @@ public class InvokeTransactionAdapter extends BaseAdapter {
 	}
 
 	public int getCount() {
-		return this.items.size();
+		return this.items == null ? 0 : this.items.size();
 	}
 
 	public Object getItem(int index) {

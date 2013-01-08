@@ -7,10 +7,16 @@
         android:title="Zapisz"/>
      
     <item
-        android:id="@+id/menu_add"
+        android:id="@+id/menu_add_transaction"
         android:showAsAction="collapseActionView"
         android:icon="@android:drawable/ic_input_add"
-        android:title="Dodaj"/>
+        android:title="Dodaj transakcję"/>
+    
+    <item
+        android:id="@+id/menu_add_transfer"
+        android:showAsAction="collapseActionView"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="Dodaj transfer"/>
     
     <item
         android:id="@+id/menu_delete"
