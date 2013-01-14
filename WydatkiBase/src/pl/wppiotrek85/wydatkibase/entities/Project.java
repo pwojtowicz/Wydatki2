@@ -1,11 +1,21 @@
 package pl.wppiotrek85.wydatkibase.entities;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonSerialize(include = Inclusion.NON_NULL)
 public class Project extends ModelBase {
 
+	@JsonProperty("Name")
 	private String name;
 
+	@JsonProperty("IsActive")
 	private Boolean isActive;
 
+	@JsonProperty("IsVisibleForAll")
 	private Boolean isVisibleForAll;
 
 	/**

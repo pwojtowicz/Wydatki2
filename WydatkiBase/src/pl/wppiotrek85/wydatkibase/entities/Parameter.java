@@ -1,5 +1,12 @@
 package pl.wppiotrek85.wydatkibase.entities;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonSerialize(include = Inclusion.NON_NULL)
 public class Parameter extends ModelBase {
 
 	public Parameter() {
@@ -20,16 +27,22 @@ public class Parameter extends ModelBase {
 		this.setValue(value);
 	}
 
+	@JsonProperty("Name")
 	private String name;
 
+	@JsonProperty("DefaultValue")
 	private String defaultValue;
 
+	@JsonProperty("Value")
 	private String value;
 
+	@JsonProperty("Type")
 	private int typeId;
 
+	@JsonProperty("IsActive")
 	private Boolean isActive;
 
+	@JsonProperty("DataSource")
 	private String dataSource;
 
 	/**

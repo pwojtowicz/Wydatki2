@@ -16,7 +16,9 @@ public class WydatkiGlobals {
 
 	private static volatile WydatkiGlobals instance = null;
 
-	private static final boolean isLocalVersion = true;
+	private static final boolean isLocalVersion = false;
+
+	private static final String server = "http://imdemo.billennium.pl:121/pwojtowiczWS";
 
 	public static WydatkiGlobals getInstance() {
 		if (instance == null) {
@@ -53,6 +55,8 @@ public class WydatkiGlobals {
 	}
 
 	public Account getAccountById(int accountId) {
+		if (accountsDictionary == null)
+			return null;
 		return accountsDictionary.get(accountId);
 
 	}
@@ -197,6 +201,10 @@ public class WydatkiGlobals {
 
 	public static boolean isLocalVersion() {
 		return isLocalVersion;
+	}
+
+	public static String getServer() {
+		return server;
 	}
 
 }

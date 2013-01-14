@@ -13,6 +13,12 @@ import pl.wppiotrek85.wydatkibase.repositories.CategoryRepository;
 import pl.wppiotrek85.wydatkibase.repositories.ParameterRepository;
 import pl.wppiotrek85.wydatkibase.repositories.ProjectRepository;
 import pl.wppiotrek85.wydatkibase.repositories.TransactionRepository;
+import pl.wppiotrek85.wydatkibase.repositoriesweb.AccountRepositoryWeb;
+import pl.wppiotrek85.wydatkibase.repositoriesweb.CategoryRepositoryWeb;
+import pl.wppiotrek85.wydatkibase.repositoriesweb.ParameterRepositoryWeb;
+import pl.wppiotrek85.wydatkibase.repositoriesweb.ProjectRepositoryWeb;
+import pl.wppiotrek85.wydatkibase.repositoriesweb.TransactionRepositoryWeb;
+import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import android.os.Bundle;
 
 public class ObjectManager {
@@ -44,17 +50,33 @@ public class ObjectManager {
 	}
 
 	private IObjectRepository createRepository(ERepositoryTypes type) {
-		switch (type) {
-		case Accounts:
-			return new AccountRepository();
-		case Categories:
-			return new CategoryRepository();
-		case Projects:
-			return new ProjectRepository();
-		case Parameters:
-			return new ParameterRepository();
-		case Transactions:
-			return new TransactionRepository();
+		if (WydatkiGlobals.getInstance().isLocalVersion()) {
+			switch (type) {
+			case Accounts:
+				return new AccountRepository();
+			case Categories:
+				return new CategoryRepository();
+			case Projects:
+				return new ProjectRepository();
+			case Parameters:
+				return new ParameterRepository();
+			case Transactions:
+				return new TransactionRepository();
+			}
+		} else {
+
+			switch (type) {
+			case Accounts:
+				return new AccountRepositoryWeb();
+			case Categories:
+				return new CategoryRepositoryWeb();
+			case Projects:
+				return new ProjectRepositoryWeb();
+			case Parameters:
+				return new ParameterRepositoryWeb();
+			case Transactions:
+				return new TransactionRepositoryWeb();
+			}
 		}
 		return null;
 	}

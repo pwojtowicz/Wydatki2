@@ -2,20 +2,33 @@ package pl.wppiotrek85.wydatkibase.entities;
 
 import java.util.Date;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import pl.wppiotrek85.wydatkibase.support.JSONDateDeserializer;
+import pl.wppiotrek85.wydatkibase.support.JSONDateSerializer;
+
 public class Transaction extends ModelBase {
 
+	@JsonProperty("AccMinus")
 	private int accMinus;
-
+	@JsonProperty("AccPlus")
 	private int accPlus;
 
+	@JsonProperty("Note")
 	private String note;
-
+	@JsonProperty("Value")
 	private Double value;
 
+	@JsonDeserialize(using = JSONDateDeserializer.class)
+	@JsonProperty("Date")
 	private Date date;
 
+	@JsonProperty("CategoryID")
 	private Category category;
 
+	@JsonProperty("ProjectId")
 	private int projectId;
 
 	/**
@@ -81,6 +94,7 @@ public class Transaction extends ModelBase {
 	/**
 	 * @return the date
 	 */
+	@JsonSerialize(using = JSONDateSerializer.class)
 	public java.util.Date getDate() {
 		return date;
 	}

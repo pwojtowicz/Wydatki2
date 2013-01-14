@@ -2,6 +2,17 @@ package pl.wppiotrek85.wydatkibase.entities;
 
 import java.util.Date;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
+import pl.wppiotrek85.wydatkibase.support.JSONDateDeserializer;
+import pl.wppiotrek85.wydatkibase.support.JSONDateSerializer;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonSerialize(include = Inclusion.NON_NULL)
 public class Account extends ModelBase {
 
 	public Account() {
@@ -19,18 +30,26 @@ public class Account extends ModelBase {
 		this.setIsActive(isActive);
 	}
 
+	@JsonDeserialize(using = JSONDateDeserializer.class)
+	@JsonProperty("LastActionDate")
 	private Date lastActionDate;
 
+	@JsonProperty("Name")
 	private String name;
 
+	@JsonProperty("Balance")
 	private Double balance;
 
+	@JsonProperty("IsActive")
 	private Boolean isActive;
 
+	@JsonProperty("IsVisibleForAll")
 	private Boolean isVisibleForAll;
 
+	@JsonProperty("IsSumInGlobalBalance")
 	private Boolean isSumInGlobalBalance;
 
+	@JsonProperty("ImageIndex")
 	private Byte imageIndex;
 
 	public String getName() {
@@ -95,6 +114,7 @@ public class Account extends ModelBase {
 		this.imageIndex = imageIndex;
 	}
 
+	@JsonSerialize(using = JSONDateSerializer.class)
 	public Date getLastActionDate() {
 		return lastActionDate;
 	}
@@ -102,20 +122,5 @@ public class Account extends ModelBase {
 	public void setLastActionDate(Date lastActionDate) {
 		this.lastActionDate = lastActionDate;
 	}
-
-	// /**
-	// * @return the isVisibleForAll
-	// */
-	// public Boolean getIsVisibleForAll() {
-	// return isVisibleForAll;
-	// }
-	//
-	// /**
-	// * @param isVisibleForAll
-	// * the isVisibleForAll to set
-	// */
-	// public void setIsVisibleForAll(Boolean isVisibleForAll) {
-	// this.isVisibleForAll = isVisibleForAll;
-	// }
 
 }

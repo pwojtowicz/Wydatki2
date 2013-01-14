@@ -2,8 +2,14 @@ package pl.wppiotrek85.wydatkibase.entities;
 
 import java.util.ArrayList;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ItemsContainer<T> extends ModelBase {
+	@JsonProperty("Items")
 	private T[] items;
+	@JsonProperty("TotalCount")
 	private int totalCount;
 
 	public boolean isEmpty() {
