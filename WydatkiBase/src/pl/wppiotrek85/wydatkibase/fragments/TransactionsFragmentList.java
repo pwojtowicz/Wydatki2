@@ -121,4 +121,10 @@ public class TransactionsFragmentList extends ObjectBaseFragment implements
 		manager = new ObjectManager(ERepositoryTypes.Transactions, this, skip,
 				take, accountId);
 	}
+
+	@Override
+	public void changeEditListState() {
+		// TODO Auto-generated method stub
+
+	}
 }

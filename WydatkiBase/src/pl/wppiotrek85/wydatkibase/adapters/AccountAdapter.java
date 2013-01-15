@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.entities.Account;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.interfaces.IOnAdapterCheckboxClick;
 import pl.wppiotrek85.wydatkibase.units.AccountImages;
 import pl.wppiotrek85.wydatkibase.units.UnitConverter;
@@ -24,8 +25,9 @@ public class AccountAdapter extends BaseObjectAdapter<Account> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		convertView = inflater.inflate(R.layout.row_account_layout, null);
 
-		fillRow(convertView, getItem(position));
-
+		Object o = getItem(position);
+		fillRow(convertView, o);
+		super.setCheckableViewState(convertView, (ModelBase) o);
 		return convertView;
 	}
 

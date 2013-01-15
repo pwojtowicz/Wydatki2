@@ -19,7 +19,7 @@ public final class R {
 		public static final int edit_parameter_spn_type = 0x7f080021;
 		public static final int edit_parameter_cbx_defaultValue = 0x7f080027;
 		public static final int listview = 0x7f080031;
-		public static final int row_account_name = 0x7f080054;
+		public static final int row_account_name = 0x7f080055;
 		public static final int edit_account_tbtn_isPositive = 0x7f080016;
 		public static final int row_transaction_note = 0x7f080067;
 		public static final int rl_accounts_balance = 0x7f080032;
@@ -28,7 +28,7 @@ public final class R {
 		public static final int invoke_transaction_header_etbx_note = 0x7f08004f;
 		public static final int unit_btn_settings = 0x7f08006f;
 		public static final int invoke_transaction_header_btn_calculator = 0x7f08004c;
-		public static final int bottom_actionbar = 0x7f080034;
+		public static final int bottom_actionbar = 0x7f080033;
 		public static final int unit_btn_projects = 0x7f080071;
 		public static final int actionbar_btn_lock = 0x7f08000d;
 		public static final int linea = 0x7f08006b;
@@ -53,7 +53,7 @@ public final class R {
 		public static final int linearLayout3 = 0x7f080070;
 		public static final int invoke_action_dropdown_spiner = 0x7f08003b;
 		public static final int invoke_transaction_header_ll_account_from = 0x7f080041;
-		public static final int RelativeLayout1 = 0x7f080033;
+		public static final int RelativeLayout1 = 0x7f080034;
 		public static final int row_parameter_lock = 0x7f08005e;
 		public static final int invoke_transaction_header_ll_date = 0x7f08003e;
 		public static final int row_category_details = 0x7f08005a;
@@ -66,7 +66,7 @@ public final class R {
 		public static final int edit_parameter_ll_etbx_defaultValue = 0x7f080022;
 		public static final int invoke_transaction_header_tbn_ispositive = 0x7f08004a;
 		public static final int invoke_action_text_edittext = 0x7f080039;
-		public static final int row_cbx_selected = 0x7f080057;
+		public static final int row_cbx_selected = 0x7f080052;
 		public static final int edit_account_cbx_sumInGlobalbalance = 0x7f08001a;
 		public static final int include1 = 0x7f080012;
 		public static final int scrollView1 = 0x7f080013;
@@ -74,9 +74,9 @@ public final class R {
 		public static final int edit_account_cbx_visibleForAll = 0x7f080019;
 		public static final int invoke_transaction_header_spinner_account_to = 0x7f080044;
 		public static final int llh = 0x7f08002c;
-		public static final int row_account_balance = 0x7f080055;
+		public static final int row_account_balance = 0x7f080056;
 		public static final int edit_account_etxb_balance = 0x7f080017;
-		public static final int row_account_image = 0x7f080052;
+		public static final int row_account_image = 0x7f080053;
 		public static final int edit_parameter_etbx_dataSource = 0x7f080029;
 		public static final int actionbar_btn_returnSelected = 0x7f08000f;
 		public static final int row_category_lock = 0x7f080058;
@@ -101,9 +101,9 @@ public final class R {
 		public static final int invoke_transaction_header_etbx_value = 0x7f08004b;
 		public static final int account_btn_new_transfer = 0x7f080030;
 		public static final int relativeLayout1 = 0x7f08005b;
-		public static final int row_account_lock = 0x7f080053;
+		public static final int row_account_lock = 0x7f080054;
 		public static final int unit_btn_categories = 0x7f08006e;
-		public static final int row_account_last_action_date = 0x7f080056;
+		public static final int row_account_last_action_date = 0x7f080057;
 		public static final int row_transaction_value = 0x7f080065;
 		public static final int actionbar_btn_edit = 0x7f08000c;
 		public static final int row_parameter_name = 0x7f080060;
@@ -207,11 +207,12 @@ public final class R {
 		public static final int invoke_action_check_box = 0x7f030012;
 	}
 	public static final class drawable {
-		public static final int money = 0x7f020005;
-		public static final int btn_one_normal = 0x7f020001;
-		public static final int ic_launcher = 0x7f020004;
-		public static final int ic_action_search = 0x7f020003;
-		public static final int transparent_background = 0x7f020006;
-		public static final int btn_one_pressed = 0x7f020002;
+		public static final int money = 0x7f020006;
+		public static final int ic_launcher = 0x7f020005;
+		public static final int btn_one_normal = 0x7f020002;
+		public static final int ic_action_search = 0x7f020004;
+		public static final int transparent_background = 0x7f020007;
+		public static final int btn_one_pressed = 0x7f020003;
+		public static final int btn_one_disable = 0x7f020001;
 	}
 }

@@ -77,6 +77,8 @@ public abstract class ObjectBaseFragment extends BaseFragment implements
 
 	public abstract void refreshFragment(boolean forceRefresh);
 
+	public abstract void changeEditListState();
+
 	public abstract ArrayList<Integer> getSelectedItemsList();
 
 }

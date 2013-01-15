@@ -3,14 +3,13 @@ package pl.wppiotrek85.wydatkibase.adapters;
 import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.entities.Parameter;
 import pl.wppiotrek85.wydatkibase.interfaces.IOnAdapterCheckboxClick;
 import pl.wppiotrek85.wydatkibase.units.ParameterTypes;
 import android.content.Context;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,7 +30,9 @@ public class ParametersAdapter extends BaseObjectAdapter<Parameter> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		convertView = inflater.inflate(R.layout.row_parameter_layout, null);
 
-		fillRow(convertView, getItem(position), position);
+		Object o = getItem(position);
+		fillRow(convertView, o, position);
+		super.setCheckableViewState(convertView, (ModelBase) o);
 		return convertView;
 	}
 
@@ -47,36 +48,6 @@ public class ParametersAdapter extends BaseObjectAdapter<Parameter> {
 
 			ImageView lock = (ImageView) convertView
 					.findViewById(R.id.row_parameter_lock);
-
-			CheckBox cbx_selected = (CheckBox) convertView
-					.findViewById(R.id.row_cbx_selected);
-
-			cbx_selected.setTag(item.getId());
-			cbx_selected.setOnClickListener(new OnClickListener() {
-
-				public void onClick(View view) {
-					int objectId = (Integer) view.getTag();
-					if (((CheckBox) view).isChecked())
-						selectedItemsId.add(objectId);
-					else
-						selectedItemsId.remove(selectedItemsId
-								.indexOf(objectId));
-
-					if (listener != null)
-						listener.OnCheckBoxSelected(selectedItemsId.size());
-
-				}
-			});
-
-			if (isCheckable)
-				cbx_selected.setVisibility(CheckBox.VISIBLE);
-			else
-				cbx_selected.setVisibility(CheckBox.GONE);
-
-			if (selectedItemsId.contains(item.getId()))
-				cbx_selected.setChecked(true);
-			else
-				cbx_selected.setChecked(false);
 
 			if (item.isActive())
 				lock.setVisibility(ImageView.GONE);

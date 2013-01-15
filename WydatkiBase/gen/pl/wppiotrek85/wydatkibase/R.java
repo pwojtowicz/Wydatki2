@@ -24,12 +24,13 @@ public final class R {
         public static int yellow=0x7f060005;
     }
     public static final class drawable {
-        public static int btn_one_normal=0x7f020000;
-        public static int btn_one_pressed=0x7f020001;
-        public static int ic_action_search=0x7f020002;
-        public static int ic_launcher=0x7f020003;
-        public static int money=0x7f020004;
-        public static int transparent_background=0x7f020005;
+        public static int btn_one_disable=0x7f020000;
+        public static int btn_one_normal=0x7f020001;
+        public static int btn_one_pressed=0x7f020002;
+        public static int ic_action_search=0x7f020003;
+        public static int ic_launcher=0x7f020004;
+        public static int money=0x7f020005;
+        public static int transparent_background=0x7f020006;
     }
     public static final class id {
         public static int LL01=0x7f07005d;
@@ -37,7 +38,7 @@ public final class R {
         public static int RL01=0x7f070006;
         public static int RL02=0x7f070017;
         public static int RL03=0x7f070015;
-        public static int RelativeLayout1=0x7f07002c;
+        public static int RelativeLayout1=0x7f07002d;
         public static int Rl04=0x7f070023;
         public static int TextView01=0x7f070020;
         public static int TextView02=0x7f070012;
@@ -47,14 +48,14 @@ public final class R {
         public static int View02=0x7f07006d;
         public static int account_btn_new_transaction=0x7f070027;
         public static int account_btn_new_transfer=0x7f070028;
-        public static int account_tbx_balance=0x7f07002b;
+        public static int account_tbx_balance=0x7f07002c;
         public static int actionbar_btn_delete=0x7f070003;
         public static int actionbar_btn_edit=0x7f070001;
         public static int actionbar_btn_lock=0x7f070002;
         public static int actionbar_btn_returnSelected=0x7f070004;
         public static int bCancel=0x7f070062;
         public static int bSave=0x7f070063;
-        public static int bottom_actionbar=0x7f07002d;
+        public static int bottom_actionbar=0x7f07002b;
         public static int btn_add_new=0x7f070025;
         public static int control_row_tbx_section_name=0x7f070005;
         public static int control_row_view_content_textview=0x7f070055;
@@ -111,15 +112,15 @@ public final class R {
         public static int relativeLayout1=0x7f070054;
         public static int rl=0x7f070000;
         public static int rl_accounts_balance=0x7f07002a;
-        public static int row_account_balance=0x7f07004e;
-        public static int row_account_image=0x7f07004b;
-        public static int row_account_last_action_date=0x7f07004f;
-        public static int row_account_lock=0x7f07004c;
-        public static int row_account_name=0x7f07004d;
+        public static int row_account_balance=0x7f07004f;
+        public static int row_account_image=0x7f07004c;
+        public static int row_account_last_action_date=0x7f070050;
+        public static int row_account_lock=0x7f07004d;
+        public static int row_account_name=0x7f07004e;
         public static int row_category_details=0x7f070053;
         public static int row_category_lock=0x7f070051;
         public static int row_category_name=0x7f070052;
-        public static int row_cbx_selected=0x7f070050;
+        public static int row_cbx_selected=0x7f07004b;
         public static int row_parameter_default=0x7f070058;
         public static int row_parameter_lock=0x7f070057;
         public static int row_parameter_name=0x7f070059;

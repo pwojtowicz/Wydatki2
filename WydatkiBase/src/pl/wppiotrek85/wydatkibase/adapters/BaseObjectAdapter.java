@@ -2,12 +2,16 @@ package pl.wppiotrek85.wydatkibase.adapters;
 
 import java.util.ArrayList;
 
+import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.interfaces.IOnAdapterCheckboxClick;
 import pl.wppiotrek85.wydatkibase.support.ListSupport;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 
 public abstract class BaseObjectAdapter<T> extends BaseAdapter {
 
@@ -52,6 +56,37 @@ public abstract class BaseObjectAdapter<T> extends BaseAdapter {
 		return items.size();
 	}
 
+	protected void setCheckableViewState(View convertView, ModelBase item) {
+		CheckBox cbx_selected = (CheckBox) convertView
+				.findViewById(R.id.row_cbx_selected);
+
+		cbx_selected.setTag(item.getId());
+		cbx_selected.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View view) {
+				int objectId = (Integer) view.getTag();
+				if (((CheckBox) view).isChecked())
+					selectedItemsId.add(objectId);
+				else
+					selectedItemsId.remove(selectedItemsId.indexOf(objectId));
+
+				if (listener != null)
+					listener.OnCheckBoxSelected(selectedItemsId.size());
+
+			}
+		});
+
+		if (isCheckable)
+			cbx_selected.setVisibility(CheckBox.VISIBLE);
+		else
+			cbx_selected.setVisibility(CheckBox.GONE);
+
+		if (selectedItemsId.contains(item.getId()))
+			cbx_selected.setChecked(true);
+		else
+			cbx_selected.setChecked(false);
+	}
+
 	@Override
 	public Object getItem(int index) {
 		return items.get(index);
@@ -64,6 +99,15 @@ public abstract class BaseObjectAdapter<T> extends BaseAdapter {
 
 	public ArrayList<Integer> getSelectedItemsList() {
 		return selectedItemsId;
+	}
+
+	public void setCheckableState(IOnAdapterCheckboxClick listener,
+			boolean isCheckable) {
+		if (!isCheckable)
+			selectedItemsId = new ArrayList<Integer>();
+		this.listener = listener;
+		this.isCheckable = isCheckable;
+		this.notifyDataSetChanged();
 	}
 
 }

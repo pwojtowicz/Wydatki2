@@ -3,9 +3,7 @@
     android:id="@+id/Rl04"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-
     
-
     <LinearLayout
         android:id="@+id/llh"
         android:layout_width="match_parent"
@@ -63,6 +61,16 @@
         android:layout_below="@+id/llh"
         android:cacheColorHint="@android:color/transparent" >
     </ListView>
+    
+    <include
+        android:id="@+id/bottom_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        layout="@layout/bottom_bar_object_list"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/rl_accounts_balance"

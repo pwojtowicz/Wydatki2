@@ -21,7 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        layout="@layout/bottom_bar_object_list" />
+        layout="@layout/bottom_bar_object_list" 
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/btn_add_new"

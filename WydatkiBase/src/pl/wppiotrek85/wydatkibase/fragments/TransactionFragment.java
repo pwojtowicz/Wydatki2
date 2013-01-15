@@ -623,4 +623,10 @@ public class TransactionFragment extends ObjectBaseFragment {
 		}
 
 	}
+
+	@Override
+	public void changeEditListState() {
+		// TODO Auto-generated method stub
+
+	}
 }

@@ -3,6 +3,7 @@ package pl.wppiotrek85.wydatkibase.adapters;
 import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.entities.Project;
 import pl.wppiotrek85.wydatkibase.interfaces.IOnAdapterCheckboxClick;
 import android.content.Context;
@@ -23,7 +24,9 @@ public class ProjectsAdapter extends BaseObjectAdapter<Project> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		convertView = inflater.inflate(R.layout.row_project_layout, null);
 
-		fillRow(convertView, getItem(position));
+		Object o = getItem(position);
+		fillRow(convertView, o);
+		super.setCheckableViewState(convertView, (ModelBase) o);
 		return convertView;
 	}
 

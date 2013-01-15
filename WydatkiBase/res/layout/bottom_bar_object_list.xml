@@ -16,21 +16,28 @@
         <ImageButton
             android:id="@+id/actionbar_btn_edit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/btn_blue"
+            android:minWidth="60dp"
             android:src="@android:drawable/ic_menu_manage" />
 
         <ImageButton
             android:id="@+id/actionbar_btn_lock"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/btn_blue"
             android:contentDescription="Opis"
+            android:minWidth="60dp"
             android:src="@android:drawable/ic_lock_lock" />
 
         <ImageButton
             android:id="@+id/actionbar_btn_delete"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/btn_blue"
+            android:minWidth="60dp"
             android:src="@android:drawable/ic_menu_delete" />
+
     </LinearLayout>
 
     <ImageButton
@@ -40,6 +47,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="5dp"
-        android:src="@android:drawable/ic_menu_set_as" />
+        android:background="@color/btn_blue"
+        android:src="@android:drawable/ic_menu_set_as"
+        android:visibility="visible" />
 
 </RelativeLayout>

@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp" xmlns:android="http://schemas.android.com/apk/res/android">
-
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp" >
+
+<LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/yellow"
+        android:minWidth="4dp"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/row_cbx_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:visibility="gone" />
+</LinearLayout>
+
     <RelativeLayout
         android:layout_width="48dp"
         android:layout_height="48dp" >
@@ -24,9 +43,8 @@
             android:background="@color/semitransparent"
             android:padding="6dp"
             android:src="@android:drawable/ic_lock_lock" />
-
     </RelativeLayout>
-
+    
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -35,7 +53,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:orientation="vertical" >
-
         <TextView
             android:id="@+id/row_account_name"
             style="@style/Style_TextWithShadow"
@@ -44,7 +61,7 @@
             android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FFF" />
-
+
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" ><TextView
@@ -59,7 +76,7 @@
                 android:text="Medium Text"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#FFF" />
-
+
             <TextView
                 android:id="@+id/row_account_last_action_date"
                 style="@style/Style_TextWithShadow"

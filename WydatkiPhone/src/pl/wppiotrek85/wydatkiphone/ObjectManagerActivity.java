@@ -89,7 +89,7 @@ public class ObjectManagerActivity extends FragmentActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.refresh_menu, menu);
+		getMenuInflater().inflate(R.menu.object_list_menu, menu);
 		return true;
 	}
 
@@ -98,6 +98,9 @@ public class ObjectManagerActivity extends FragmentActivity implements
 		switch (item.getItemId()) {
 		case R.id.menu_refresh:
 			refreshActualFragment();
+			return true;
+		case R.id.menu_edit_list:
+			editListAtActualFragment();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -151,6 +154,13 @@ public class ObjectManagerActivity extends FragmentActivity implements
 		ObjectBaseFragment fragment = (ObjectBaseFragment) fAdapter
 				.getItem(mViewPager.getCurrentItem());
 		fragment.refreshFragment(true);
+	}
+
+	private void editListAtActualFragment() {
+		ObjectBaseFragment fragment = (ObjectBaseFragment) fAdapter
+				.getItem(mViewPager.getCurrentItem());
+		fragment.changeEditListState();
+
 	}
 
 	@Override

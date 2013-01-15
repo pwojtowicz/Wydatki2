@@ -25,12 +25,13 @@ public final class R {
     }
     public static final class drawable {
         public static final int app_background_dark=0x7f020000;
-        public static final int btn_one_normal=0x7f020001;
-        public static final int btn_one_pressed=0x7f020002;
-        public static final int ic_action_search=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int money=0x7f020005;
-        public static final int transparent_background=0x7f020006;
+        public static final int btn_one_disable=0x7f020001;
+        public static final int btn_one_normal=0x7f020002;
+        public static final int btn_one_pressed=0x7f020003;
+        public static final int ic_action_search=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int money=0x7f020006;
+        public static final int transparent_background=0x7f020007;
     }
     public static final class id {
         public static final int LL01=0x7f080064;
@@ -38,7 +39,7 @@ public final class R {
         public static final int RL01=0x7f080011;
         public static final int RL02=0x7f080020;
         public static final int RL03=0x7f08001e;
-        public static final int RelativeLayout1=0x7f080033;
+        public static final int RelativeLayout1=0x7f080034;
         public static final int Rl04=0x7f08002b;
         public static final int TextView01=0x7f08000a;
         public static final int TextView02=0x7f080009;
@@ -55,7 +56,7 @@ public final class R {
         public static final int actionbar_btn_returnSelected=0x7f08000f;
         public static final int bCancel=0x7f080069;
         public static final int bSave=0x7f08006a;
-        public static final int bottom_actionbar=0x7f080034;
+        public static final int bottom_actionbar=0x7f080033;
         public static final int btn_add_new=0x7f08002d;
         public static final int control_row_tbx_section_name=0x7f080010;
         public static final int control_row_view_content_textview=0x7f08005c;
@@ -115,6 +116,7 @@ public final class R {
         public static final int menu_add_transaction=0x7f080078;
         public static final int menu_add_transfer=0x7f080079;
         public static final int menu_delete=0x7f08007a;
+        public static final int menu_edit_list=0x7f08007c;
         public static final int menu_refresh=0x7f08007b;
         public static final int menu_save=0x7f080077;
         public static final int menu_settings=0x7f080076;
@@ -124,15 +126,15 @@ public final class R {
         public static final int relativeLayout1=0x7f08005b;
         public static final int rl=0x7f08000b;
         public static final int rl_accounts_balance=0x7f080032;
-        public static final int row_account_balance=0x7f080055;
-        public static final int row_account_image=0x7f080052;
-        public static final int row_account_last_action_date=0x7f080056;
-        public static final int row_account_lock=0x7f080053;
-        public static final int row_account_name=0x7f080054;
+        public static final int row_account_balance=0x7f080056;
+        public static final int row_account_image=0x7f080053;
+        public static final int row_account_last_action_date=0x7f080057;
+        public static final int row_account_lock=0x7f080054;
+        public static final int row_account_name=0x7f080055;
         public static final int row_category_details=0x7f08005a;
         public static final int row_category_lock=0x7f080058;
         public static final int row_category_name=0x7f080059;
-        public static final int row_cbx_selected=0x7f080057;
+        public static final int row_cbx_selected=0x7f080052;
         public static final int row_parameter_default=0x7f08005f;
         public static final int row_parameter_lock=0x7f08005e;
         public static final int row_parameter_name=0x7f080060;
@@ -200,7 +202,8 @@ public final class R {
         public static final int activity_root=0x7f070001;
         public static final int activity_single_object_tyle_list=0x7f070002;
         public static final int activity_transaction=0x7f070003;
-        public static final int refresh_menu=0x7f070004;
+        public static final int object_list_menu=0x7f070004;
+        public static final int refresh_menu=0x7f070005;
     }
     public static final class string {
         public static final int account_from=0x7f040013;

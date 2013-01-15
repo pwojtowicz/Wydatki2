@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.entities.Category;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.interfaces.IOnAdapterCheckboxClick;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +24,9 @@ public class CategoriesAdapter extends BaseObjectAdapter<Category> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		convertView = inflater.inflate(R.layout.row_category_layout, null);
 
-		fillRow(convertView, getItem(position));
+		Object o = getItem(position);
+		fillRow(convertView, o);
+		super.setCheckableViewState(convertView, (ModelBase) o);
 		return convertView;
 	}
 
@@ -39,9 +41,6 @@ public class CategoriesAdapter extends BaseObjectAdapter<Category> {
 
 			ImageView lock = (ImageView) convertView
 					.findViewById(R.id.row_category_lock);
-
-			CheckBox cbx_selected = (CheckBox) convertView
-					.findViewById(R.id.row_cbx_selected);
 
 			if (item.isActive())
 				lock.setVisibility(ImageView.GONE);

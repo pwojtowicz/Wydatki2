@@ -71,6 +71,11 @@ public abstract class EditObjectBaseFragment<T> extends ObjectBaseFragment {
 	}
 
 	@Override
+	public void changeEditListState() {
+
+	}
+
+	@Override
 	public ArrayList<Integer> getSelectedItemsList() {
 		return null;
 	}

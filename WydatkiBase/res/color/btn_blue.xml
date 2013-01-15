@@ -6,5 +6,7 @@
           android:state_pressed="true" />
     <item android:drawable="@drawable/btn_one_pressed"
           android:state_focused="true" />
+    <item android:drawable="@drawable/btn_one_disable"
+          android:state_enabled="false"/>
     <item android:drawable="@drawable/btn_one_normal" />
 </selector>
