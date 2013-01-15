@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class WydatkiBaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "wydatki.db";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 
 	public static final String TABLE_ACCOUNTS = "Account";
 	public static final String TABLE_CATERORIES = "Category";
@@ -19,6 +19,12 @@ public class WydatkiBaseHelper extends SQLiteOpenHelper {
 
 	public static final String TABLE_TRANSACTION = "Transactions";
 	public static final String TABLE_TRANSACTION_PARAMETERS = "TransactionsParameter";
+
+	public static final String TABLE_CACHE = "Cache";
+
+	private static final String CREATE_CACHE = "CREATE TABLE "
+			+ TABLE_CACHE
+			+ " (cacheId INTEGER PRIMARY KEY , userLogin VARCHAR, uri VARCHAR, postTAG VARCHAR, eTAG VARCHAR, response VARCHAR, timestamp DATETIME)";
 
 	private static final String CREATE_ACCOUNTS = "create table "
 			+ TABLE_ACCOUNTS
@@ -65,6 +71,8 @@ public class WydatkiBaseHelper extends SQLiteOpenHelper {
 		database.execSQL(CREATE_TRANSACTION_PARAMETERS);
 		database.execSQL(CREATE_TRANSACTION);
 
+		database.execSQL(CREATE_CACHE);
+
 	}
 
 	@Override
@@ -78,6 +86,7 @@ public class WydatkiBaseHelper extends SQLiteOpenHelper {
 
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRANSACTION_PARAMETERS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRANSACTION);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CACHE);
 		onCreate(db);
 	}
 }

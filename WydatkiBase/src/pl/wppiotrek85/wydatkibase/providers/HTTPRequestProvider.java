@@ -6,13 +6,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.commons.codec.binary.Base64;
 
+import pl.wppiotrek85.wydatkibase.entities.CacheInfo;
 import pl.wppiotrek85.wydatkibase.interfaces.IHttpRequestToAsyncTaskCommunication;
+import pl.wppiotrek85.wydatkibase.repositories.CacheRepository;
+import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 
 public class HTTPRequestProvider {
 
@@ -125,69 +129,67 @@ public class HTTPRequestProvider {
 		byte[] rawResponse = null;
 		address = address.replace(" ", "%20");
 		int responseCode = 0;
-		// AndroidGlobals globals = AndroidGlobals.getInstance();
-		// CacheInfo cache = null;
-		// if (globals.getCacheManager() != null) {
-		// cache = globals.getCacheManager().getCahceInfoForAddress(address,
-		// globals.getUserLogin(), null);
-		// }
-		//
-		// if (!isOnline && cache != null) {
-		// response = cache.response;
-		// rawResponse = cache.response.getBytes();
-		// responseCode = 2000;
-		// } else
-		try {
-			connection = getConnection(address);
-			connection.setRequestMethod(requestType.toString());
+		CacheRepository cacheRepository = new CacheRepository();
+		CacheInfo cache = null;
+		cache = cacheRepository.read(address, WydatkiGlobals.getInstance()
+				.getUserLogin(), null);
 
-			authenticate(connection);
-
-			connection = setConnectionHeader(connection, null, null);
-
-			connection.connect();
-			responseCode = connection.getResponseCode();
-
-			String eTag = connection.getHeaderField("etag");
-			String encoding = connection.getHeaderField("Content-Encoding");
-
-			// if (cache != null && cache.eTAG.equals(eTag)) {
-			// System.out.println("CACHE: Read from CACHE " + address);
-			// response = cache.response;
-			// rawResponse = cache.response.getBytes();
-			// } else {
-
-			int fileSize = connection.getContentLength();
-
-			InputStream in = getConnectionInputStream(connection);
-
-			ByteArrayOutputStream byteArray = readInpdutStream(in, fileSize,
-					listener);
+		if (!isOnline && cache != null) {
+			response = cache.response;
+			rawResponse = cache.response.getBytes();
+			responseCode = 2000;
+		} else
 			try {
-				response = byteArray.toString();
-			} catch (Exception e) {
+				connection = getConnection(address);
+				connection.setRequestMethod(requestType.toString());
 
-			}
+				authenticate(connection);
 
-			rawResponse = byteArray.toByteArray();
+				connection = setConnectionHeader(connection, null, null);
 
-			// if (responseCode == 200)// Nie cachowanie danych w przypadku
-			// // odpowiedzi innej niý OK
-			// saveChacheInfo(cache, eTag, "", address, response);
-			// }
+				connection.connect();
+				responseCode = connection.getResponseCode();
 
-			connection.disconnect();
-			connection = null;
+				String eTag = connection.getHeaderField("etag");
+				String encoding = connection.getHeaderField("Content-Encoding");
 
-		} catch (IOException e) {
-			response = e.getMessage();
-		} finally {
-			if (connection != null) {
+				if (cache != null && cache.eTAG.equals(eTag)) {
+					System.out.println("CACHE: Read from CACHE " + address);
+					response = cache.response;
+					rawResponse = cache.response.getBytes();
+				} else {
+
+					int fileSize = connection.getContentLength();
+
+					InputStream in = getConnectionInputStream(connection);
+
+					ByteArrayOutputStream byteArray = readInpdutStream(in,
+							fileSize, listener);
+					try {
+						response = byteArray.toString();
+					} catch (Exception e) {
+
+					}
+
+					rawResponse = byteArray.toByteArray();
+
+					if (responseCode == 200)// Nie cachowanie danych w przypadku
+						// odpowiedzi innej niý OK
+						saveChacheInfo(cache, eTag, "", address, response);
+				}
+
 				connection.disconnect();
 				connection = null;
-			}
 
-		}
+			} catch (IOException e) {
+				response = e.getMessage();
+			} finally {
+				if (connection != null) {
+					connection.disconnect();
+					connection = null;
+				}
+
+			}
 
 		HTTPRequestBundle bundle = new HTTPRequestBundle();
 		bundle.setResponse(response);
@@ -292,9 +294,8 @@ public class HTTPRequestProvider {
 	}
 
 	private static void authenticate(HttpURLConnection connection) {
-		// AndroidGlobals globals = AndroidGlobals.getInstance();
-
-		String authenticationData = "wppiotrek85:123qwe";
+		WydatkiGlobals globals = WydatkiGlobals.getInstance();
+		String authenticationData = globals.getUserLogin() + ":123qwe";
 		System.out.println("CONNECTION AuthenticationData: "
 				+ authenticationData);
 		String encodedString = new String(
@@ -305,33 +306,29 @@ public class HTTPRequestProvider {
 		connection.setRequestProperty("Authorization", "Basic " + safeString);
 	}
 
-	// private static void saveChacheInfo(CacheInfo cache, String eTag,
-	// String postTAG, String address, String response) {
-	// AndroidGlobals globals = AndroidGlobals.getInstance();
-	// if (eTag != null && globals.getCacheManager() != null) {
-	// if (cache == null) {
-	// System.out.println("CACHE: Insert to CACHE " + address);
-	// // Wyso¸ywane w przypadku, gdy w BD nie ma zapisanego
-	// // cache, wykonywany jest insert
-	// CacheInfo ci = new CacheInfo();
-	// ci.userLogin = globals.getUserLogin();
-	// ci.uri = address;
-	// ci.postTAG = postTAG;
-	// ci.eTAG = eTag;
-	// ci.response = response;
-	// ci.timestamp = new Date();
-	// globals.getCacheManager().insertCahceInfo(ci);
-	// } else {
-	// System.out.println("CACHE: UPDATE CACHE " + address);
-	// // Wywo¸ywane gdy w bazie danych jest zapisany cache,
-	// // wykonywany jest update
-	// cache.eTAG = eTag;
-	// cache.postTAG = postTAG;
-	// cache.response = response;
-	// cache.timestamp = new Date();
-	// globals.getCacheManager().updateCahceInfo(cache);
-	// }
-	// }
-	// }
+	private static void saveChacheInfo(CacheInfo cache, String eTag,
+			String postTAG, String address, String response) {
+		CacheRepository cacheRepository = new CacheRepository();
+		if (eTag != null) {
+			if (cache == null) {
+				System.out.println("CACHE: Insert to CACHE " + address);
+				CacheInfo ci = new CacheInfo();
+				ci.userLogin = WydatkiGlobals.getInstance().getUserLogin();
+				ci.uri = address;
+				ci.postTAG = postTAG;
+				ci.eTAG = eTag;
+				ci.response = response;
+				ci.timestamp = new Date();
+				cacheRepository.create(ci);
+			} else {
+				System.out.println("CACHE: UPDATE CACHE " + address);
+				cache.eTAG = eTag;
+				cache.postTAG = postTAG;
+				cache.response = response;
+				cache.timestamp = new Date();
+				cacheRepository.update(cache);
+			}
+		}
+	}
 
 }

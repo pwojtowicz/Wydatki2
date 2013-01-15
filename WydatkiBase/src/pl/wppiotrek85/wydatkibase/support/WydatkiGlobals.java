@@ -19,6 +19,7 @@ public class WydatkiGlobals {
 	private static final boolean isLocalVersion = false;
 
 	private static final String server = "http://imdemo.billennium.pl:121/pwojtowiczWS";
+	private static final String userLogin = "wppiotrek85";
 
 	public static WydatkiGlobals getInstance() {
 		if (instance == null) {
@@ -199,12 +200,16 @@ public class WydatkiGlobals {
 		}
 	}
 
-	public static boolean isLocalVersion() {
+	public boolean isLocalVersion() {
 		return isLocalVersion;
 	}
 
-	public static String getServer() {
+	public String getServer() {
 		return server;
+	}
+
+	public String getUserLogin() {
+		return userLogin;
 	}
 
 }
