@@ -65,4 +65,10 @@ public class ProjectsFragmentList extends ObjectListBaseFragment<Project> {
 
 	}
 
+	@Override
+	public void afterRefreshAction() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

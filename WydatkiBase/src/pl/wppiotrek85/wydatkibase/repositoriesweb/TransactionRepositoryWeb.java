@@ -53,12 +53,6 @@ public class TransactionRepositoryWeb extends AbstractProvider implements
 	}
 
 	@Override
-	public boolean delete(Transaction item) throws RepositoryException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean delete(int id) throws RepositoryException {
 		String url = server + "/transactions/transaction/" + String.valueOf(id);
 
@@ -96,6 +90,12 @@ public class TransactionRepositoryWeb extends AbstractProvider implements
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -47,12 +47,6 @@ public class ProjectRepositoryWeb extends AbstractProvider implements
 	}
 
 	@Override
-	public boolean delete(Project item) throws RepositoryException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean delete(int id) throws RepositoryException {
 		String url = server + "/projects/project/" + String.valueOf(id);
 
@@ -82,6 +76,12 @@ public class ProjectRepositoryWeb extends AbstractProvider implements
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

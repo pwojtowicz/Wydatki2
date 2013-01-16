@@ -82,11 +82,6 @@ public class ParameterRepository implements
 	}
 
 	@Override
-	public boolean delete(Parameter item) throws RepositoryException {
-		return delete(item.getId());
-	}
-
-	@Override
 	public boolean delete(int id) throws RepositoryException {
 		Cursor c = dbm.getDataBase().rawQuery(
 				"SELECT COUNT(1) FROM "
@@ -112,6 +107,12 @@ public class ParameterRepository implements
 	public int createAllFromList(ArrayList<Parameter> items) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

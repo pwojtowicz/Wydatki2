@@ -14,11 +14,11 @@ import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
 import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
 import pl.wppiotrek85.wydatkibase.fragments.AccountFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.CategoryFragmentList;
+import pl.wppiotrek85.wydatkibase.fragments.InvokeTransactionFragment;
 import pl.wppiotrek85.wydatkibase.fragments.ObjectBaseFragment;
 import pl.wppiotrek85.wydatkibase.fragments.ParameterFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.ProjectsFragmentList;
 import pl.wppiotrek85.wydatkibase.fragments.SettingsFragment;
-import pl.wppiotrek85.wydatkibase.fragments.TransactionFragment;
 import pl.wppiotrek85.wydatkibase.fragments.TransactionsFragmentList;
 import pl.wppiotrek85.wydatkibase.interfaces.IFragmentActions;
 import pl.wppiotrek85.wydatkibase.interfaces.IReadRepository;
@@ -196,7 +196,7 @@ public class RootActivity extends FragmentActivity implements
 
 	public void btnNewTransfer_Click(View v) {
 		Intent intent = new Intent(this, TransactionActivity.class);
-		intent.putExtra(TransactionFragment.BUNDLE_IS_NEW_TRANSFER, true);
+		intent.putExtra(InvokeTransactionFragment.BUNDLE_IS_NEW_TRANSFER, true);
 		startActivity(intent);
 	}
 

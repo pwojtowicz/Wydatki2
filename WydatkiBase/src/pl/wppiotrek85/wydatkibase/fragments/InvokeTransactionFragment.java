@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import pl.wppiotrek85.wydatkibase.R;
+import pl.wppiotrek85.wydatkibase.activities.CalculatorInput;
 import pl.wppiotrek85.wydatkibase.adapters.InvokeTransactionAdapter;
 import pl.wppiotrek85.wydatkibase.adapters.SpinnerAdapter;
 import pl.wppiotrek85.wydatkibase.adapters.SpinnerAdapter.SpinerHelper;
@@ -20,9 +21,11 @@ import pl.wppiotrek85.wydatkibase.interfaces.ITransactionListener;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import pl.wppiotrek85.wydatkibase.units.UnitConverter;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,13 +38,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class TransactionFragment extends ObjectBaseFragment {
+public class InvokeTransactionFragment extends ObjectBaseFragment {
 
-	// public static final String BUNDLE_IS_NEW_TRANSACTION = "newTransaction";
 	public static final String BUNDLE_IS_NEW_TRANSFER = "newTransfer";
 
 	private static final int TIME_DIALOG_ID = 0;
 	private static final int DATE_DIALOG_ID = 1;
+
+	private static final int CalculatorInput_REQUESTCODE = 123;
 
 	private ITransactionListener listener;
 	private ListView list;
@@ -66,20 +70,20 @@ public class TransactionFragment extends ObjectBaseFragment {
 	private int hour;
 	private int minute;
 	private int i = 0;
-	private int accFrom = -1;
-	private int accTo = -1;
-	private int projPos = -1;
+	// private int accFrom = -1;
+	// private int accTo = -1;
+	// private int projPos = -1;
 	private boolean hasAdditionalParameters = false;
 
 	private Transaction currentTransaction = new Transaction();
 	private Transactionhelper helper = new Transactionhelper();
 
-	public TransactionFragment() {
+	public InvokeTransactionFragment() {
 		super(false, false);
 		this.listener = null;
 	}
 
-	public TransactionFragment(boolean shouldReload,
+	public InvokeTransactionFragment(boolean shouldReload,
 			ITransactionListener listener) {
 		super(shouldReload, false);
 		this.listener = listener;
@@ -181,6 +185,15 @@ public class TransactionFragment extends ObjectBaseFragment {
 
 		list.setClickable(true);
 		list.setItemsCanFocus(true);
+
+		Button btn_calculate = (Button) header
+				.findViewById(R.id.invoke_transaction_header_btn_calculator);
+		btn_calculate.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				showCalculatorInput();
+			}
+		});
 	}
 
 	public void configureViews() {
@@ -239,6 +252,25 @@ public class TransactionFragment extends ObjectBaseFragment {
 			}
 		});
 
+	}
+
+	private void showCalculatorInput() {
+		Intent intent = new Intent(getActivity(), CalculatorInput.class);
+		intent.putExtra(CalculatorInput.EXTRA_AMOUNT, value.getText()
+				.toString());
+		startActivityForResult(intent, CalculatorInput_REQUESTCODE);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == CalculatorInput_REQUESTCODE) {
+			if (resultCode == getActivity().RESULT_OK) {
+				String val = data.getStringExtra(CalculatorInput.EXTRA_AMOUNT);
+				val = val.replace("-", "");
+				helper.value = val;
+			}
+		}
 	}
 
 	protected void onCategoryChange(SpinnerObject object) {

@@ -140,12 +140,6 @@ public class TransactionRepository implements
 	}
 
 	@Override
-	public boolean delete(Transaction item) throws RepositoryException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean delete(int id) throws RepositoryException {
 		// TODO Auto-generated method stub
 		return false;
@@ -226,6 +220,12 @@ public class TransactionRepository implements
 			return -1;
 		}
 
+	}
+
+	@Override
+	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

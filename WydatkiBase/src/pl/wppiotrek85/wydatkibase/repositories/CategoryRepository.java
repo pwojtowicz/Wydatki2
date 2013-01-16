@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import pl.wppiotrek85.wydatkibase.database.WydatkiBaseHelper;
 import pl.wppiotrek85.wydatkibase.entities.Category;
 import pl.wppiotrek85.wydatkibase.entities.Parameter;
+import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
 import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepositoryArrayList;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
 import android.database.Cursor;
@@ -120,14 +121,6 @@ public class CategoryRepository implements IObjectRepositoryArrayList<Category> 
 	}
 
 	@Override
-	public boolean delete(Category item) {
-		if (item != null) {
-			return delete(item.getId());
-		}
-		return false;
-	}
-
-	@Override
 	public boolean delete(int id) {
 		dbm.checkIsOpen();
 		int removedCount = dbm.getDataBase().delete(
@@ -145,6 +138,12 @@ public class CategoryRepository implements IObjectRepositoryArrayList<Category> 
 	public int createAllFromList(ArrayList<Category> items) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

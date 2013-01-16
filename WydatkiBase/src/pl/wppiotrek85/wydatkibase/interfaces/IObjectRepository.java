@@ -14,8 +14,8 @@ public interface IObjectRepository<T> {
 
 	public T read(int id);
 
-	public boolean delete(T item) throws RepositoryException;
-
 	public boolean delete(int id) throws RepositoryException;
+
+	public boolean delete(ArrayList<Integer> ids) throws RepositoryException;
 
 }

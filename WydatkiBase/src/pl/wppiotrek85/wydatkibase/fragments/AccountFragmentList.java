@@ -77,6 +77,7 @@ public class AccountFragmentList extends ObjectListBaseFragment<Account> {
 			ArrayList<Account> list = (ArrayList<Account>) response.bundle;
 			WydatkiGlobals.getInstance().setAccounts(list);
 			refreshFragment(false);
+			updateBalance(list);
 		}
 	}
 
@@ -142,6 +143,11 @@ public class AccountFragmentList extends ObjectListBaseFragment<Account> {
 	@Override
 	public ArrayList<Account> getObjectList() {
 		return WydatkiGlobals.getInstance().getAccountsList();
+	}
+
+	@Override
+	public void afterRefreshAction() {
+
 	}
 
 }

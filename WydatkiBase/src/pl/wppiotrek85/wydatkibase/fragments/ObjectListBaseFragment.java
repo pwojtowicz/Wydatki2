@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.adapters.BaseObjectAdapter;
+import pl.wppiotrek85.wydatkibase.enums.DialogStyle;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
+import pl.wppiotrek85.wydatkibase.interfaces.IDialogButtonActions;
 import pl.wppiotrek85.wydatkibase.interfaces.IFragmentActions;
 import pl.wppiotrek85.wydatkibase.interfaces.IOnAdapterCheckboxClick;
+import pl.wppiotrek85.wydatkibase.managers.DialogFactoryManager;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -26,7 +29,7 @@ import android.widget.RelativeLayout;
 
 public abstract class ObjectListBaseFragment<T> extends ObjectBaseFragment
 		implements OnItemClickListener, IOnAdapterCheckboxClick,
-		OnItemLongClickListener {
+		OnItemLongClickListener, IDialogButtonActions {
 
 	protected ListView objectListView;
 	protected ProgressDialog dialog;
@@ -75,6 +78,40 @@ public abstract class ObjectListBaseFragment<T> extends ObjectBaseFragment
 			((ImageButton) actionBar
 					.findViewById(R.id.actionbar_btn_returnSelected))
 					.setVisibility(ImageButton.GONE);
+
+			ImageButton btn_edit = (ImageButton) actionBar
+					.findViewById(R.id.actionbar_btn_edit);
+
+			btn_edit.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					editBtnClick();
+				}
+			});
+
+			ImageButton btn_lock = (ImageButton) actionBar
+					.findViewById(R.id.actionbar_btn_lock);
+
+			btn_lock.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					lockBtnClick();
+				}
+			});
+
+			ImageButton btn_delete = (ImageButton) actionBar
+					.findViewById(R.id.actionbar_btn_delete);
+
+			btn_delete.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					deleteBtnClick();
+				}
+			});
+
 		}
 
 		objectListView = (ListView) convertView.findViewById(R.id.listview);
@@ -97,6 +134,23 @@ public abstract class ObjectListBaseFragment<T> extends ObjectBaseFragment
 		});
 	}
 
+	protected void editBtnClick() {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void deleteBtnClick() {
+		DialogFactoryManager.create(DialogStyle.Question, getActivity(), null,
+				"Czy napewno skasowaæ zaznaczone elementy?", this).show();
+	}
+
+	protected void lockBtnClick() {
+		DialogFactoryManager.create(DialogStyle.Question, getActivity(), null,
+				"Czy napewno zablokowaæ/obdlokowaæ zaznaczone elementy?", this)
+				.show();
+
+	}
+
 	@Override
 	public void refreshFragment(boolean forceRefresh) {
 		if (!forceRefresh) {
@@ -115,12 +169,15 @@ public abstract class ObjectListBaseFragment<T> extends ObjectBaseFragment
 		if (forceRefresh) {
 			getAllItems();
 		}
+		afterRefreshAction();
 	}
 
 	public void getAllItems() {
 		this.manager = new ObjectManager(repositoryType, this,
 				ERepositoryManagerMethods.ReadAll);
 	}
+
+	public abstract void afterRefreshAction();
 
 	public abstract void linkViews(View convertView);
 
@@ -163,6 +220,16 @@ public abstract class ObjectListBaseFragment<T> extends ObjectBaseFragment
 							.setEnabled(false);
 			} else
 				actionBar.setVisibility(LinearLayout.GONE);
+	}
+
+	@Override
+	public void onPositiveClick() {
+
+	}
+
+	@Override
+	public void onNegativeClick() {
+
 	}
 
 }

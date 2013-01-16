@@ -55,6 +55,9 @@ public class ParameterFragmentList extends ObjectListBaseFragment<Parameter> {
 					.setVisibility(ImageButton.GONE);
 			((ImageButton) convertView.findViewById(R.id.actionbar_btn_lock))
 					.setVisibility(ImageButton.GONE);
+			((ImageButton) convertView
+					.findViewById(R.id.actionbar_btn_returnSelected))
+					.setVisibility(ImageButton.VISIBLE);
 			size = 1;
 		}
 		OnCheckBoxSelected(size);
@@ -112,12 +115,19 @@ public class ParameterFragmentList extends ObjectListBaseFragment<Parameter> {
 	@Override
 	public BaseObjectAdapter<Parameter> getAdapter(FragmentActivity activity,
 			ArrayList<Parameter> list, IOnAdapterCheckboxClick object) {
+		if (startFromCategory)
+			object = this;
 		return new ParametersAdapter(activity, list, object, selectedItems);
 	}
 
 	@Override
 	public ArrayList<Parameter> getObjectList() {
 		return WydatkiGlobals.getInstance().getParametersList();
+	}
+
+	@Override
+	public void afterRefreshAction() {
+
 	}
 
 }

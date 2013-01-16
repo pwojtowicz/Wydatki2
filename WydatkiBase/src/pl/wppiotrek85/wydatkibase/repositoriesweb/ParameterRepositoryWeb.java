@@ -46,12 +46,6 @@ public class ParameterRepositoryWeb extends AbstractProvider implements
 	}
 
 	@Override
-	public boolean delete(Parameter item) throws RepositoryException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean delete(int id) throws RepositoryException {
 		String url = server + "/attributes/parameter/" + String.valueOf(id);
 
@@ -79,6 +73,12 @@ public class ParameterRepositoryWeb extends AbstractProvider implements
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

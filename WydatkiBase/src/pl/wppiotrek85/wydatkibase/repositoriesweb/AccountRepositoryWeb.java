@@ -46,12 +46,6 @@ public class AccountRepositoryWeb extends AbstractProvider implements
 	}
 
 	@Override
-	public boolean delete(Account item) throws RepositoryException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean delete(int id) throws RepositoryException {
 		try {
 			String url = server + "/accounts/account/" + String.valueOf(id);
@@ -59,7 +53,6 @@ public class AccountRepositoryWeb extends AbstractProvider implements
 			provider.deleteObject(url, null);
 			return true;
 		} catch (CommunicationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -76,10 +69,15 @@ public class AccountRepositoryWeb extends AbstractProvider implements
 
 			return new ArrayList<Account>(Arrays.asList(objects));
 		} catch (CommunicationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

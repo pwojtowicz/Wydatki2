@@ -10,8 +10,8 @@ import pl.wppiotrek85.wydatkibase.entities.Transaction;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
 import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
-import pl.wppiotrek85.wydatkibase.fragments.TransactionFragment;
-import pl.wppiotrek85.wydatkibase.fragments.TransactionFragment.ValidationHelper;
+import pl.wppiotrek85.wydatkibase.fragments.InvokeTransactionFragment;
+import pl.wppiotrek85.wydatkibase.fragments.InvokeTransactionFragment.ValidationHelper;
 import pl.wppiotrek85.wydatkibase.interfaces.IReadRepository;
 import pl.wppiotrek85.wydatkibase.interfaces.ITransactionListener;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
@@ -51,7 +51,7 @@ public class TransactionActivity extends FragmentActivity implements
 			// isTransaction = bundle.getBoolean(
 			// TransactionFragment.BUNDLE_IS_NEW_TRANSACTION, false);
 			isTransfer = bundle.getBoolean(
-					TransactionFragment.BUNDLE_IS_NEW_TRANSFER, false);
+					InvokeTransactionFragment.BUNDLE_IS_NEW_TRANSFER, false);
 		}
 
 		fragments = new ArrayList<FragmentObject>();
@@ -59,11 +59,12 @@ public class TransactionActivity extends FragmentActivity implements
 		Bundle b = new Bundle();
 		// b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION,
 		// isTransaction);
-		b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSFER, isTransfer);
+		b.putBoolean(InvokeTransactionFragment.BUNDLE_IS_NEW_TRANSFER,
+				isTransfer);
 		b.putInt("INDEX", i);
 
-		fragments.add(new FragmentObject(new TransactionFragment(true, this),
-				"Transakcja " + String.valueOf(i), b));
+		fragments.add(new FragmentObject(new InvokeTransactionFragment(true,
+				this), "Transakcja " + String.valueOf(i), b));
 
 		fAdapter = new FragmentAdapter(getSupportFragmentManager(), fragments,
 				0);
@@ -142,10 +143,11 @@ public class TransactionActivity extends FragmentActivity implements
 		Bundle b = new Bundle();
 		// b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION,
 		// isTransaction);
-		b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSFER, isTransfer);
+		b.putBoolean(InvokeTransactionFragment.BUNDLE_IS_NEW_TRANSFER,
+				isTransfer);
 		b.putInt("INDEX", i);
-		fAdapter.addFragment(new FragmentObject(new TransactionFragment(true,
-				this), "Transakcja " + String.valueOf(i), b));
+		fAdapter.addFragment(new FragmentObject(new InvokeTransactionFragment(
+				true, this), "Transakcja " + String.valueOf(i), b));
 		setBtnEnabledState();
 		mViewPager.setCurrentItem(fAdapter.getCount() - 1, true);
 	}
@@ -155,10 +157,10 @@ public class TransactionActivity extends FragmentActivity implements
 		Bundle b = new Bundle();
 		// b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSACTION,
 		// isTransaction);
-		b.putBoolean(TransactionFragment.BUNDLE_IS_NEW_TRANSFER, true);
+		b.putBoolean(InvokeTransactionFragment.BUNDLE_IS_NEW_TRANSFER, true);
 		b.putInt("INDEX", i);
-		fAdapter.addFragment(new FragmentObject(new TransactionFragment(true,
-				this), "Transfer " + String.valueOf(i), b));
+		fAdapter.addFragment(new FragmentObject(new InvokeTransactionFragment(
+				true, this), "Transfer " + String.valueOf(i), b));
 		setBtnEnabledState();
 		mViewPager.setCurrentItem(fAdapter.getCount() - 1, true);
 	}
@@ -189,7 +191,7 @@ public class TransactionActivity extends FragmentActivity implements
 	public void onChangeValue() {
 		double value = 0.0;
 		for (FragmentObject fragment : fragments) {
-			value += ((TransactionFragment) fragment.getFragment())
+			value += ((InvokeTransactionFragment) fragment.getFragment())
 					.getCurrentValue();
 		}
 		this.setTitle("Kwota: " + String.valueOf(value) + " z³");
@@ -199,7 +201,7 @@ public class TransactionActivity extends FragmentActivity implements
 		ArrayList<ModelBase> transactions = new ArrayList<ModelBase>();
 		String errorMessage = null;
 		for (FragmentObject fragment : fragments) {
-			ValidationHelper<Transaction> validation = ((TransactionFragment) fragment
+			ValidationHelper<Transaction> validation = ((InvokeTransactionFragment) fragment
 					.getFragment()).getCurrentTransaction();
 			if (validation.isValid())
 				transactions.add(validation.getItem());

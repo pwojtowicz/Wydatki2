@@ -5,7 +5,8 @@
         android:icon="@android:drawable/ic_menu_rotate"
         android:showAsAction="ifRoom|withText" />
     <item android:id="@+id/menu_edit_list"
-        android:title="edycja listy"
-        android:icon="@android:drawable/ic_menu_rotate" />
+        android:title="@string/menu_edit_list"
+        android:icon="@android:drawable/ic_menu_more" 
+        android:showAsAction="ifRoom|withText"/>
 
 </menu>

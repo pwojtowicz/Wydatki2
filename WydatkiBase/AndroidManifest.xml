@@ -16,6 +16,11 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
+        <activity
+            android:name="pl.wppiotrek85.wydatkibase.activities.CalculatorInput"
+            android:theme="@android:style/Theme.Dialog"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

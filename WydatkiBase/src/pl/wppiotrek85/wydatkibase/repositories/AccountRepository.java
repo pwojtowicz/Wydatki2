@@ -151,11 +151,6 @@ public class AccountRepository implements IObjectRepositoryArrayList<Account> {
 	}
 
 	@Override
-	public boolean delete(Account item) {
-		return delete(item.getId());
-	}
-
-	@Override
 	public boolean delete(int id) {
 		dbm.checkIsOpen();
 		int result = dbm.getDataBase().delete(WydatkiBaseHelper.TABLE_ACCOUNTS,
@@ -168,6 +163,12 @@ public class AccountRepository implements IObjectRepositoryArrayList<Account> {
 	public int createAllFromList(ArrayList<Account> items) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -63,7 +63,14 @@
     <string name="get_more_data">Pobierz kolejne</string>
     <string name="nothing_to_show_on_list">Brak elementów</string>
     <string name="download_error_try_again">Błąd, spróbuj ponownie</string>
-     <string name="getting_more_data">Pobieranie danych</string>
+    <string name="getting_more_data">Pobieranie danych</string>
+          
+    <string name="dialog_error_title">Wystąpił błąd</string>
+    <string name="dialog_information_title">Komunikat</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Anuluj</string>
+    <string name="dialog_progress_message">Przetwarzanie</string>
     
-
+    
+    
 </resources>

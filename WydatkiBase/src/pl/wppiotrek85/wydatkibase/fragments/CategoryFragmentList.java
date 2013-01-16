@@ -75,4 +75,10 @@ public class CategoryFragmentList extends ObjectListBaseFragment<Category> {
 
 	}
 
+	@Override
+	public void afterRefreshAction() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

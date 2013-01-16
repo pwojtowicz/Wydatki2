@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.database.WydatkiBaseHelper;
 import pl.wppiotrek85.wydatkibase.entities.Project;
+import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
 import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepositoryArrayList;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
@@ -75,11 +76,6 @@ public class ProjectRepository implements IObjectRepositoryArrayList<Project> {
 	}
 
 	@Override
-	public boolean delete(Project item) {
-		return delete(item.getId());
-	}
-
-	@Override
 	public boolean delete(int id) {
 		dbm.checkIsOpen();
 		int result = dbm.getDataBase().delete(WydatkiBaseHelper.TABLE_PROJECTS,
@@ -92,6 +88,12 @@ public class ProjectRepository implements IObjectRepositoryArrayList<Project> {
 	public int createAllFromList(ArrayList<Project> items) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

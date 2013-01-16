@@ -72,7 +72,6 @@ public class ReadRepositoryAsyncTask extends AsyncTask<Void, Void, Void> {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			i++;
@@ -96,19 +95,14 @@ public class ReadRepositoryAsyncTask extends AsyncTask<Void, Void, Void> {
 				} else
 					throw new RepositoryException(
 							ERepositoryException.ObjectNotCreated);
-
 				break;
 			case Delete:
-				if (item != null)
-					response.bundle = repository.delete(item);
-				else {
-					if (bundle != null) {
-						int objectId = bundle.getInt(BUNDLE_ID, 0);
-						response.bundle = repository.delete(objectId);
-					} else
-						throw new RepositoryException(
-								ERepositoryException.NoObjectIdBundle);
-				}
+				if (bundle != null) {
+					int objectId = bundle.getInt(BUNDLE_ID, 0);
+					response.bundle = repository.delete(objectId);
+				} else
+					throw new RepositoryException(
+							ERepositoryException.NoObjectIdBundle);
 				break;
 			case Read:
 				if (bundle != null) {
