@@ -20,6 +20,8 @@ import pl.wppiotrek85.wydatkibase.entities.Transaction;
 import pl.wppiotrek85.wydatkibase.interfaces.ITransactionListener;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import pl.wppiotrek85.wydatkibase.units.UnitConverter;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,14 +33,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
-public class InvokeTransactionFragment extends ObjectBaseFragment {
+public class InvokeTransactionFragment extends ObjectBaseFragment implements
+		OnClickListener {
 
 	public static final String BUNDLE_IS_NEW_TRANSFER = "newTransfer";
 
@@ -180,6 +185,9 @@ public class InvokeTransactionFragment extends ObjectBaseFragment {
 		btn_date = (Button) header
 				.findViewById(R.id.invoke_transaction_header_btn_date);
 
+		btn_time.setOnClickListener(this);
+		btn_date.setOnClickListener(this);
+
 		list.addHeaderView(header);
 		list.addFooterView(footer);
 
@@ -197,7 +205,6 @@ public class InvokeTransactionFragment extends ObjectBaseFragment {
 	}
 
 	public void configureViews() {
-		configureDateAndTime();
 
 		if (isTransfer) {
 			ll_accountTo.setVisibility(LinearLayout.VISIBLE);
@@ -326,20 +333,6 @@ public class InvokeTransactionFragment extends ObjectBaseFragment {
 				}
 			}
 		}
-	}
-
-	private void configureDateAndTime() {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		Year = cal.get(Calendar.YEAR);
-		month = cal.get(Calendar.MONTH);
-		day = cal.get(Calendar.DAY_OF_MONTH);
-
-		hour = cal.get(Calendar.HOUR_OF_DAY);
-		minute = cal.get(Calendar.MINUTE);
-
-		btn_date.setText(UnitConverter.convertDateToString(new Date()));
-		btn_time.setText(UnitConverter.convertTimeToString(new Date()));
 	}
 
 	private void getProjects() {
@@ -504,6 +497,13 @@ public class InvokeTransactionFragment extends ObjectBaseFragment {
 
 		if (adapter != null)
 			helper.items = adapter.getAllItems();
+
+		helper.Year = Year;
+		helper.day = day;
+		helper.month = month;
+		helper.minute = minute;
+		helper.hour = hour;
+
 	}
 
 	private void restoreValues() {
@@ -519,6 +519,15 @@ public class InvokeTransactionFragment extends ObjectBaseFragment {
 		if (category != null && helper.categoryPosition >= 0) {
 			category.setSelection(helper.categoryPosition);
 		}
+		Year = helper.Year;
+		day = helper.day;
+		month = helper.month;
+		minute = helper.minute;
+		hour = helper.hour;
+
+		setDate();
+		setTime();
+
 		value.setText(helper.value);
 		note.setText(helper.note);
 
@@ -634,7 +643,23 @@ public class InvokeTransactionFragment extends ObjectBaseFragment {
 		private int categoryPosition = -1;
 		private int projektPosition = -1;
 		private String value = "";
+		private int Year;
+		private int month;
+		private int day;
+		private int hour;
+		private int minute;
 		ArrayList<InvokeTransactionParameter> items;
+
+		public Transactionhelper() {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			Year = cal.get(Calendar.YEAR);
+			month = cal.get(Calendar.MONTH);
+			day = cal.get(Calendar.DAY_OF_MONTH);
+
+			hour = cal.get(Calendar.HOUR_OF_DAY);
+			minute = cal.get(Calendar.MINUTE);
+		}
 	}
 
 	public class ValidationHelper<T> {
@@ -661,4 +686,51 @@ public class InvokeTransactionFragment extends ObjectBaseFragment {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void onClick(View view) {
+		if (view == btn_time)
+			new TimePickerDialog(getActivity(), mTimeSetListener, hour, minute,
+					true).show();
+		else
+			new DatePickerDialog(getActivity(), mDateSetListener, Year, month,
+					day).show();
+	}
+
+	private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+		public void onDateSet(DatePicker view, int year, int monthOfYear,
+				int dayOfMonth) {
+			Year = year;
+			month = monthOfYear;
+			day = dayOfMonth;
+			setDate();
+
+		}
+	};
+
+	private void setDate() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, Year);
+		cal.set(Calendar.MONTH, month);
+		cal.set(Calendar.DAY_OF_MONTH, day);
+
+		btn_date.setText(UnitConverter.convertDateToString(cal.getTime()));
+	}
+
+	private TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+		public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
+			hour = hourOfDay;
+			minute = minuteOfHour;
+			setTime();
+		}
+	};
+
+	private void setTime() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, hour);
+		cal.set(Calendar.MINUTE, minute);
+
+		btn_time.setText(UnitConverter.convertTimeToString(cal.getTime()));
+	}
+
 }
