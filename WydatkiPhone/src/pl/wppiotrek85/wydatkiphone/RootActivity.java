@@ -22,7 +22,6 @@ import pl.wppiotrek85.wydatkibase.fragments.SettingsFragment;
 import pl.wppiotrek85.wydatkibase.fragments.TransactionsFragmentList;
 import pl.wppiotrek85.wydatkibase.interfaces.IFragmentActions;
 import pl.wppiotrek85.wydatkibase.interfaces.IReadRepository;
-import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import pl.wppiotrek85.wydatkibase.units.ResultCodes;
@@ -31,14 +30,13 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class RootActivity extends FragmentActivity implements
+public class RootActivity extends BaseActivity implements
 		ActionBar.TabListener, IFragmentActions, IReadRepository {
 
 	ViewPager mViewPager;
@@ -55,8 +53,6 @@ public class RootActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_root);
-
-		DataBaseManager.inicjalizeInstance(this);
 
 		fragments = new ArrayList<FragmentObject>();
 
@@ -106,7 +102,7 @@ public class RootActivity extends FragmentActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.refresh_menu, menu);
+		getMenuInflater().inflate(R.menu.object_list_menu, menu);
 		return true;
 	}
 
@@ -116,9 +112,19 @@ public class RootActivity extends FragmentActivity implements
 		case R.id.menu_refresh:
 			refreshActualFragment();
 			return true;
+		case R.id.menu_edit_list:
+			editListAtActualFragment();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private void editListAtActualFragment() {
+		ObjectBaseFragment fragment = (ObjectBaseFragment) fAdapter
+				.getItem(mViewPager.getCurrentItem());
+		fragment.changeEditListState();
+
 	}
 
 	@Override

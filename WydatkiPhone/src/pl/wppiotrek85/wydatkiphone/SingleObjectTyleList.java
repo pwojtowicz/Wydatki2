@@ -10,11 +10,11 @@ import pl.wppiotrek85.wydatkibase.support.ListSupport;
 import pl.wppiotrek85.wydatkibase.units.ResultCodes;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
+import android.view.MenuItem;
 
-public class SingleObjectTyleList extends FragmentActivity implements
+public class SingleObjectTyleList extends BaseActivity implements
 		IFragmentActions {
 
 	public static final String BUNDLE_OBJECT_TYPE = "ObjectType";
@@ -23,6 +23,7 @@ public class SingleObjectTyleList extends FragmentActivity implements
 	public static final String BUNDLE_ACCOUNT_ID = "3";
 	ObjectBaseFragment details = null;
 	private boolean isSelectedForCategory;
+	private EObjectTypes type;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +33,7 @@ public class SingleObjectTyleList extends FragmentActivity implements
 		Bundle bundle = this.getIntent().getExtras();
 		if (bundle != null) {
 
-			EObjectTypes type = (EObjectTypes) bundle
-					.getSerializable(BUNDLE_OBJECT_TYPE);
+			type = (EObjectTypes) bundle.getSerializable(BUNDLE_OBJECT_TYPE);
 
 			boolean isChecakble = bundle.getBoolean(
 					ObjectBaseFragment.BUNDLE_ISCHECKABLE, false);
@@ -74,7 +74,30 @@ public class SingleObjectTyleList extends FragmentActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater()
 				.inflate(R.menu.activity_single_object_tyle_list, menu);
+
+		if (type == EObjectTypes.Parameter)
+			for (int i = 0; i < menu.size(); i++) {
+				MenuItem item = menu.getItem(i);
+				switch (item.getItemId()) {
+				case R.id.menu_edit_list:
+					item.setVisible(false);
+				}
+			}
+
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_edit_list:
+			return true;
+		case R.id.menu_refresh:
+			((ObjectBaseFragment) details).refreshFragment(true);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -88,15 +111,6 @@ public class SingleObjectTyleList extends FragmentActivity implements
 					EObjectTypes.Parameter);
 			resultCode = ResultCodes.START_ACTIVITY_EDIT_PARAMETER;
 		}
-		// } else if (details.getClass() == ProjectsFragmentList.class) {
-		// b.putSerializable(EditElementActivity.BUNDLE_OBJECT_TYPE,
-		// EObjectTypes.Project);
-		// resultCode = ResultCodes.START_ACTIVITY_EDIT_PROJECT;
-		// } else if (details.getClass() == CategoryFragmentList.class) {
-		// b.putSerializable(EditElementActivity.BUNDLE_OBJECT_TYPE,
-		// EObjectTypes.Category);
-		// resultCode = ResultCodes.START_ACTIVITY_EDIT_CATEGORY;
-		// }
 		i.putExtras(b);
 		startActivityForResult(i, resultCode);
 	}

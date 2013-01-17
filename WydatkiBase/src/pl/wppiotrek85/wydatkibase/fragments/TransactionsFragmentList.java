@@ -4,28 +4,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import pl.wppiotrek85.wydatkibase.R;
+import pl.wppiotrek85.wydatkibase.adapters.BaseObjectAdapter;
 import pl.wppiotrek85.wydatkibase.adapters.TransactionAdapter;
 import pl.wppiotrek85.wydatkibase.asynctasks.ReadRepositoryAsyncTask.AsyncTaskResult;
 import pl.wppiotrek85.wydatkibase.entities.ItemsContainer;
 import pl.wppiotrek85.wydatkibase.entities.Transaction;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
 import pl.wppiotrek85.wydatkibase.enums.ViewState;
+import pl.wppiotrek85.wydatkibase.interfaces.IOnAdapterCheckboxClick;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 
-public class TransactionsFragmentList extends ObjectBaseFragment implements
-		OnItemClickListener {
+public class TransactionsFragmentList extends
+		ObjectListBaseFragment<Transaction> implements OnItemClickListener {
 
-	private ListView objectListView;
-	private ObjectManager manager;
-	private TransactionAdapter adapter;
+	// private ListView objectListView;
+	// private ObjectManager manager;
+	// private TransactionAdapter adapter;
 
 	private int skip = 0;
 	private int take = 20;
@@ -33,21 +32,56 @@ public class TransactionsFragmentList extends ObjectBaseFragment implements
 	private boolean hasMore = false;
 	private int accountId = 0;
 
+	public TransactionsFragmentList() {
+		super(R.layout.fragment_transactions_list,
+				ERepositoryTypes.Transactions, false, false);
+	}
+
+	public TransactionsFragmentList(int resources,
+			ERepositoryTypes repositoryType, boolean shouldReload,
+			Boolean isChecakble) {
+		super(R.layout.fragment_transactions_list, repositoryType,
+				shouldReload, isChecakble);
+	}
+
 	public TransactionsFragmentList(boolean shouldReload, Boolean isChecakble,
 			int accountId) {
-		super(shouldReload, isChecakble);
+		super(R.layout.fragment_transactions_list,
+				ERepositoryTypes.Transactions, shouldReload, isChecakble);
 		this.accountId = accountId;
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View convertView = inflater.inflate(
-				R.layout.fragment_transactions_list, null);
+	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
+			long arg3) {
+		return false;
+	}
 
-		objectListView = (ListView) convertView.findViewById(R.id.listview);
-		objectListView.setOnItemClickListener(this);
-		return convertView;
+	@Override
+	public void afterRefreshAction() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void linkViews(View convertView) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public BaseObjectAdapter<Transaction> getAdapter(FragmentActivity activity,
+			ArrayList<Transaction> list, IOnAdapterCheckboxClick object) {
+		return new TransactionAdapter(getActivity(), list, this.hasMore, this);
+	}
+
+	@Override
+	public ArrayList<Transaction> getObjectList() {
+		ItemsContainer<Transaction> container = WydatkiGlobals.getInstance()
+				.getTransactionsContainer(accountId);
+		ArrayList<Transaction> list = new ArrayList<Transaction>(
+				Arrays.asList(container.getItems()));
+		return list;
 	}
 
 	@Override
@@ -55,27 +89,23 @@ public class TransactionsFragmentList extends ObjectBaseFragment implements
 		if (response.bundle instanceof ItemsContainer) {
 			ItemsContainer<Transaction> containt = (ItemsContainer<Transaction>) response.bundle;
 			this.skip += containt.getItems().length;
-			WydatkiGlobals.getInstance().setTransactionsContainer(containt,
-					readMore ? true : false);
+			WydatkiGlobals.getInstance().setTransactionsContainer(accountId,
+					containt, readMore ? true : false);
 			refreshFragment(false);
 		}
 	}
 
 	@Override
-	public void OnFirtsShowFragment() {
-		refreshFragment(true);
-	}
-
-	@Override
-	public void OnFragmentActive() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void refreshFragment(boolean forceRefresh) {
+		ItemsContainer<Transaction> container = WydatkiGlobals.getInstance()
+				.getTransactionsContainer(accountId);
+		if (container == null)
+			forceRefresh = true;
+		else
+			forceRefresh = false;
+
 		if (!forceRefresh) {
-			ItemsContainer<Transaction> container = WydatkiGlobals
-					.getInstance().getTransactionsContainer();
+
 			ArrayList<Transaction> list = new ArrayList<Transaction>(
 					Arrays.asList(container.getItems()));
 			if (list == null)
@@ -83,7 +113,7 @@ public class TransactionsFragmentList extends ObjectBaseFragment implements
 			else {
 				this.hasMore = container.hasMore();
 				adapter = new TransactionAdapter(getActivity(), list,
-						this.hasMore);
+						this.hasMore, null);
 
 				objectListView.setAdapter(adapter);
 			}
@@ -99,18 +129,13 @@ public class TransactionsFragmentList extends ObjectBaseFragment implements
 	}
 
 	@Override
-	public ArrayList<Integer> getSelectedItemsList() {
-		return null;
-	}
-
-	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		Object o = view.getTag();
 		if (o instanceof ViewState) {
 			ViewState state = (ViewState) o;
 			if (state == ViewState.DownloadMore && hasMore) {
-				adapter.getMoreTransactions();
+				((TransactionAdapter) adapter).getMoreTransactions();
 				getMoreTransactions();
 			}
 		}
@@ -122,9 +147,4 @@ public class TransactionsFragmentList extends ObjectBaseFragment implements
 				take, accountId);
 	}
 
-	@Override
-	public void changeEditListState() {
-		// TODO Auto-generated method stub
-
-	}
 }

@@ -123,15 +123,16 @@ public abstract class ObjectListBaseFragment<T> extends ObjectBaseFragment
 			objectListView.setAdapter(adapter);
 
 		btn_add = (Button) convertView.findViewById(R.id.btn_add_new);
-		btn_add.setOnClickListener(new OnClickListener() {
+		if (btn_add != null)
+			btn_add.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				if (actions != null) {
-					actions.onAddBtnClick();
+				@Override
+				public void onClick(View v) {
+					if (actions != null) {
+						actions.onAddBtnClick();
+					}
 				}
-			}
-		});
+			});
 	}
 
 	protected void editBtnClick() {
@@ -208,18 +209,22 @@ public abstract class ObjectListBaseFragment<T> extends ObjectBaseFragment
 	@Override
 	public void OnCheckBoxSelected(int size) {
 		if (actionBar != null)
-			if (size > 0) {
-				actionBar.setVisibility(LinearLayout.VISIBLE);
-				if (size == 1)
-					((ImageButton) actionBar
-							.findViewById(R.id.actionbar_btn_edit))
-							.setEnabled(true);
-				else
-					((ImageButton) actionBar
-							.findViewById(R.id.actionbar_btn_edit))
-							.setEnabled(false);
-			} else
-				actionBar.setVisibility(LinearLayout.GONE);
+
+			if (this instanceof TransactionsFragmentList) {
+				((ImageButton) actionBar.findViewById(R.id.actionbar_btn_lock))
+						.setVisibility(ImageButton.GONE);
+			}
+
+		if (size > 0) {
+			actionBar.setVisibility(LinearLayout.VISIBLE);
+			if (size == 1)
+				((ImageButton) actionBar.findViewById(R.id.actionbar_btn_edit))
+						.setEnabled(true);
+			else
+				((ImageButton) actionBar.findViewById(R.id.actionbar_btn_edit))
+						.setEnabled(false);
+		} else
+			actionBar.setVisibility(LinearLayout.GONE);
 	}
 
 	@Override

@@ -17,14 +17,13 @@ import pl.wppiotrek85.wydatkibase.interfaces.ITransactionListener;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 
-public class TransactionActivity extends FragmentActivity implements
+public class TransactionActivity extends BaseActivity implements
 		ITransactionListener, IReadRepository {
 
 	ViewPager mViewPager;

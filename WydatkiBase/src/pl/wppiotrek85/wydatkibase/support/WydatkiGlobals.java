@@ -39,7 +39,7 @@ public class WydatkiGlobals {
 	private LinkedHashMap<Integer, Account> accountsDictionary;
 	private LinkedHashMap<Integer, Parameter> parametersDictionary;
 	private LinkedHashMap<Integer, Project> projectsDictionary;
-	private ItemsContainer<Transaction> transactionsContainer;
+	private LinkedHashMap<Integer, ItemsContainer<Transaction>> transactionsContainer;
 	private Object currentEditObject;
 
 	public void setCurrentEditObject(Object item) {
@@ -143,10 +143,10 @@ public class WydatkiGlobals {
 		return projects;
 	}
 
-	public ItemsContainer<Transaction> getTransactionsContainer() {
+	public ItemsContainer<Transaction> getTransactionsContainer(int accountId) {
 		if (transactionsContainer == null)
 			return null;
-		return transactionsContainer;
+		return transactionsContainer.get(accountId);
 	}
 
 	public void setParameters(ArrayList<Parameter> list) {
@@ -181,22 +181,31 @@ public class WydatkiGlobals {
 		this.categoriesDictionary = dictionary;
 	}
 
-	public void setTransactionsContainer(ItemsContainer<Transaction> container,
-			boolean canAdd) {
-		if (this.transactionsContainer == null || canAdd == false)
-			this.transactionsContainer = container;
-		else {
+	public void setTransactionsContainer(int accountId,
+			ItemsContainer<Transaction> container, boolean canAdd) {
+		if (this.transactionsContainer == null || canAdd == false) {
+			if (this.transactionsContainer == null)
+				this.transactionsContainer = new LinkedHashMap<Integer, ItemsContainer<Transaction>>();
+
+			if (!canAdd) {
+				this.transactionsContainer.remove(accountId);
+				this.transactionsContainer.put(accountId, container);
+			}
+		} else {
 			ArrayList<Transaction> oldTransactions = new ArrayList<Transaction>(
-					Arrays.asList(this.transactionsContainer.getItems()));
+					Arrays.asList(this.transactionsContainer.get(accountId)
+							.getItems()));
 			ArrayList<Transaction> newTransactions = new ArrayList<Transaction>(
 					Arrays.asList(container.getItems()));
 
 			oldTransactions.addAll(newTransactions);
 
-			this.transactionsContainer.setItems(oldTransactions
+			container.setItems(oldTransactions
 					.toArray(new Transaction[oldTransactions.size()]));
-			this.transactionsContainer.setTotalCount(container.getTotalCount());
+			container.setTotalCount(container.getTotalCount());
 
+			this.transactionsContainer.remove(accountId);
+			this.transactionsContainer.put(accountId, container);
 		}
 	}
 
@@ -211,5 +220,17 @@ public class WydatkiGlobals {
 	public String getUserLogin() {
 		return userLogin;
 	}
+
+	// private LinkedHashMap<Integer,ItemsContainer<Transaction>>
+	// accountsTransactions;
+	//
+	// public void setAccountTransactions(int accountId,
+	// ItemsContainer<Transaction> container) {
+	// LinkedHashMap<Integer, ItemsContainer<Transaction>> dictionary = new
+	// LinkedHashMap<Integer, ItemsContainer<Transaction>>();
+	// dictionary.put(accountId, container);
+	//
+	// accountsTransactions = dictionary;
+	// }
 
 }

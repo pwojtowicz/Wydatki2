@@ -3,34 +3,27 @@ package pl.wppiotrek85.wydatkibase.adapters;
 import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.entities.Transaction;
 import pl.wppiotrek85.wydatkibase.enums.ViewState;
+import pl.wppiotrek85.wydatkibase.interfaces.IOnAdapterCheckboxClick;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import pl.wppiotrek85.wydatkibase.units.UnitConverter;
 import pl.wppiotrek85.wydatkibase.views.ControlListRowView;
 import pl.wppiotrek85.wydatkibase.views.ViewType;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class TransactionAdapter extends BaseAdapter {
+public class TransactionAdapter extends BaseObjectAdapter<Transaction> {
 
-	private Context context;
-	private ArrayList<Transaction> items = new ArrayList<Transaction>();
-	private LayoutInflater mInflater;
 	private View controlView;
 	private ViewState actualControlState = ViewState.Normal;
 
 	public TransactionAdapter(Context context, ArrayList<Transaction> list,
-			boolean hasMore) {
-		this.context = context;
-		this.mInflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		if (list != null)
-			this.items = list;
+			boolean hasMore, IOnAdapterCheckboxClick listener) {
+		super(context, list, listener);
 
 		if (hasMore) {
 			this.items.add(null);
@@ -59,6 +52,7 @@ public class TransactionAdapter extends BaseAdapter {
 			return ViewType.CONTROL;
 	}
 
+	@Override
 	public View getView(int index, View convertView, ViewGroup arg2) {
 		TransactionAdapterObjectHandler oh = null;
 		int viewType = getItemViewType(index);
@@ -75,8 +69,8 @@ public class TransactionAdapter extends BaseAdapter {
 			switch (viewType) {
 			case ViewType.DEFAULT: {
 				oh = new TransactionAdapterObjectHandler();
-				convertView = mInflater.inflate(
-						R.layout.row_transaction_layout, null);
+				convertView = inflater.inflate(R.layout.row_transaction_layout,
+						null);
 				oh.value = (TextView) convertView
 						.findViewById(R.id.row_transaction_value);
 				oh.accounts = (TextView) convertView
@@ -89,8 +83,7 @@ public class TransactionAdapter extends BaseAdapter {
 			}
 				break;
 			case ViewType.CONTROL:
-				convertView = mInflater
-						.inflate(R.layout.row_control_view, null);
+				convertView = inflater.inflate(R.layout.row_control_view, null);
 				break;
 			}
 		}
@@ -98,6 +91,7 @@ public class TransactionAdapter extends BaseAdapter {
 			TransactionAdapterObjectHandler ohs = (TransactionAdapterObjectHandler) convertView
 					.getTag();
 			fillRow(convertView, o, index);
+			super.setCheckableViewState(convertView, (ModelBase) o);
 		} else {
 			setDownloadView(convertView);
 		}
