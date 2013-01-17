@@ -6,31 +6,19 @@
     android:minHeight="48dp"
     android:orientation="horizontal" >
 
-    <LinearLayout
+    <include
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/yellow"
-        android:minWidth="4dp"
-        android:orientation="horizontal" >
+        layout="@layout/external_check_box" />
 
-        <CheckBox
-            android:id="@+id/row_cbx_selected"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:visibility="gone" />
-    </LinearLayout>
-
     <ImageView
         android:id="@+id/row_project_lock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:src="@android:drawable/ic_lock_lock"
-        android:visibility="visible" />
-
+		android:visibility="visible" />
+
     <TextView
         android:id="@+id/row_project_name"
         style="@style/Style_TextWithShadow"
