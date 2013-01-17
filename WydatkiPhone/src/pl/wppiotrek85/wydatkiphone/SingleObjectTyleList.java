@@ -91,6 +91,7 @@ public class SingleObjectTyleList extends BaseActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_edit_list:
+			((ObjectBaseFragment) details).changeEditListState();
 			return true;
 		case R.id.menu_refresh:
 			((ObjectBaseFragment) details).refreshFragment(true);
