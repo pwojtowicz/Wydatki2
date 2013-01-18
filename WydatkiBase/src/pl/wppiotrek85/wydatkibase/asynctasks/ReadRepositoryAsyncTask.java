@@ -2,6 +2,7 @@ package pl.wppiotrek85.wydatkibase.asynctasks;
 
 import java.util.ArrayList;
 
+import pl.wppiotrek85.wydatkibase.entities.ItemsContainer;
 import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryException;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
@@ -80,7 +81,10 @@ public class ReadRepositoryAsyncTask extends AsyncTask<Void, Void, Void> {
 			int id = 0;
 			switch (method) {
 			case CreateAllFromList:
-				id = repository.createAllFromList(items);
+				ItemsContainer<ModelBase> container = new ItemsContainer<ModelBase>();
+				container.setItems(items.toArray(new ModelBase[items.size()]));
+
+				id = repository.createAllFromList(container);
 				if (id > 0) {
 					response.bundle = items;
 				} else
@@ -97,7 +101,9 @@ public class ReadRepositoryAsyncTask extends AsyncTask<Void, Void, Void> {
 							ERepositoryException.ObjectNotCreated);
 				break;
 			case Delete:
-				if (bundle != null) {
+				if (items != null) {
+					response.bundle = repository.delete(items);
+				} else if (bundle != null) {
 					int objectId = bundle.getInt(BUNDLE_ID, 0);
 					response.bundle = repository.delete(objectId);
 				} else

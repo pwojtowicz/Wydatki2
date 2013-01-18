@@ -3,6 +3,8 @@ package pl.wppiotrek85.wydatkibase.repositoriesweb;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import pl.wppiotrek85.wydatkibase.entities.ItemsContainer;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.entities.Project;
 import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
 import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepositoryArrayList;
@@ -14,7 +16,7 @@ public class ProjectRepositoryWeb extends AbstractProvider implements
 		IObjectRepositoryArrayList<Project> {
 
 	@Override
-	public int createAllFromList(ArrayList<Project> items) {
+	public int createAllFromList(ItemsContainer<ModelBase> items) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -47,6 +49,19 @@ public class ProjectRepositoryWeb extends AbstractProvider implements
 	}
 
 	@Override
+	public boolean delete(ArrayList<ModelBase> items)
+			throws RepositoryException {
+		boolean result = true;
+
+		for (ModelBase item : items) {
+			result = delete(item.getId());
+			if (!result)
+				break;
+		}
+		return result;
+	}
+
+	@Override
 	public boolean delete(int id) throws RepositoryException {
 		String url = server + "/projects/project/" + String.valueOf(id);
 
@@ -76,12 +91,6 @@ public class ProjectRepositoryWeb extends AbstractProvider implements
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	@Override
-	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

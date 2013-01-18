@@ -2,7 +2,6 @@ package pl.wppiotrek85.wydatkibase.providers;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -95,11 +94,11 @@ public class Provider<T> {
 
 	}
 
-	public T sendObject(String url, ArrayList<Object> object,
+	public boolean sendObjects(String url, ItemsContainer<ModelBase> object,
 			Boolean isReturnObjectId,
 			IHttpRequestToAsyncTaskCommunication listener)
 			throws CommunicationException {
-
+		boolean result = false;
 		ObjectMapper mapperRequest = new ObjectMapper();
 		StringWriter sw = new StringWriter();
 		try {
@@ -112,18 +111,17 @@ public class Provider<T> {
 					HTTPRequestType.POST, url, listener, sw.toString());
 			if (bundle.getStatusCode() == HttpsURLConnection.HTTP_OK) {
 
-				if (bundle.getResponse().length() > 0) {
-					ObjectMapper mapper = new ObjectMapper();
-					return mapper.readValue(bundle.getResponse(), classObject);
+				String response = bundle.getResponse();
+				if (response.length() > 0) {
+					if (response.equals("true"))
+						result = true;
 				}
-
-				return (T) object;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+
 		}
 
-		return null;
+		return result;
 
 	}
 

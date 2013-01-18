@@ -9,6 +9,14 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 @JsonSerialize(include = Inclusion.NON_NULL)
 public class ModelBase {
 
+	public ModelBase() {
+
+	}
+
+	public ModelBase(int id) {
+		this.id = id;
+	}
+
 	@JsonProperty("Id")
 	private int id;
 

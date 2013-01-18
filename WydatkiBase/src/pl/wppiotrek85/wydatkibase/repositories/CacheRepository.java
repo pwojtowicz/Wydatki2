@@ -8,6 +8,7 @@ import pl.wppiotrek85.wydatkibase.entities.CacheInfo;
 import pl.wppiotrek85.wydatkibase.managers.DataBaseManager;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteStatement;
 
 public class CacheRepository {
@@ -41,15 +42,24 @@ public class CacheRepository {
 	}
 
 	public CacheInfo update(CacheInfo item) {
-
-		ContentValues values = new ContentValues();
-		values.put("postTAG", item.postTAG);
-		values.put("eTAG", item.eTAG);
-		values.put("response", item.response);
-		long result = this.dbm.getDataBase().update(
-				WydatkiBaseHelper.TABLE_CACHE, values, "userLogin=? AND uri=?",
-				new String[] { item.userLogin, item.uri });
+		dbm.checkIsOpen();
+		try {
+			ContentValues values = new ContentValues();
+			values.put("postTAG", item.postTAG);
+			values.put("eTAG", item.eTAG);
+			values.put("response", item.response);
+			long result = this.dbm.getDataBase().update(
+					WydatkiBaseHelper.TABLE_CACHE, values,
+					"userLogin=? AND uri=?",
+					new String[] { item.userLogin, item.uri });
+		} catch (SQLException sqlEx) {
+			sqlEx.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		dbm.close();
 		return item;
+
 	}
 
 	public CacheInfo read(String uri, String userLogin, String postTAG) {

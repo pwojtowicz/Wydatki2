@@ -3,6 +3,8 @@ package pl.wppiotrek85.wydatkibase.repositories;
 import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.database.WydatkiBaseHelper;
+import pl.wppiotrek85.wydatkibase.entities.ItemsContainer;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.entities.Parameter;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryException;
 import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
@@ -104,13 +106,13 @@ public class ParameterRepository implements
 	}
 
 	@Override
-	public int createAllFromList(ArrayList<Parameter> items) {
+	public int createAllFromList(ItemsContainer<ModelBase> items) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
+	public boolean delete(ArrayList<ModelBase> ids) throws RepositoryException {
 		// TODO Auto-generated method stub
 		return false;
 	}

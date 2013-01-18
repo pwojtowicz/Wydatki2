@@ -3,25 +3,36 @@ package pl.wppiotrek85.wydatkibase.repositoriesweb;
 import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.entities.ItemsContainer;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.entities.Transaction;
 import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
 import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepositoryItemCointainer;
 import pl.wppiotrek85.wydatkibase.providers.AbstractProvider;
 import pl.wppiotrek85.wydatkibase.providers.CommunicationException;
 import pl.wppiotrek85.wydatkibase.providers.Provider;
+import pl.wppiotrek85.wydatkibase.support.ListSupport;
 
 public class TransactionRepositoryWeb extends AbstractProvider implements
 		IObjectRepositoryItemCointainer<Transaction> {
 
 	@Override
-	public int createAllFromList(ArrayList<Transaction> items) {
-		int result = 0;
-		for (Transaction transaction : items) {
-			result = create(transaction);
-			if (result == 0)
-				break;
+	public int createAllFromList(ItemsContainer<ModelBase> items) {
+		String url = server + "/transactions/transactions";
+		boolean result = false;
+
+		Provider<Transaction> provider = new Provider<Transaction>(
+				Transaction.class);
+		try {
+			ItemsContainer<ModelBase> container = new ItemsContainer<ModelBase>();
+			container.setItems(items.getItems());
+
+			result = provider.sendObjects(url, container, false, null);
+		} catch (CommunicationException e) {
+
+			e.printStackTrace();
 		}
-		return (int) result;
+
+		return result ? 1 : 0;
 	}
 
 	@Override
@@ -50,6 +61,26 @@ public class TransactionRepositoryWeb extends AbstractProvider implements
 	public Transaction read(int id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean delete(ArrayList<ModelBase> items)
+			throws RepositoryException {
+		boolean result = false;
+
+		String strings = ListSupport.ArrayToString(items);
+
+		String url = server + "/transactions/transactions/" + strings;
+
+		Provider<Transaction> provider = new Provider<Transaction>(
+				Transaction.class);
+		try {
+			provider.deleteObject(url, null);
+			return true;
+		} catch (CommunicationException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
@@ -90,12 +121,6 @@ public class TransactionRepositoryWeb extends AbstractProvider implements
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	@Override
-	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

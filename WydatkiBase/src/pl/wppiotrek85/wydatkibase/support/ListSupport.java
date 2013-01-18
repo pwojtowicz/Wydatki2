@@ -80,4 +80,12 @@ public class ListSupport {
 
 		return sb.toString();
 	}
+
+	public static String ArrayToString(ArrayList<ModelBase> items) {
+		StringBuilder sb = new StringBuilder();
+		for (ModelBase item : items) {
+			sb.append(item.getId() + ",");
+		}
+		return sb.toString();
+	}
 }

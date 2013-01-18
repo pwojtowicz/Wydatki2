@@ -6,6 +6,7 @@ import java.util.Date;
 import pl.wppiotrek85.wydatkibase.database.WydatkiBaseHelper;
 import pl.wppiotrek85.wydatkibase.entities.Category;
 import pl.wppiotrek85.wydatkibase.entities.ItemsContainer;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.entities.Parameter;
 import pl.wppiotrek85.wydatkibase.entities.Transaction;
 import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
@@ -29,16 +30,19 @@ public class TransactionRepository implements
 			+ "(TransactionId, ParameterId, Value)  Values(?,?,?)";
 
 	@Override
-	public int createAllFromList(ArrayList<Transaction> items) {
+	public int createAllFromList(ItemsContainer<ModelBase> items) {
 		long result = 0;
 		dbm.checkIsOpen();
 		dbm.getDataBase().beginTransaction();
 		try {
-			for (Transaction transaction : items) {
-				result = createTransaction(transaction, dbm);
+
+			ModelBase[] transactions = items.getItems();
+			for (int i = 0; i < items.getItems().length; i++) {
+				result = createTransaction((Transaction) transactions[i], dbm);
 				if (result == 0)
 					break;
 			}
+
 			if (result != 0)
 				dbm.getDataBase().setTransactionSuccessful();
 		} catch (SQLException e) {
@@ -223,7 +227,7 @@ public class TransactionRepository implements
 	}
 
 	@Override
-	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
+	public boolean delete(ArrayList<ModelBase> ids) throws RepositoryException {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -22,10 +22,6 @@ import android.widget.AdapterView.OnItemClickListener;
 public class TransactionsFragmentList extends
 		ObjectListBaseFragment<Transaction> implements OnItemClickListener {
 
-	// private ListView objectListView;
-	// private ObjectManager manager;
-	// private TransactionAdapter adapter;
-
 	private int skip = 0;
 	private int take = 20;
 	private boolean readMore = false;
@@ -99,10 +95,10 @@ public class TransactionsFragmentList extends
 	public void refreshFragment(boolean forceRefresh) {
 		ItemsContainer<Transaction> container = WydatkiGlobals.getInstance()
 				.getTransactionsContainer(accountId);
-		if (container == null)
-			forceRefresh = true;
-		else
-			forceRefresh = false;
+		// if (container == null)
+		// forceRefresh = true;
+		// else
+		// forceRefresh = false;
 
 		if (!forceRefresh) {
 
@@ -146,5 +142,4 @@ public class TransactionsFragmentList extends
 		manager = new ObjectManager(ERepositoryTypes.Transactions, this, skip,
 				take, accountId);
 	}
-
 }

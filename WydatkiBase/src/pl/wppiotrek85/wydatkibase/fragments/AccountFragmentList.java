@@ -81,29 +81,6 @@ public class AccountFragmentList extends ObjectListBaseFragment<Account> {
 		}
 	}
 
-	// @Override
-	// public void refreshFragment(boolean forceRefresh) {
-	// if (!forceRefresh) {
-	//
-	// if (list == null)
-	// forceRefresh = true;
-	// else {
-	// if (adapter == null)
-	// adapter =
-	// else
-	// adapter.reloadItems(list);
-	// objectListView.setAdapter(adapter);
-	//
-	// updateBalance(list);
-	//
-	// }
-	// }
-	//
-	// if (forceRefresh) {
-	// manager =
-	// }
-	// }
-
 	private void updateBalance(ArrayList<Account> list) {
 		Double value = 0.0;
 		if (!shouldBeShowAsEditList) {

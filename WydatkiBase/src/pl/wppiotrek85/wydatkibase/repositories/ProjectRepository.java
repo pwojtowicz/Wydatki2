@@ -3,6 +3,8 @@ package pl.wppiotrek85.wydatkibase.repositories;
 import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.database.WydatkiBaseHelper;
+import pl.wppiotrek85.wydatkibase.entities.ItemsContainer;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.entities.Project;
 import pl.wppiotrek85.wydatkibase.exceptions.RepositoryException;
 import pl.wppiotrek85.wydatkibase.interfaces.IObjectRepositoryArrayList;
@@ -85,13 +87,13 @@ public class ProjectRepository implements IObjectRepositoryArrayList<Project> {
 	}
 
 	@Override
-	public int createAllFromList(ArrayList<Project> items) {
+	public int createAllFromList(ItemsContainer<ModelBase> items) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public boolean delete(ArrayList<Integer> ids) throws RepositoryException {
+	public boolean delete(ArrayList<ModelBase> ids) throws RepositoryException {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
 import pl.wppiotrek85.wydatkibase.adapters.BaseObjectAdapter;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.enums.DialogStyle;
+import pl.wppiotrek85.wydatkibase.enums.EActionBarDialogType;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
 import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
 import pl.wppiotrek85.wydatkibase.interfaces.IDialogButtonActions;
@@ -42,6 +44,7 @@ public abstract class ObjectListBaseFragment<T> extends ObjectBaseFragment
 	private ERepositoryTypes repositoryType;
 	protected Button btn_add;
 	private int resources;
+	private EActionBarDialogType currentDialogType;
 
 	public ObjectListBaseFragment(int resources,
 			ERepositoryTypes repositoryType, boolean shouldReload,
@@ -135,20 +138,21 @@ public abstract class ObjectListBaseFragment<T> extends ObjectBaseFragment
 			});
 	}
 
-	protected void editBtnClick() {
-		// TODO Auto-generated method stub
-
-	}
-
 	protected void deleteBtnClick() {
+		currentDialogType = EActionBarDialogType.Delete;
 		DialogFactoryManager.create(DialogStyle.Question, getActivity(), null,
 				"Czy napewno skasowaæ zaznaczone elementy?", this).show();
 	}
 
 	protected void lockBtnClick() {
+		currentDialogType = EActionBarDialogType.Lock;
 		DialogFactoryManager.create(DialogStyle.Question, getActivity(), null,
 				"Czy napewno zablokowaæ/obdlokowaæ zaznaczone elementy?", this)
 				.show();
+	}
+
+	protected void editBtnClick() {
+		currentDialogType = EActionBarDialogType.Edit;
 
 	}
 
@@ -229,11 +233,36 @@ public abstract class ObjectListBaseFragment<T> extends ObjectBaseFragment
 
 	@Override
 	public void onPositiveClick() {
+		ArrayList<ModelBase> items = new ArrayList<ModelBase>();
+		for (Integer value : getSelectedItemsList()) {
+			items.add(new ModelBase(value));
+		}
 
+		switch (currentDialogType) {
+		case Delete:
+			deleteSelectedItems(items);
+			break;
+		case Lock:
+			lockSelectedItems(items);
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override
 	public void onNegativeClick() {
+
+	}
+
+	protected void deleteSelectedItems(ArrayList<ModelBase> items) {
+		new ObjectManager(repositoryType, this,
+				ERepositoryManagerMethods.Delete, items);
+	}
+
+	protected void lockSelectedItems(ArrayList<ModelBase> items) {
+		new ObjectManager(repositoryType, this, ERepositoryManagerMethods.Lock,
+				items);
 
 	}
 
