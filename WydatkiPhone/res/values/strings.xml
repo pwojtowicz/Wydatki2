@@ -14,5 +14,6 @@
     <string name="expenses">wydatki</string>
     <string name="refresh">odśwież</string>
     <string name="title_activity_single_object_tyle_list">Lista obiektów</string>
+    <string name="title_activity_start_activiry">Wydatki</string>
 
 </resources>

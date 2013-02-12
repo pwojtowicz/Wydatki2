@@ -41,7 +41,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:background="@color/btn_blue"
-                android:onClick="btnNewTransfer_Click"
                 android:text="Nowy przelew" />
         </LinearLayout>
     </LinearLayout>

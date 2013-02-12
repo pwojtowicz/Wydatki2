@@ -6,11 +6,15 @@ import android.support.v4.app.FragmentActivity;
 public class BaseActivity extends FragmentActivity {
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		DataBaseManager.inicjalizeInstance(this);
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
-
 		DataBaseManager.inicjalizeInstance(this);
-
 	}
 
 }

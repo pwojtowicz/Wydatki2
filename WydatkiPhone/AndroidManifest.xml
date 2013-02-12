@@ -7,10 +7,10 @@
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="14" />
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -20,11 +20,6 @@
         <activity
             android:name="pl.wppiotrek85.wydatkiphone.RootActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="pl.wppiotrek85.wydatkiphone.EditElementActivity"
@@ -35,8 +30,8 @@
         </activity>
         <activity
             android:name="pl.wppiotrek85.wydatkibase.activities.CalculatorInput"
-            android:theme="@android:style/Theme.Dialog"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name="pl.wppiotrek85.wydatkiphone.TransactionActivity"
             android:configChanges="orientation|screenSize"
@@ -46,6 +41,15 @@
         <activity
             android:name="pl.wppiotrek85.wydatkiphone.SingleObjectTyleList"
             android:label="@string/title_activity_single_object_tyle_list" >
+        </activity>
+        <activity
+            android:name="pl.wppiotrek85.wydatkiphone.StartActivity"
+            android:label="@string/title_activity_start_activiry" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
