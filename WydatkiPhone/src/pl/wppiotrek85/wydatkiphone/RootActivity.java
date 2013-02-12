@@ -59,6 +59,8 @@ public class RootActivity extends BaseActivity implements
 		fragments.add(new FragmentObject(new AccountFragmentList(true, this,
 				false), "Konta", null));
 
+		// fragments.add(new FragmentObject(fragment, title, bundle))
+
 		fragments.add(new FragmentObject(new TransactionsFragmentList(true,
 				false, 0), "Transakcje", null));
 

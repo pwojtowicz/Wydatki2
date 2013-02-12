@@ -71,6 +71,13 @@
     <string name="dialog_cancel">Anuluj</string>
     <string name="dialog_progress_message">Przetwarzanie</string>
     
+    <string name="preferences_login_pref">Ustawienia logowania</string>
+    <string name="preferences_server_pref">Ustawienia serwera</string>
+    <string name="preferences_login">Login użytkownika</string>
+    <string name="preferences_remember_password">Zapamiętaj hasło</string>
+    <string name="preferences_password">Hasło użytkownika</string>
+    <string name="preferences_server_address">Adres serwera</string>
+    
     
     
 </resources>

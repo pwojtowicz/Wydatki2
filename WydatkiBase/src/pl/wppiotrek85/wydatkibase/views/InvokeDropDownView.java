@@ -1,7 +1,9 @@
 package pl.wppiotrek85.wydatkibase.views;
 
 import pl.wppiotrek85.wydatkibase.R;
+import pl.wppiotrek85.wydatkibase.adapters.SpinnerAdapter;
 import pl.wppiotrek85.wydatkibase.entities.InvokeTransactionParameter;
+import pl.wppiotrek85.wydatkibase.entities.SpinnerObject;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
@@ -83,12 +85,21 @@ public class InvokeDropDownView extends InvokeBaseView {
 				break;
 			}
 		}
-
 	}
 
 	@Override
 	protected void saveValue() {
 		save();
+	}
+
+	public class CategorySpinnerAdapter extends SpinnerAdapter {
+
+		public CategorySpinnerAdapter(Context context, int textViewResourceId,
+				SpinnerObject[] objects) {
+			super(context, textViewResourceId, objects);
+			// TODO Auto-generated constructor stub
+		}
+
 	}
 
 }
