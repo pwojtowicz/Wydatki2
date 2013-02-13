@@ -153,4 +153,10 @@ public class TransactionFragmentList extends BaseListFragment<Transaction>
 				take, accountId);
 	}
 
+	@Override
+	public void afterReloadAction() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

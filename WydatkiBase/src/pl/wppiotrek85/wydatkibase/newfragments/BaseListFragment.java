@@ -121,9 +121,12 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 				objectListView.setAdapter(adapter);
 			}
 		}
+		afterReloadAction();
 	}
 
 	public abstract ArrayList<T> getObjectList();
+
+	public abstract void afterReloadAction();
 
 	public abstract BaseObjectAdapter<T> getAdapter(FragmentActivity activity,
 			ArrayList<T> list, IOnAdapterCheckboxClick object);

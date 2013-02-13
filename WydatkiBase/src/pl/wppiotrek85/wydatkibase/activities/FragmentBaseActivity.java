@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentActivity;
 public abstract class FragmentBaseActivity extends FragmentActivity implements
 		IReadRepository {
 
+	public static int BUNDLE_ACTIVITY_RESPONSE_NEED_UPADTE = 1;
+
 	private ProgressDialog progressDialog;
 
 	@Override

@@ -63,6 +63,8 @@ public class WydatkiGlobals {
 	}
 
 	public Category getCategoryById(int categoryId) {
+		if (categoriesDictionary == null)
+			return null;
 		return categoriesDictionary.get(categoryId);
 
 	}

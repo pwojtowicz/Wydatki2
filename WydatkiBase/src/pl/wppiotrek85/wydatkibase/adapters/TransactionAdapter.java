@@ -3,6 +3,8 @@ package pl.wppiotrek85.wydatkibase.adapters;
 import java.util.ArrayList;
 
 import pl.wppiotrek85.wydatkibase.R;
+import pl.wppiotrek85.wydatkibase.entities.Account;
+import pl.wppiotrek85.wydatkibase.entities.Category;
 import pl.wppiotrek85.wydatkibase.entities.ModelBase;
 import pl.wppiotrek85.wydatkibase.entities.Transaction;
 import pl.wppiotrek85.wydatkibase.enums.ViewState;
@@ -107,9 +109,13 @@ public class TransactionAdapter extends BaseObjectAdapter<Transaction> {
 			WydatkiGlobals globals = WydatkiGlobals.getInstance();
 
 			StringBuilder accounts = new StringBuilder();
-			if (transaction.getAccMinus() > 0)
-				accounts.append(globals.getAccountById(
-						transaction.getAccMinus()).getName());
+			if (transaction.getAccMinus() > 0) {
+				Account accMinus = globals.getAccountById(transaction
+						.getAccMinus());
+
+				if (accMinus != null)
+					accounts.append(accMinus.getName());
+			}
 
 			if (transaction.getAccMinus() > 0 && transaction.getAccPlus() > 0)
 				accounts.append(" >> ");
@@ -118,17 +124,26 @@ public class TransactionAdapter extends BaseObjectAdapter<Transaction> {
 				accounts.append(globals
 						.getAccountById(transaction.getAccPlus()).getName());
 
+			String categoryName = "";
+
+			if (transaction.getCategory() != null) {
+				Category cat = WydatkiGlobals.getInstance().getCategoryById(
+						transaction.getCategory().getId());
+				if (cat != null)
+					categoryName = cat.getName();
+			}
+
 			oh.accounts.setText(accounts.toString());
 
 			StringBuilder note = new StringBuilder();
-			if (transaction.getCategory() != null
-					&& transaction.getCategory().getName() != null)
-				note.append(transaction.getCategory().getName());
 			if (transaction.getNote() != null
 					&& transaction.getNote().length() > 0)
 				note.append(" (" + transaction.getNote() + ")");
+			else
+				note.append("");
 
-			oh.note.setText(note.toString());
+			oh.note.setText(String.format("%s %s", categoryName,
+					note.toString()));
 
 			oh.value.setText(UnitConverter.doubleToCurrency(transaction
 					.getValue()));

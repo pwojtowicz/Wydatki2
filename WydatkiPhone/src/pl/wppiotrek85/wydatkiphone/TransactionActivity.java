@@ -16,6 +16,7 @@ import pl.wppiotrek85.wydatkibase.interfaces.IReadRepository;
 import pl.wppiotrek85.wydatkibase.interfaces.ITransactionListener;
 import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -250,6 +251,8 @@ public class TransactionActivity extends BaseActivity implements
 
 	@Override
 	public void onTaskResponse(AsyncTaskResult response) {
+		Intent resultIntent = new Intent();
+		setResult(BUNDLE_ACTIVITY_RESPONSE_NEED_UPADTE, resultIntent);
 		finish();
 	}
 

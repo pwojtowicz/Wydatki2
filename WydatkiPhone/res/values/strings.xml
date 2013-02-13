@@ -15,5 +15,7 @@
     <string name="refresh">odśwież</string>
     <string name="title_activity_single_object_tyle_list">Lista obiektów</string>
     <string name="title_activity_start_activiry">Wydatki</string>
+    <string name="title_activity_objects_list_manager">Jednostki</string>
+    <string name="title_activity_invoke_transaction_manager">Nowa transakcja</string>
 
 </resources>

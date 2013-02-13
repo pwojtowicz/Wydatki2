@@ -51,6 +51,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="pl.wppiotrek85.wydatkiphone.ObjectsListManagerActivity"
+            android:label="@string/title_activity_objects_list_manager" >
+        </activity>
+        <activity
+            android:name="pl.wppiotrek85.wydatkiphone.InvokeTransactionManagerActivity"
+            android:label="@string/title_activity_invoke_transaction_manager" >
+        </activity>
     </application>
 
 </manifest>
