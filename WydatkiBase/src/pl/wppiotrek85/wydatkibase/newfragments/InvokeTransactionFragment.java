@@ -525,4 +525,120 @@ public class InvokeTransactionFragment extends BaseFragment implements
 		btn_time.setText(UnitConverter.convertTimeToString(cal.getTime()));
 	}
 
+	public ValidationHelper getCurrentTransaction() {
+		prepareToSave();
+
+		ValidationHelper result = new ValidationHelper();
+		result.isValid = true;
+		result.item = currentTransaction;
+
+		return result;
+	}
+
+	private void prepareToSave() {
+		String valueTxt = value.getText().toString();
+		String noteTxt = note.getText().toString();
+		{
+
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.YEAR, Year);
+			cal.set(Calendar.MONTH, month);
+			cal.set(Calendar.DAY_OF_MONTH, day);
+			cal.set(Calendar.HOUR_OF_DAY, hour);
+			cal.set(Calendar.MINUTE, minute);
+
+			try {
+				currentTransaction.setValue(Double.parseDouble(valueTxt));
+			} catch (Exception e) {
+				currentTransaction.setValue(0.0);
+			}
+
+			currentTransaction.setNote(noteTxt);
+			currentTransaction.setDate(cal.getTime());
+
+			if (!isTransfer) {
+				int accountFromId = ((SpinnerObject) accountFrom
+						.getSelectedItem()).getId();
+
+				int projectId = ((SpinnerObject) spn_project.getSelectedItem())
+						.getId();
+
+				if (projectId > 0) {
+					currentTransaction.setProjectId(projectId);
+				}
+
+				currentTransaction.setAccMinus(accountFromId);
+				int accountToId = -1;
+				if (isTransfer) {
+					accountToId = ((SpinnerObject) accountTo.getSelectedItem())
+							.getId();
+					currentTransaction.setAccPlus(accountToId);
+				}
+
+				if (isPositive.isChecked()) {
+					accountToId = accountFromId;
+					currentTransaction.setAccPlus(accountToId);
+					currentTransaction.setAccMinus(0);
+				}
+
+				int categoryId = ((SpinnerObject) category.getSelectedItem())
+						.getId();
+
+				Category c = new Category();
+				c.setId(categoryId);
+				if (hasAdditionalParameters) {
+					ArrayList<Parameter> items = new ArrayList<Parameter>();
+					ArrayList<InvokeTransactionParameter> parameters = adapter
+							.getAllItems();
+					for (InvokeTransactionParameter item : parameters) {
+						items.add(new Parameter(item.getId(), item.getValue()));
+					}
+					Parameter[] elements = new Parameter[items.size()];
+					c.setAttributes(items.toArray(elements));
+				}
+
+				currentTransaction.setCategory(c);
+			} else if (isTransfer) {
+				int accountFromId = ((SpinnerObject) accountFrom
+						.getSelectedItem()).getId();
+				int accountToId = ((SpinnerObject) accountTo.getSelectedItem())
+						.getId();
+				currentTransaction.setAccMinus(accountFromId);
+				currentTransaction.setAccPlus(accountToId);
+			}
+		}
+	}
+
+	public class ValidationHelper {
+		private boolean isValid = false;
+		private String errorMessage;
+		private Transaction item;
+
+		public boolean isValid() {
+			if (item != null) {
+
+				if (item.getValue() == 0.0) {
+					errorMessage = "Nie podano kwoty, lub podana kwota jest zerowa.";
+					isValid = false;
+				} else if ((item.getAccMinus() == 0 || item.getAccPlus() == 0)
+						&& item.getCategory().getId() <= 0) {
+					errorMessage = "Nie wybrano kategorii dla transakcji.";
+					isValid = false;
+				}
+
+			}
+
+			return isValid;
+		}
+
+		public String getErrorMessage() {
+			return errorMessage;
+		}
+
+		public Transaction getItem() {
+			return item;
+		}
+
+	}
+
 }

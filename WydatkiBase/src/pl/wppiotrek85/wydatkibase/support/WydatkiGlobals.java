@@ -168,6 +168,11 @@ public class WydatkiGlobals {
 	}
 
 	public void setAccounts(ArrayList<Account> list) {
+		if (list == null) {
+			this.accountsDictionary = null;
+			return;
+		}
+
 		LinkedHashMap<Integer, Account> dictionary = new LinkedHashMap<Integer, Account>();
 		for (Account item : list) {
 			dictionary.put(item.getId(), item);
@@ -185,6 +190,12 @@ public class WydatkiGlobals {
 
 	public void setTransactionsContainer(int accountId,
 			ItemsContainer<Transaction> container, boolean canAdd) {
+
+		if (container == null && canAdd == false) {
+			this.transactionsContainer = null;
+			return;
+		}
+
 		if (this.transactionsContainer == null || canAdd == false) {
 			if (this.transactionsContainer == null)
 				this.transactionsContainer = new LinkedHashMap<Integer, ItemsContainer<Transaction>>();

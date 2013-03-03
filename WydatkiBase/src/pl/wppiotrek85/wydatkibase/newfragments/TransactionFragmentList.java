@@ -85,6 +85,8 @@ public class TransactionFragmentList extends BaseListFragment<Transaction>
 		}
 
 		if (forceReload) {
+			WydatkiGlobals.getInstance().setTransactionsContainer(accountId,
+					null, false);
 			skip = 0;
 			readMore = false;
 			hasMore = false;

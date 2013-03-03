@@ -6,7 +6,14 @@ import pl.wppiotrek85.wydatkibase.activities.FragmentBaseActivity;
 import pl.wppiotrek85.wydatkibase.adapters.SimpleFragmentAdapter;
 import pl.wppiotrek85.wydatkibase.asynctasks.ReadRepositoryAsyncTask.AsyncTaskResult;
 import pl.wppiotrek85.wydatkibase.entities.FragmentInfo;
+import pl.wppiotrek85.wydatkibase.entities.ModelBase;
+import pl.wppiotrek85.wydatkibase.enums.DialogStyle;
+import pl.wppiotrek85.wydatkibase.enums.ERepositoryManagerMethods;
+import pl.wppiotrek85.wydatkibase.enums.ERepositoryTypes;
+import pl.wppiotrek85.wydatkibase.managers.DialogFactoryManager;
+import pl.wppiotrek85.wydatkibase.managers.ObjectManager;
 import pl.wppiotrek85.wydatkibase.newfragments.InvokeTransactionFragment;
+import pl.wppiotrek85.wydatkibase.newfragments.InvokeTransactionFragment.ValidationHelper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,6 +40,20 @@ public class InvokeTransactionManagerActivity extends FragmentBaseActivity {
 		setContentView(R.layout.activity_invoke_transaction_manager);
 
 		createFragments();
+
+		Bundle b = getIntent().getExtras();
+		if (b != null) {
+			boolean isTransfer = b
+					.getBoolean(InvokeTransactionFragment.BUNDLE_IS_NEW_TRANSFER);
+			boolean isTransaction = b
+					.getBoolean(InvokeTransactionFragment.BUNDLE_IS_NEW_TRANSACTION);
+
+			if (isTransfer)
+				btnAddTransferView();
+
+			if (isTransaction)
+				btnAddTransactionView();
+		}
 	}
 
 	private void createFragments() {
@@ -109,8 +130,26 @@ public class InvokeTransactionManagerActivity extends FragmentBaseActivity {
 	}
 
 	private void saveTransactions() {
-		// TODO Auto-generated method stub
+		ArrayList<ModelBase> transactions = new ArrayList<ModelBase>();
+		String errorMessage = null;
+		for (FragmentInfo fragment : fragments) {
+			ValidationHelper validation = ((InvokeTransactionFragment) fragment
+					.getFragment()).getCurrentTransaction();
+			if (validation.isValid())
+				transactions.add(validation.getItem());
+			else {
+				errorMessage = validation.getErrorMessage();
+				break;
+			}
+		}
 
+		if (errorMessage != null) {
+			DialogFactoryManager.create(DialogStyle.Information, this, null,
+					errorMessage, null).show();
+		} else {
+			new ObjectManager(ERepositoryTypes.Transactions, this,
+					ERepositoryManagerMethods.CreateAllFromList, transactions);
+		}
 	}
 
 }

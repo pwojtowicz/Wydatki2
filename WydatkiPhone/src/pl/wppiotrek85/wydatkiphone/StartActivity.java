@@ -21,8 +21,10 @@ import pl.wppiotrek85.wydatkibase.newfragments.TransactionFragmentList;
 import pl.wppiotrek85.wydatkibase.support.WydatkiGlobals;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 public class StartActivity extends FragmentBaseActivity implements
@@ -32,6 +34,7 @@ public class StartActivity extends FragmentBaseActivity implements
 	private static final int BUNDLE_NEW_TRANSACTION = 22222;
 	private ViewPager mViewPager;
 	private ArrayList<FragmentInfo> fragments;
+	private SimpleFragmentAdapter fAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +65,8 @@ public class StartActivity extends FragmentBaseActivity implements
 
 		fragments.add(new FragmentInfo(settingsFragment, "Ustawienia"));
 
-		SimpleFragmentAdapter fAdapter = new SimpleFragmentAdapter(
-				getSupportFragmentManager(), fragments);
+		fAdapter = new SimpleFragmentAdapter(getSupportFragmentManager(),
+				fragments);
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(fAdapter);
@@ -161,5 +164,25 @@ public class StartActivity extends FragmentBaseActivity implements
 				checkIsAllListEnabled();
 			}
 		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// case R.id.menu_refresh:
+		// refreshActualFragment();
+		// return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private void refreshActualFragment() {
+		Fragment currentFragment = fAdapter
+				.getItem(mViewPager.getCurrentItem());
+		if (currentFragment instanceof TransactionFragmentList) {
+			((TransactionFragmentList) currentFragment).reload(true);
+		}
+
 	}
 }
